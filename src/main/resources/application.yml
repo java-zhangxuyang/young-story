@@ -1,0 +1,50 @@
+server:
+  port: 80
+
+spring:
+   mvc:
+     static-path-pattern: /**
+   servlet:
+    multipart:
+      max-file-size: 100MB
+      max-request-size: 100MB
+   thymeleaf:
+          prefix: classpath:/templates/
+          suffix: .html
+          cache: false #关闭缓存
+   datasource:          #数据源
+     url: jdbc:mysql://www.youngzhang.cn:3306/young?useSSL=false&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true&useUnicode=true&characterEncoding=UTF-8
+     username: root
+     password: qq994134665
+     driver-class-name: com.mysql.cj.jdbc.Driver
+     type: com.alibaba.druid.pool.DruidDataSource
+     dbcp2:
+        test-on-borrow: true
+        test-while-idle: true
+        time-between-eviction-runs-millis: 3600000
+        min-evictable-idle-time-millis: 300000
+        remove-abandoned-on-borrow: true
+        remove-abandoned-timeout: 1800
+        max-wait-millis: 60000
+        initial-size: 5
+        min-idle: 5
+        max-idle: 20
+        max-total: 20
+#在application.properties文件中引入日志配置文件  
+#=====================================  log  =============================  
+logging:
+  config: classpath:logback-boot.xml  
+
+  
+#mybatis配置
+mybatis:
+  configuration:
+    map-underscore-to-camel-case: true  #按驼峰命名规则自动匹配到实体类上,不需要用别名
+  mapper-locations: classpath:mapper/*.xml
+  type-aliases-package: com.zhangxy.model
+pagehelper:
+  helperDialect: mysql
+  reasonable: true
+  supportMethodsArguments: true
+  params: count=countSql
+  returnPageInfo: check
