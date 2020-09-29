@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.young.mapper.ConsumptionNoteMapper">
+  <resultMap id="BaseResultMap" type="com.young.model.ConsumptionNote">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="pass_id" jdbcType="INTEGER" property="passId" />
+    <result column="type" jdbcType="INTEGER" property="type" />
+    <result column="free_charge" jdbcType="INTEGER" property="freeCharge" />
+    <result column="money" jdbcType="DECIMAL" property="money" />
+    <result column="time" jdbcType="TIMESTAMP" property="time" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="back1" jdbcType="VARCHAR" property="back1" />
+    <result column="back2" jdbcType="VARCHAR" property="back2" />
+    <result column="back3" jdbcType="VARCHAR" property="back3" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, pass_id, type, free_charge, money, time, remark, back1, back2, back3
+  </sql>
+  <select id="selectByExample" parameterType="com.young.model.ConsumptionNoteExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from consumption_note
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from consumption_note
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from consumption_note
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.young.model.ConsumptionNote">
+    insert into consumption_note (id, pass_id, type, 
+      free_charge, money, time, 
+      remark, back1, back2, 
+      back3)
+    values (#{id,jdbcType=INTEGER}, #{passId,jdbcType=INTEGER}, #{type,jdbcType=INTEGER}, 
+      #{freeCharge,jdbcType=INTEGER}, #{money,jdbcType=DECIMAL}, #{time,jdbcType=TIMESTAMP}, 
+      #{remark,jdbcType=VARCHAR}, #{back1,jdbcType=VARCHAR}, #{back2,jdbcType=VARCHAR}, 
+      #{back3,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.young.model.ConsumptionNote">
+    insert into consumption_note
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="passId != null">
+        pass_id,
+      </if>
+      <if test="type != null">
+        type,
+      </if>
+      <if test="freeCharge != null">
+        free_charge,
+      </if>
+      <if test="money != null">
+        money,
+      </if>
+      <if test="time != null">
+        time,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+      <if test="back1 != null">
+        back1,
+      </if>
+      <if test="back2 != null">
+        back2,
+      </if>
+      <if test="back3 != null">
+        back3,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="passId != null">
+        #{passId,jdbcType=INTEGER},
+      </if>
+      <if test="type != null">
+        #{type,jdbcType=INTEGER},
+      </if>
+      <if test="freeCharge != null">
+        #{freeCharge,jdbcType=INTEGER},
+      </if>
+      <if test="money != null">
+        #{money,jdbcType=DECIMAL},
+      </if>
+      <if test="time != null">
+        #{time,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="back1 != null">
+        #{back1,jdbcType=VARCHAR},
+      </if>
+      <if test="back2 != null">
+        #{back2,jdbcType=VARCHAR},
+      </if>
+      <if test="back3 != null">
+        #{back3,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.young.model.ConsumptionNoteExample" resultType="java.lang.Long">
+    select count(*) from consumption_note
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByPrimaryKeySelective" parameterType="com.young.model.ConsumptionNote">
+    update consumption_note
+    <set>
+      <if test="passId != null">
+        pass_id = #{passId,jdbcType=INTEGER},
+      </if>
+      <if test="type != null">
+        type = #{type,jdbcType=INTEGER},
+      </if>
+      <if test="freeCharge != null">
+        free_charge = #{freeCharge,jdbcType=INTEGER},
+      </if>
+      <if test="money != null">
+        money = #{money,jdbcType=DECIMAL},
+      </if>
+      <if test="time != null">
+        time = #{time,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="back1 != null">
+        back1 = #{back1,jdbcType=VARCHAR},
+      </if>
+      <if test="back2 != null">
+        back2 = #{back2,jdbcType=VARCHAR},
+      </if>
+      <if test="back3 != null">
+        back3 = #{back3,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.young.model.ConsumptionNote">
+    update consumption_note
+    set pass_id = #{passId,jdbcType=INTEGER},
+      type = #{type,jdbcType=INTEGER},
+      free_charge = #{freeCharge,jdbcType=INTEGER},
+      money = #{money,jdbcType=DECIMAL},
+      time = #{time,jdbcType=TIMESTAMP},
+      remark = #{remark,jdbcType=VARCHAR},
+      back1 = #{back1,jdbcType=VARCHAR},
+      back2 = #{back2,jdbcType=VARCHAR},
+      back3 = #{back3,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

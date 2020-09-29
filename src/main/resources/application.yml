@@ -13,7 +13,7 @@ spring:
           suffix: .html
           cache: false #关闭缓存
    datasource:          #数据源
-     url: jdbc:mysql://www.youngzhang.cn:3306/young?useSSL=false&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true&useUnicode=true&characterEncoding=UTF-8
+     url: jdbc:mysql://www.youngzhang.cn:3306/qingcwuyu?useSSL=false&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true&useUnicode=true&characterEncoding=UTF-8
      username: root
      password: qq994134665
      driver-class-name: com.mysql.cj.jdbc.Driver
