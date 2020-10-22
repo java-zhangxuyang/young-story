@@ -2,6 +2,9 @@ package com.young.model;
 
 import java.math.BigDecimal;
 
+import lombok.Data;
+
+@Data
 public class Staff {
     private Integer id;
 
@@ -34,6 +37,9 @@ public class Staff {
     private String userName;
 
     private String password;
+    
+    private String levelName;
+    private String statusName;
 
     public Integer getId() {
         return id;

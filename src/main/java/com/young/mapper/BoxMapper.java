@@ -4,9 +4,8 @@ import com.young.model.Box;
 import com.young.model.BoxExample;
 import java.util.List;
 
-import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Select;
 
-@Mapper
 public interface BoxMapper {
     long countByExample(BoxExample example);
 
@@ -23,4 +22,7 @@ public interface BoxMapper {
     int updateByPrimaryKeySelective(Box record);
 
     int updateByPrimaryKey(Box record);
+
+    @Select("select * from box where back2 = ${number} ")
+	Box selectBoxByNumber(Integer number);
 }

@@ -11,13 +11,13 @@ import com.young.base.constant.Const;
 import com.young.base.support.ResponseBo;
 import com.young.mapper.StaffMapper;
 import com.young.model.Staff;
-import com.young.service.LoginSerivce;
+import com.young.service.LoginService;
 
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Service("loginSerivceImpl")
-public class LoginSerivceImpl implements LoginSerivce{
+public class LoginSerivceImpl implements LoginService{
 
 	@Autowired
 	private StaffMapper staffMapper;

@@ -2,6 +2,10 @@ package com.young.model;
 
 import java.util.Date;
 
+/**
+ * @author zxy99
+ *
+ */
 public class BoxNote {
     private Integer id;
 
@@ -26,8 +30,20 @@ public class BoxNote {
     private String back2;
 
     private String back3;
+    
+    //到时提醒
+    private Integer remind;
+    
 
-    public Integer getId() {
+    public Integer getRemind() {
+		return remind;
+	}
+
+	public void setRemind(Integer remind) {
+		this.remind = remind;
+	}
+
+	public Integer getId() {
         return id;
     }
 

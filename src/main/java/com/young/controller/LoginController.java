@@ -11,9 +11,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.young.base.constant.Const;
 import com.young.base.controller.BaseController;
 import com.young.base.support.ResponseBo;
-import com.young.base.utils.IPUtils;
+import com.young.base.utils.PublicUtils;
 import com.young.model.Staff;
-import com.young.service.LoginSerivce;
+import com.young.service.LoginService;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -22,18 +22,18 @@ import lombok.extern.slf4j.Slf4j;
 public class LoginController extends BaseController {
 
 	@Autowired
-	private LoginSerivce loginSerivce;
+	private LoginService loginSerivce;
 	
 	@GetMapping({ "/", "/admin"})
 	public String index(HttpServletRequest request) {
-		if(null == request.getSession().getAttribute(Const.LOGIN_SESSION_STAFF));
+		//if(null == request.getSession().getAttribute(Const.LOGIN_SESSION_STAFF));
 		return "/admin_login";
 	}
 
 	@PostMapping("/login")
 	@ResponseBody
 	public Object login(String userName, String password, HttpServletRequest request) {
-		String ip = IPUtils.getIpAddrByRequest(request);
+		String ip = PublicUtils.getIpAddrByRequest(request);
 		Integer error_count = cache.get("ip");
 		if (error_count == null || error_count < 3) {
 			ResponseBo<Staff> responseBo = loginSerivce.login(userName, password);
@@ -43,8 +43,8 @@ public class LoginController extends BaseController {
 			} else {
 				Staff staff = responseBo.getPayload();
 				log.info(staff.getName()+" 成功登陆系统。");
-				request.getSession().setAttribute(Const.LOGIN_SESSION_KEY, "管理员");
 				request.getSession().setAttribute(Const.LOGIN_SESSION_STAFF, staff);
+				request.getSession().setMaxInactiveInterval(12 * 60 * 60);
 				cache.del(ip);
 			}
 			return responseBo;

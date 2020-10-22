@@ -2,11 +2,14 @@ package com.young.model;
 
 import java.util.Date;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 public class BoxSubscribeNote {
     private Integer id;
 
     private Integer boxId;
 
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm")
     private Date toTime;
 
     private Integer number;

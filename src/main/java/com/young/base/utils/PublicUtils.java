@@ -4,7 +4,7 @@ import java.util.Random;
 
 import javax.servlet.http.HttpServletRequest;
 
-public class IPUtils {
+public class PublicUtils {
 
     /**
      * @param request 请求
@@ -39,4 +39,26 @@ public class IPUtils {
         
         return str;
     }
+    
+    /**
+     * 分页参数校验修正
+ *
+ * @param response
+ * @param uid
+ */
+public static Integer page(Integer pageNum, Boolean page3) {
+	if(pageNum == null || pageNum < 1) {
+		return 1;
+	} else {
+		if(page3) {
+			if(pageNum > 3) {
+				return 3;
+			}else {
+				return pageNum;
+			}
+		}else {
+			return pageNum;
+		}
+	}
+}
 }

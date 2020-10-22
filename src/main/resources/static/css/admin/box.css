@@ -1,0 +1,112 @@
+@charset "UTF-8";
+/* body > div > div{
+	border: 2px;
+	height: 50px;
+	width: 100px;
+} */
+
+.hoverDiv{
+  display:none;
+  left:1px;
+  top:1px;
+  width:158px; 
+  min-height:103px; 
+  padding:10px;
+  color:#000000;
+  /* background:white;  */
+  position:fixed; 
+  z-index:999999; 
+  /* border: 1px solid #5e4e3f; */
+  border:1px solid #96c2f1;background:#eff7ff
+  
+ }
+.box_man{
+	width: 45%;
+	height: 100%;
+	float: left;
+}
+.title{
+	width: 100%;
+	height: 3%;
+	padding-top: 30px;
+	margin-left: 30px;
+	margin-bottom: 45px;
+}
+.title > h4{
+	font-size: 25px;
+}
+.button {
+	width: 100%;
+	height: 20px;
+	padding-right:20px;
+	text-align: right;
+}
+.button > button {
+	margin-right:10px;
+}
+.box_type {
+	margin-left: 20px;
+	margin-top: 4%;
+	margin-bottom: 1%;
+	width: 94%;
+	height: 20%;
+	border:1px solid #bbe1f1;
+	background:#eefaff;
+	clear: none;
+}
+.box_type > .box_title{
+	width: 130px;
+	height: 100px;
+	font-size: 20px;
+	line-height: 120px;
+	float: left;
+	padding-left: 40px;
+}
+.box_type > .baoxiang {
+	margin-left: 3%;
+	margin-top:1.8%;
+	width: 20%;
+	height: 80%;
+	/* border:1px solid red; */
+	background-color:#b0e06c;
+	float: left;
+}
+.box_type > .baoxiang:first-child {
+	clear: both;
+}
+.box_type > .baoxiang > .box_name {
+	font-size: 20px;
+	text-align: center;
+	padding-top: 10%;
+}
+.box_type > .baoxiang > .box_time {
+	font-size: 20px;
+	text-align: center;
+	padding-top: 10%;
+}
+.box_type > .baoxiang > .come_time {
+	font-size: 25px;
+	text-align: center;
+	padding-top: 10%;
+}
+.fenge{
+	width: 1px;
+	height: 130%;
+	border-left: 1px solid black;
+	float: left;
+}
+.passenger_flow_man{
+	width: 40%;
+	height: 100%;
+	margin-left: 2%;
+	float: left;
+}
+.form-group{
+	width: 100%;
+	height: 20%;
+	margin-top: 8%;
+}
+.yybh6{
+	font-size: 15px;
+	text-align: center;
+}

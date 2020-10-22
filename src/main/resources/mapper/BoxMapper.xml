@@ -4,6 +4,7 @@
   <resultMap id="BaseResultMap" type="com.young.model.Box">
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="type" jdbcType="INTEGER" property="type" />
     <result column="price" jdbcType="DECIMAL" property="price" />
     <result column="status" jdbcType="INTEGER" property="status" />
     <result column="use_duration" jdbcType="INTEGER" property="useDuration" />
@@ -45,7 +46,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, name, price, status, use_duration, maid_num, admission_time, to_time, remind, 
+    id, name, type, price, status, use_duration, maid_num, admission_time, to_time, remind, 
     back1, back2, back3
   </sql>
   <select id="selectByExample" parameterType="com.young.model.BoxExample" resultMap="BaseResultMap">
@@ -74,16 +75,16 @@
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.young.model.Box">
-    insert into box (id, name, price, 
-      status, use_duration, maid_num, 
-      admission_time, to_time, remind, 
-      back1, back2, back3
-      )
-    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{price,jdbcType=DECIMAL}, 
-      #{status,jdbcType=INTEGER}, #{useDuration,jdbcType=INTEGER}, #{maidNum,jdbcType=INTEGER}, 
-      #{admissionTime,jdbcType=TIMESTAMP}, #{toTime,jdbcType=TIMESTAMP}, #{remind,jdbcType=INTEGER}, 
-      #{back1,jdbcType=VARCHAR}, #{back2,jdbcType=VARCHAR}, #{back3,jdbcType=VARCHAR}
-      )
+    insert into box (id, name, type, 
+      price, status, use_duration, 
+      maid_num, admission_time, to_time, 
+      remind, back1, back2, 
+      back3)
+    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{type,jdbcType=INTEGER}, 
+      #{price,jdbcType=DECIMAL}, #{status,jdbcType=INTEGER}, #{useDuration,jdbcType=INTEGER}, 
+      #{maidNum,jdbcType=INTEGER}, #{admissionTime,jdbcType=TIMESTAMP}, #{toTime,jdbcType=TIMESTAMP}, 
+      #{remind,jdbcType=INTEGER}, #{back1,jdbcType=VARCHAR}, #{back2,jdbcType=VARCHAR}, 
+      #{back3,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.young.model.Box">
     insert into box
@@ -93,6 +94,9 @@
       </if>
       <if test="name != null">
         name,
+      </if>
+      <if test="type != null">
+        type,
       </if>
       <if test="price != null">
         price,
@@ -131,6 +135,9 @@
       </if>
       <if test="name != null">
         #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null">
+        #{type,jdbcType=INTEGER},
       </if>
       <if test="price != null">
         #{price,jdbcType=DECIMAL},
@@ -176,6 +183,9 @@
       <if test="name != null">
         name = #{name,jdbcType=VARCHAR},
       </if>
+      <if test="type != null">
+        type = #{type,jdbcType=INTEGER},
+      </if>
       <if test="price != null">
         price = #{price,jdbcType=DECIMAL},
       </if>
@@ -212,6 +222,7 @@
   <update id="updateByPrimaryKey" parameterType="com.young.model.Box">
     update box
     set name = #{name,jdbcType=VARCHAR},
+      type = #{type,jdbcType=INTEGER},
       price = #{price,jdbcType=DECIMAL},
       status = #{status,jdbcType=INTEGER},
       use_duration = #{useDuration,jdbcType=INTEGER},

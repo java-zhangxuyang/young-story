@@ -2,11 +2,14 @@ package com.young.model;
 
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
 
 public class Box {
     private Integer id;
 
     private String name;
+
+    private Integer type;
 
     private BigDecimal price;
 
@@ -27,8 +30,29 @@ public class Box {
     private String back2;
 
     private String back3;
+    
+    private Long supTime;
+    
+    private List<BoxSubscribeNote> noteList;
+    
 
-    public Integer getId() {
+    public List<BoxSubscribeNote> getNoteList() {
+		return noteList;
+	}
+
+	public void setNoteList(List<BoxSubscribeNote> noteList) {
+		this.noteList = noteList;
+	}
+
+	public Long getSupTime() {
+		return supTime;
+	}
+
+	public void setSupTime(Long supTime) {
+		this.supTime = supTime;
+	}
+
+	public Integer getId() {
         return id;
     }
 
@@ -42,6 +66,14 @@ public class Box {
 
     public void setName(String name) {
         this.name = name == null ? null : name.trim();
+    }
+
+    public Integer getType() {
+        return type;
+    }
+
+    public void setType(Integer type) {
+        this.type = type;
     }
 
     public BigDecimal getPrice() {

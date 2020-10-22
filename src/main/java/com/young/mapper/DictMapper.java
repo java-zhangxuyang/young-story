@@ -5,6 +5,7 @@ import com.young.model.DictExample;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Select;
 
 @Mapper
 public interface DictMapper {
@@ -23,4 +24,7 @@ public interface DictMapper {
     int updateByPrimaryKeySelective(Dict record);
 
     int updateByPrimaryKey(Dict record);
+
+    @Select("select * from dict where dict.key = #{key}")
+	List<Dict> getDictList(String key);
 }

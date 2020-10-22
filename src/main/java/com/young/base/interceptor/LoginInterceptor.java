@@ -1,6 +1,5 @@
 package com.young.base.interceptor;
 
-import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -12,7 +11,7 @@ import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.young.base.constant.Const;
-import com.young.base.utils.IPUtils;
+import com.young.base.utils.PublicUtils;
 import com.young.model.Staff;
 
 import lombok.extern.slf4j.Slf4j;
@@ -23,7 +22,8 @@ public class LoginInterceptor implements HandlerInterceptor {
  
     //这个方法是在访问接口之前执行的，我们只需要在这里写验证登陆状态的业务逻辑，就可以在用户调用指定接口之前验证登陆状态了
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-    	String ip = IPUtils.getIpAddrByRequest(request);
+    	String url=request.getRequestURL().toString();
+    	String ip = PublicUtils.getIpAddrByRequest(request);
     	if(ip.length() > 15) {
     		response.sendError(404);
     		log.error(ip + "拦截隐藏访问");

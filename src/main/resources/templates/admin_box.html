@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="baidu-site-verification" content="m5MzOzsVQm" />
+<script src="/js/jquery-3.5.1.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="/bootstrap/js/bootstrap.min.js" type="text/javascript" charset="utf-8"></script>
+
+<script type="text/javascript" src="/bootstrap/js/moment-with-locales.js" charset="UTF-8"></script>
+<script type="text/javascript" src="/bootstrap/js/bootstrap-datetimepicker.js" charset="UTF-8"></script>
+<script type="text/javascript" src="/bootstrap/js/bootstrap-datetimepicker.zh-CN.js" charset="UTF-8"></script>
+
+<script src="/js/layer/layer.js" type="text/javascript" charset="utf-8"></script>
+<script src="/js/admin/box.js" type="text/javascript" charset="utf-8"></script>
+<link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css"/>
+<link rel="stylesheet" href="/css/admin/box.css"/>
+<link href="/bootstrap/css/bootstrap-datetimepicker.min.css" rel="stylesheet" media="screen">
+
+<title>轻C物语信息管理系统</title>
+<script type="text/javascript">
+var MouseEvent = function(e){
+	 this.x = e.pageX
+	 this.y = e.pageY
+	}
+
+	var Mouse = function(e){
+	 var kdheight =  jQuery(document).scrollTop();
+	 mouse = new MouseEvent(e);
+	 leftpos = mouse.x+10;
+	 toppos = mouse.y-kdheight+10; 
+	}
+
+	$(function(){
+		$(".baoxiang").hover(
+		   	function(e){0
+		    	Mouse(e);
+		    	$("#hoverDiv").css({top:toppos,left:leftpos}).fadeIn(100);
+		   	},function(){
+		    	$("#hoverDiv").hide();
+		    }
+		 )
+	 })
+</script>
+</head>
+<body style="height: 650px;">
+	<div class="box_man">
+		<div class="title">
+			<h4 style="margin-left: 10px;">包厢</h4>
+		</div>
+		<div class="button">
+			<button type="button" class="btn btn-primary boxbutton" id="useBox" onclick="useBox()">使用</button>
+			<button type="button" class="btn btn-primary boxbutton" id="makeBox" onclick="makeBox()">预约</button>
+			<button type="button" class="btn btn-primary boxbutton" id="updateBoxName" onclick="updateBoxName()">改名</button>
+			<button type="button" class="btn btn-primary boxbutton" id="continuation" onclick="continuation()">续时</button>
+			<button type="button" class="btn btn-primary boxbutton" id="departureBox" onclick="departureBox()">出包</button>
+		</div>
+		<div style="display: none;">
+			<input type="text" id = "id">
+			<input type="text" id = "name">
+			<input type="text" id = "status">
+		</div>
+		<div class="box_type">
+			<div class = "box_title"> 小包</div>
+			<%for(box in xiaobao){%>
+				<%if(null != box.noteList){%>
+					<div class="hoverDiv" id="hoverDiv${box.id}" style="display: none;">
+						<h6 class="yybh6"><b>${box.name}预约表</b></h6>
+						<p class="yybp">&nbsp;时间&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;电话</p>
+						<%for(note in box.noteList){%>
+							<p class="yybp">${note.toTime,"HH:mm"}&nbsp;&nbsp;&nbsp;&nbsp;${note.mobile}</p>
+						<%}%>
+					</div>
+					<script type="text/javascript">
+						$(function(){
+							$("#baoxiang${box.id}").hover(
+							   	function(e){0
+							    	Mouse(e);
+							    	$("#hoverDiv${box.id}").css({top:toppos,left:leftpos}).fadeIn(100);
+							   	},function(){
+							    	$("#hoverDiv${box.id}").hide();
+							    }
+							 )
+						 })
+					</script>
+				<%}%>
+				<%if(box.status==1){%>
+					<div class = "baoxiang" id = "baoxiang${box.id}" onclick = "box_check(${box.id},'${box.name}',${box.status},${box.remind})" style="background-color:#ff5a33"> 
+						<div class = "box_name">${box.name}</div>
+						<div class = "box_time" id = "box_time${box.id}">
+							<%if(box.remind == 1){%>
+								<script type="text/javascript">
+									 countDown('${box.name}',${box.supTime},function( msg ) { 
+									  	document.getElementById('box_time${box.id}').innerHTML = msg; 
+									 }) 
+								</script>
+							<%}else{%>
+								<script type="text/javascript">
+									countup(${box.supTime},function( msg ) { 
+									  	document.getElementById('box_time${box.id}').innerHTML = msg; 
+									 }) 
+								</script>
+							<%}%>
+						</div>
+					</div>
+				<%}else if(box.status==2){%>
+					<div class = "baoxiang" id = "baoxiang${box.id}" onclick = "box_check(${box.id},'${box.name}',${box.status},${box.remind})" style="background-color:#ffe745"> 
+						<div class = "box_name">${box.name}</div>
+					</div>
+				<%}else{%>
+					<div class = "baoxiang" id = "baoxiang${box.id}" onclick = "box_check(${box.id},'${box.name}',${box.status},${box.remind})"> 
+						<div class = "box_name">${box.name}</div>
+					</div>
+				<%}%> 
+			<%}%>
+		</div>
+		<div class="box_type">
+			<div class = "box_title"> 大包</div>
+			<%for(box in dabao){%>
+				<%if(null != box.noteList){%>
+					<div class="hoverDiv" id="hoverDiv${box.id}" style="display: none;">
+						<h6 class="yybh6"><b>${box.name}预约表</b></h6>
+						<p class="yybp">&nbsp;时间&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;电话</p>
+						<%for(note in box.noteList){%>
+							<p class="yybp">${note.toTime,"HH:mm"}&nbsp;&nbsp;&nbsp;&nbsp;${note.mobile}</p>
+						<%}%>
+					</div>
+					<script type="text/javascript">
+						$(function(){
+							$("#baoxiang${box.id}").hover(
+							   	function(e){0
+							    	Mouse(e);
+							    	$("#hoverDiv${box.id}").css({top:toppos,left:leftpos}).fadeIn(100);
+							   	},function(){
+							    	$("#hoverDiv${box.id}").hide();
+							    }
+							 )
+						 })
+					</script>
+				<%}%>
+				<%if(box.status==1){%>
+					<div class = "baoxiang" id = "baoxiang${box.id}" onclick = "box_check(${box.id},'${box.name}',${box.status},${box.remind})" style="background-color:#ff5a33"> 
+						<div class = "box_name">${box.name}</div>
+						<div class = "box_time" id = "box_time${box.id}">
+							<%if(box.remind == 1){%>
+								<script type="text/javascript">
+									 countDown('${box.name}',${box.supTime},function( msg ) { 
+									  	document.getElementById('box_time${box.id}').innerHTML = msg; 
+									 }) 
+								</script>
+							<%}else{%>
+								<script type="text/javascript">
+									countup(${box.supTime},function( msg ) { 
+									  	document.getElementById('box_time${box.id}').innerHTML = msg; 
+									 }) 
+								</script>
+							<%}%>
+						</div>
+					</div>
+				<%}else if(box.status==2){%>
+					<div class = "baoxiang" id = "baoxiang${box.id}" onclick = "box_check(${box.id},'${box.name}',${box.status},${box.remind})" style="background-color:#ffe745"> 
+						<div class = "box_name">${box.name}</div>
+					</div>
+				<%}else{%>
+					<div class = "baoxiang" id = "baoxiang${box.id}" onclick = "box_check(${box.id},'${box.name}',${box.status},${box.remind})"> 
+						<div class = "box_name">${box.name}</div>
+					</div>
+				<%}%> 
+			<%}%>
+		</div>
+		<div class="box_type">
+			<div class = "box_title"> 狼人杀</div>
+			<%for(box in langrensha){%>
+				<%if(null != box.noteList){%>
+					<div class="hoverDiv" id="hoverDiv${box.id}" style="display: none;">
+						<h6 class="yybh6"><b>${box.name}预约表</b></h6>
+						<p class="yybp">&nbsp;时间&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;电话</p>
+						<%for(note in box.noteList){%>
+							<p class="yybp">${note.toTime,"HH:mm"}&nbsp;&nbsp;&nbsp;&nbsp;${note.mobile}</p>
+						<%}%>
+					</div>
+					<script type="text/javascript">
+						$(function(){
+							$("#baoxiang${box.id}").hover(
+							   	function(e){0
+							    	Mouse(e);
+							    	$("#hoverDiv${box.id}").css({top:toppos,left:leftpos}).fadeIn(100);
+							   	},function(){
+							    	$("#hoverDiv${box.id}").hide();
+							    }
+							 )
+						 })
+					</script>
+				<%}%>
+				<%if(box.status==1){%>
+					<div class = "baoxiang" id = "baoxiang${box.id}" onclick = "box_check(${box.id},'${box.name}',${box.status},${box.remind})" style="background-color:#ff5a33"> 
+						<div class = "box_name">${box.name}</div>
+						<div class = "box_time" id = "box_time${box.id}">
+							<%if(box.remind == 1){%>
+								<script type="text/javascript">
+									 countDown('${box.name}',${box.supTime},function( msg ) { 
+									  	document.getElementById('box_time${box.id}').innerHTML = msg; 
+									 }) 
+								</script>
+							<%}else{%>
+								<script type="text/javascript">
+									countup(${box.supTime},function( msg ) { 
+									  	document.getElementById('box_time${box.id}').innerHTML = msg; 
+									 }) 
+								</script>
+							<%}%>
+						</div>
+					</div>
+				<%}else if(box.status==2){%>
+					<div class = "baoxiang" id = "baoxiang${box.id}" onclick = "box_check(${box.id},'${box.name}',${box.status},${box.remind})" style="background-color:#ffe745"> 
+						<div class = "box_name">${box.name}</div>
+						<%if(null != box.noteList){%>
+							<div class="hoverDiv" id="hoverDiv${box.id}" style="display: none;">
+								<h6 class="yybh6"><b>${box.name}预约表</b></h6>
+								<%for(note in box.noteList){%>
+									<p class="yybp">${note.toTime,"HH:mm"}&nbsp;&nbsp;&nbsp;&nbsp;${note.mobile}</p>
+								<%}%>
+							</div>
+							<script type="text/javascript">
+								$(function(){
+									$("#baoxiang${box.id}").hover(
+									   	function(e){0
+									    	Mouse(e);
+									    	$("#hoverDiv${box.id}").css({top:toppos,left:leftpos}).fadeIn(100);
+									   	},function(){
+									    	$("#hoverDiv${box.id}").hide();
+									    }
+									 )
+								 })
+							</script>
+						<%}%>
+					</div>
+				<%}else{%>
+					<div class = "baoxiang" id = "baoxiang${box.id}" onclick = "box_check(${box.id},'${box.name}',${box.status},${box.remind})"> 
+						<div class = "box_name">${box.name}</div>
+					</div>
+				<%}%> 
+			<%}%>
+		</div>
+		<div class="box_type">
+			<div class = "box_title"> 剧本杀</div>
+			<%for(box in jubensha){%>
+				<%if(null != box.noteList){%>
+					<div class="hoverDiv" id="hoverDiv${box.id}" style="display: none;">
+						<h6 class="yybh6"><b>${box.name}预约表</b></h6>
+						<p class="yybp">&nbsp;时间&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;电话</p>
+						<%for(note in box.noteList){%>
+							<p class="yybp">${note.toTime,"HH:mm"}&nbsp;&nbsp;&nbsp;&nbsp;${note.mobile}</p>
+						<%}%>
+					</div>
+					<script type="text/javascript">
+						$(function(){
+							$("#baoxiang${box.id}").hover(
+							   	function(e){0
+							    	Mouse(e);
+							    	$("#hoverDiv${box.id}").css({top:toppos,left:leftpos}).fadeIn(100);
+							   	},function(){
+							    	$("#hoverDiv${box.id}").hide();
+							    }
+							 )
+						 })
+					</script>
+				<%}%>
+				<%if(box.status==1){%>
+					<div class = "baoxiang" id = "baoxiang${box.id}" onclick = "box_check(${box.id},'${box.name}',${box.status},${box.remind})" style="background-color:#ff5a33"> 
+						<div class = "box_name">${box.name}</div>
+						<div class = "box_time" id = "box_time${box.id}">
+							<%if(box.remind == 1){%>
+								<script type="text/javascript">
+									 countDown('${box.name}',${box.supTime},function( msg ) { 
+									  	document.getElementById('box_time${box.id}').innerHTML = msg; 
+									 }) 
+								</script>
+							<%}else{%>
+								<script type="text/javascript">
+									countup(${box.supTime},function( msg ) { 
+									  	document.getElementById('box_time${box.id}').innerHTML = msg; 
+									 }) 
+								</script>
+							<%}%>
+						</div>
+					</div>
+				<%}else if(box.status==2){%>
+					<div class = "baoxiang" id = "baoxiang${box.id}" onclick = "box_check(${box.id},'${box.name}',${box.status},${box.remind})" style="background-color:#ffe745"> 
+						<div class = "box_name">${box.name}</div>
+					</div>
+				<%}else{%>
+					<div class = "baoxiang" id = "baoxiang${box.id}" onclick = "box_check(${box.id},'${box.name}',${box.status},${box.remind})"> 
+						<div class = "box_name">${box.name}</div>
+					</div>
+				<%}%> 
+			<%}%>
+		</div>
+	</div>
+	<div class="fenge">
+	</div>
+	<div class="passenger_flow_man">
+		<div class="title">
+			<h4 style="margin-left: 10px;">客流</h4>
+		</div>
+	</div>
+	<div>
+	
+	</div>
+</body>
+</html>

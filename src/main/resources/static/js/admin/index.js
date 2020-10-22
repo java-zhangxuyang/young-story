@@ -6,14 +6,6 @@ $(function(){
 	        $(".active").removeClass('active');
 	        $(this).addClass("active");
 	    }); 
-	$("#collapseListGroupHeading1").click(function(){
-		alert($("#collapseListGroup1").is(":hidden"))
-		if($("#collapseListGroup1").is(":hidden")){
-			$("#collapseListGroup1").hide();
-		}else{
-			$("#collapseListGroup1").show();
-		}
-	})
 	$("#loginOut").click(function(){
 		$.ajax({
             type: "POST",

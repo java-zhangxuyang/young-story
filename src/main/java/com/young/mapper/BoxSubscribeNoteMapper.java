@@ -2,9 +2,12 @@ package com.young.mapper;
 
 import com.young.model.BoxSubscribeNote;
 import com.young.model.BoxSubscribeNoteExample;
+
+import java.util.Date;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Select;
 
 @Mapper
 public interface BoxSubscribeNoteMapper {
@@ -23,4 +26,10 @@ public interface BoxSubscribeNoteMapper {
     int updateByPrimaryKeySelective(BoxSubscribeNote record);
 
     int updateByPrimaryKey(BoxSubscribeNote record);
+    
+    @Select("select max(bsn.to_time) from box_subscribe_note bsn where bsn.box_id = #{boxId}  and to_days(bsn.to_time) = to_days(now())")
+    Date selectMaxDateToday(Integer boxId);
+    
+    @Select("select * from box_subscribe_note bsn where to_days(bsn.to_time) = to_days(now()) order by bsn.to_time ")
+    List<BoxSubscribeNote> selectSubscribeToday();
 }
