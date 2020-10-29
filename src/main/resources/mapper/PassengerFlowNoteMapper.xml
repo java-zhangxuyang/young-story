@@ -7,7 +7,7 @@
     <result column="to_time" jdbcType="TIMESTAMP" property="toTime" />
     <result column="people" jdbcType="INTEGER" property="people" />
     <result column="use_box" jdbcType="INTEGER" property="useBox" />
-    <result column="use_time" jdbcType="INTEGER" property="useTime" />
+    <result column="use_time" jdbcType="TIMESTAMP" property="useTime" />
     <result column="status" jdbcType="INTEGER" property="status" />
     <result column="off_time" jdbcType="TIMESTAMP" property="offTime" />
     <result column="back1" jdbcType="VARCHAR" property="back1" />
@@ -82,6 +82,9 @@
       #{back2,jdbcType=VARCHAR}, #{back3,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.young.model.PassengerFlowNote">
+	  <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+	      SELECT LAST_INSERT_ID()
+	    </selectKey>
     insert into passenger_flow_note
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">

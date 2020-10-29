@@ -6,6 +6,14 @@ import javax.servlet.http.HttpServletRequest;
 
 public class PublicUtils {
 
+	/*
+	 * 获取0-9随机数
+	 */
+	public static Integer getRandom() {
+		Random random = new Random();
+        int a=random.nextInt(10);
+        return a;
+	}
     /**
      * @param request 请求
      * @return IP Address

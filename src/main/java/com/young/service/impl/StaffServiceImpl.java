@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.young.base.constant.Const;
 import com.young.base.utils.PublicUtils;
 import com.young.mapper.StaffMapper;
 import com.young.model.Staff;
@@ -29,6 +30,20 @@ public class StaffServiceImpl implements StaffService{
 		PageInfo<Staff> page = new PageInfo<>();
 		page.setList(list);
 		return page;
+	}
+
+	@Override
+	public int addTime(Staff staff) {
+		Staff sta = staffMapper.selectByPrimaryKey(staff.getId());
+		sta.setBack1(sta.getBack1() + staff.getBack1());
+		return staffMapper.updateByPrimaryKeySelective(sta);
+	}
+
+	@Override
+	public int addStaff(Staff staff) {
+		staff.setBack1(Const.PUBLIC_NO);
+		staff.setStatus(Const.STAFF_ZAI);
+		return staffMapper.insertSelective(staff);
 	}
 
 

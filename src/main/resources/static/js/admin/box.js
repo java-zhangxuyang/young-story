@@ -1,11 +1,4 @@
 $(function(){
-	$('#datetimepicker2').datetimepicker({
-        format: 'YYYY-MM-DD hh:mm',
-        locale: moment.locale('zh-cn'),
-        initialDate:new Date(),
-        autoclose:true,
-        language:'zh-CN'
-    });
 })
 
 function checkcheck(id,name){
@@ -44,7 +37,7 @@ function departureBox(){
 		$.ajax({
             type: "post",
             data: {id:id},
-            url: "/admin/departureBox",
+            url: "/admin/box/departureBox",
             dataType: "json",
             success: function(data) {
             	if(data.code == -1){
@@ -132,7 +125,7 @@ function useBoxAction(){
         		$.ajax({
         			type: "POST",
         			data: $('#useBoxForm').serialize(),
-        			url: "/admin/useBox",
+        			url: "/admin/box/useBox",
         			dataType: "json",
         			success: function(data) {
         				if(data.code == -1){
@@ -223,7 +216,7 @@ function makeBox(){
 				$.ajax({
 					type: "POST",
 					data: $('#makeBoxForm').serialize(),
-					url: "/admin/makeBox",
+					url: "/admin/box/makeBox",
 					dataType: "json",
 					success: function(data) {
 						if(data.code == -1){
@@ -276,7 +269,7 @@ function updateBoxName(){
 				$.ajax({
 					type: "POST",
 					data: $('#updateBoxNameForm').serialize(),
-					url: "/admin/updateBoxName",
+					url: "/admin/box/updateBoxName",
 					dataType: "json",
 					success: function(data) {
 						if(data.code == -1){
@@ -329,7 +322,7 @@ function continuation(){
 				$.ajax({
 					type: "POST",
 					data: $('#continuationForm').serialize(),
-					url: "/admin/continuation",
+					url: "/admin/box/continuation",
 					dataType: "json",
 					success: function(data) {
 						if(data.code == -1){
@@ -392,7 +385,7 @@ function countDown(name,maxtime,fn ) {
 		    	audio.play();
 		    	/*$.ajax({
 		            type: "GET",
-		            url: "/admin/boxRemind",
+		            url: "/admin/box/boxRemind",
 		            data: {text:"時間が来ます！"},
 		            dataType: "json"
 		        });*/
@@ -418,5 +411,315 @@ function countup(mintime,fn ) {
 			//clearInterval( timer ); 
 	}, 1000); 
 } 
+
+/**************************客流*********************************/
+//添加客流
+function addPassFlow(){
+	var content = '<div>\n' +
+	'<form id="addPassFlowForm">'+
+	'<div class="form-group"  style="margin-top:5%;">'+
+	'<label for="people" class="col-sm-3 control-label">人数</label>'+
+	'<div class="col-sm-8">'+
+	'<input type="number" class="form-control"  name="people" value=1 id="people" placeholder="人数"   autocomplete="off">'+
+	'</div>'+
+	'</div>'+
+	'</form></div>';
+	var index = layer.open({
+		type: 1,
+		title: name,
+		area: ['400px', '200px'],
+		shadeClose: true, //点击遮罩关闭
+		content:content,
+		btn:['确定','取消'],
+		yes:function(){
+			var people = $("#people").val();
+			if(people==null || people <= 0){
+				layer.msg("输入有误，请重试！");
+				return;
+			}
+			layer.confirm('确认添加来客为 '+people+'人 吗？', {icon: 3, title:'提示'}, function(index){
+				$.ajax({
+					type: "POST",
+					data: $('#addPassFlowForm').serialize(),
+					url: "/admin/passFlow/addPassFlow",
+					dataType: "json",
+					success: function(data) {
+						if(data.code == -1){
+							layer.msg(data.msg);
+						}else if(data.code == 1){
+							window.location.reload(); 
+						}
+					}
+				});
+			});
+		},
+		btn2:function(){
+			layer.closeAll(index); //关闭当前窗口
+		}
+	});
+}
 	
+//女仆消费
+function consumption(id,number){
+	var content = '<div>\n' +
+					'<form id="consumptionForm">'+
+						'<input type="hidden" name="passId" value="'+id+'">'+
+						'<div class="form-group"  style="margin-top:5%;">'+
+							'<label for="number" class="col-sm-2 control-label">号码牌</label>'+
+							'<div class="col-sm-9">'+
+								'<input type="text" class="form-control" id="passId" name="passId" value="'+number+'" placeholder="号码牌"  autocomplete="off" readonly="readonly">'+
+							'</div>'+
+						'</div>'+
+						'<div class="form-group">'+
+						'<label for="type" class="col-sm-2 control-label">消费类型</label>'+
+						'<div class="col-sm-9">'+
+						'<select class="form-control" name="type" id="type">'+
+						/*'<option value="1">入场</option>'+*/
+						/*'<option value="2">包厢</option>'+*/
+						'<option value="3" selected>女仆</option>'+
+						'<option value="4">其他</option>'+
+						'</select>'+
+						'</div>'+
+						'</div>'+
+						'<div class="form-group hidediv">'+
+						'<label for="number" class="col-sm-2 control-label">时长</label>'+
+						'<div class="col-sm-9">'+
+							'<input type="number" class="form-control" id="useTime" name="back3" min=1 value=1  placeholder="时长" autocomplete="off">'+
+						'</div>'+
+					'</div>'+
+					'<div class="form-group hidediv">'+
+					'<label for="number" class="col-sm-2 control-label">女仆数量</label>'+
+					'<div class="col-sm-9">'+
+						'<input type="number" class="form-control" id="num" name="back2" min=1 value=1 placeholder="女仆数量" autocomplete="off">'+
+					'</div>'+
+					'</div>'+
+					    '<div class="form-group">'+
+					    	'<label for="money" class="col-sm-2 control-label">金额</label>'+
+					    	'<div class="col-sm-9">'+
+					    		'<input type="money" class="form-control" id="money" name="money" min=1 value="58" placeholder="消费金额"  autocomplete="off"  readonly="readonly">'+
+					    	'</div>'+
+					    '</div>'+
+					    '<div class="form-group">'+
+						    '<label for="remark" class="col-sm-2 control-label">备注</label>'+
+						    '<div class="col-sm-9">'+
+						    	'<textarea class="form-control" rows="3" name="remark"></textarea>'+
+						    '</div>'+
+					    '</div>'+
+				'</form></div>';
+    var index = layer.open({
+        type: 1,
+        title: '消费',
+        area: ['550px', '450px'],
+        shadeClose: true, //点击遮罩关闭
+        content:content,
+        btn:['确定','取消'],
+        success: function (layero, index) { // 弹窗成功
+        	$(document).on('change', '#num', function() { 
+        		var num = $("#num").val();
+        		var useTime = $("#useTime").val();
+        		$("#money").val(58 * num * useTime);
+        	});
+        	$(document).on('change', '#useTime', function() { 
+        		var num = $("#num").val();
+        		var useTime = $("#useTime").val();
+        		$("#money").val(58 * num * useTime);
+        	});
+        	$(document).on('change', '#type', function() { 
+        		if($("#type").val()==4){
+        			$(".hidediv").hide();
+        			$("#money").removeAttr("readonly");
+        			$("#money").val("");
+        		}else if($("#type").val()==3){
+        			$(".hidediv").show();
+        			$("#money").attr("readonly","readonly");
+        			$("#money").val(58);
+        		}
+        	});
+			
+		},
+        yes:function(){
+        	var money = $("#money").val();
+        	if(money==null || money<=0){
+        		layer.msg("输入有误，请重试！");
+        		return;
+        	}
+        	layer.confirm('请确认输入信息无误！', {icon: 3, title:'提示'}, function(index){
+        		$.ajax({
+        			type: "POST",
+        			data: $('#consumptionForm').serialize(),
+        			url: "/admin/passFlow/addConsumption",
+        			dataType: "json",
+        			success: function(data) {
+        				if(data.code == -1){
+        					layer.msg(data.msg);
+        				}else if(data.code == 1){
+        					window.location.reload(); 
+        				}
+        			}
+        		});
+        	});
+        },
+	    btn2:function(){
+	        layer.closeAll(index); //关闭当前窗口
+	    }
+    });
+}
+
+Date.prototype.format = function(fmt) { 
+     var o = { 
+        "M+" : this.getMonth()+1,                 //月份 
+        "d+" : this.getDate(),                    //日 
+        "h+" : this.getHours(),                   //小时 
+        "m+" : this.getMinutes(),                 //分 
+        "s+" : this.getSeconds(),                 //秒 
+        "q+" : Math.floor((this.getMonth()+3)/3), //季度 
+        "S"  : this.getMilliseconds()             //毫秒 
+    }; 
+    if(/(y+)/.test(fmt)) {
+            fmt=fmt.replace(RegExp.$1, (this.getFullYear()+"").substr(4 - RegExp.$1.length)); 
+    }
+     for(var k in o) {
+        if(new RegExp("("+ k +")").test(fmt)){
+             fmt = fmt.replace(RegExp.$1, (RegExp.$1.length==1) ? (o[k]) : (("00"+ o[k]).substr((""+ o[k]).length)));
+         }
+     }
+    return fmt; 
+}
+function checkOut(id){
+		$.ajax({
+			type: "POST",
+			data: {id:id},
+			url: "/admin/passFlow/selectConsumptionNoteById",
+			dataType: "json",
+			async: false,
+			success: function(data) {
+				if(data.code == -1){
+					layer.msg(data.msg);
+				}else if(data.code == 1){
+					xflist = data.payload;
+				}
+			}
+		});
+		var money = 0;
+		var maidmoney = 0;
+		var nomaidmoney = 0;
+		if(xflist != null && xflist.length > 0){
+			for (var i=0;i<xflist.length;i++){  
+				money += xflist[i].money;
+				if(xflist.type!=3&&xflist.type!=99){
+					nomaidmoney += xflist[i].money;
+				}else if(xflist.type==3){
+					maidmoney += xflist[i].money;
+				}
+			}
+		}
+		var jzcontent = '<table class="table table-striped">'+
+		  '<thead>'+
+		    '<tr>'+
+		      '<th style="width:20%;">消费类型</th>'+
+		      '<th style="width:20%;">是否免单</th>'+
+		      '<th style="width:20%;">消费时间</th>'+
+		      '<th style="width:20%;">消费金额</th>'+
+		      '<th style="width:20%;">备注</th>'+
+		    '</tr>'+
+		  '</thead>'+
+		  '<tbody>';
+		if(xflist != null && xflist.length > 0){
+			for (var i=0;i<xflist.length;i++){  
+				jzcontent += '<tr><td>'+xflist[i].typeName+'</td>'+
+						'<td>'+(xflist[i].freeCharge==0?'否':'是')+'</td>'+
+						'<td>'+new Date(xflist[i].time).format('hh:mm:ss')+'</td>'+
+						'<td>'+xflist[i].money+'元</td>'+
+						'<td style="width: 50px;white-space: nowrap;overflow: hidden;text-overflow: ellipsis;">'+(xflist[i].remark==null?'':xflist[i].remark)+'</td>'+
+						/*'<td>'+
+							'<button type="button" class="btn btn-primary miandan" value="'+xflist[i].id+'" ><span class="glyphicon glyphicon-gbp"></span> &nbsp;免单</button>'+
+						'</td>'+*/
+						'</tr>';
+			}
+		}
+		  jzcontent += '</tbody></table>';
+	 var index = layer.open({
+	        type: 1,
+	        title: '共计'+money+'元',
+	        area: ['600px', '650px'],
+	        shadeClose: true, //点击遮罩关闭
+	        content:jzcontent,
+	        maxmin: true,
+	        btn:['确定','使用折扣','取消'],
+	        success: function (layero, index) { // 弹窗成功
+	        	/*$(document).on('click', '.miandan', function() { 
+	        		alert(this.val());
+	        	});*/
+			},
+	        yes:function(){
+	        	layer.confirm('请确认共计 '+money+'元 无误？', {icon: 3, title:'提示'}, function(index){
+	        		$.ajax({
+	        			type: "POST",
+	        			data: {id:id},
+	        			url: "/admin/passFlow/checkOut",
+	        			dataType: "json",
+	        			success: function(data) {
+	        				if(data.code == -1){
+	        					layer.msg(data.msg);
+	        				}else if(data.code == 1){
+	        					window.location.reload(); 
+	        				}
+	        			}
+	        		});
+	        	});
+	        },
+		    btn2:function(){
+		    	var content = '<div>\n' +
+		    	'<form id="addPassFlowForm">'+
+		    	'<div class="form-group"  style="margin-top:5%;">'+
+		    	'<label for="people" class="col-sm-3 control-label">折扣</label>'+
+		    	'<div class="col-sm-8">'+
+		    	'<input type="number" class="form-control"  name="discount" id="discount" min=7 max=99 placeholder="折扣(95折，输入95)" autocomplete="off">'+
+		    	'</div>'+
+		    	'</div>'+
+		    	'</form></div>';
+		    	var index = layer.open({
+		    		type: 1,
+		    		title: '使用折扣',
+		    		area: ['400px', '200px'],
+		    		shadeClose: true, //点击遮罩关闭
+		    		content:content,
+		    		btn:['确定','取消'],
+		    		yes:function(){
+		    			var discount = $("#discount").val();
+		    			if(discount==null || discount <= 0){
+		    				layer.msg("输入有误，请重试！");
+		    				return;
+		    			}
+		    			layer.confirm('确认为该客人打 '+discount+'折 吗？', {icon: 3, title:'提示'}, function(index){
+		    				var floorNum=Math.floor((nomaidmoney*discount*0.01)+maidmoney);
+		    				layer.confirm('请确认共计 '+floorNum+'元 无误？(女仆费用不参与打折)', {icon: 3, title:'提示'}, function(index){
+			    				$.ajax({
+			    					type: "POST",
+			    					data: {id:id,discount:discount},
+			    					url: "/admin/passFlow/checkOut",
+			    					dataType: "json",
+			    					success: function(data) {
+			    						if(data.code == -1){
+			    							layer.msg(data.msg);
+			    						}else if(data.code == 1){
+			    							window.location.reload(); 
+			    						}
+			    					}
+			    				});
+		    				});
+		    			});
+		    		},
+		    		btn2:function(){
+		    			layer.closeAll(index); //关闭当前窗口
+		    		}
+		    	});
+		    	
+	        	
+		    },
+		    btn3:function(){
+		        layer.closeAll(index); //关闭当前窗口
+		    }
+	    });
+}
 

@@ -18,6 +18,7 @@
 
 <title>轻C物语信息管理系统</title>
 <script type="text/javascript">
+var xflist;
 var MouseEvent = function(e){
 	 this.x = e.pageX
 	 this.y = e.pageY
@@ -299,12 +300,68 @@ var MouseEvent = function(e){
 	<div class="fenge">
 	</div>
 	<div class="passenger_flow_man">
-		<div class="title">
+		<!-- <div class="title">
 			<h4 style="margin-left: 10px;">客流</h4>
-		</div>
-	</div>
-	<div>
-	
+		</div> -->
+		<input id="list" type="hidden">
+		<table class="table table-striped">
+	  <caption><span style="font-size: 25px;margin-left: 10px;">客流管理</span><a onclick="addPassFlow()" class="btn btn-info" style="float: right; margin-right: 100px;">
+          <span class="glyphicon glyphicon-plus"></span> 添加客流
+        </a></caption>
+	  <thead>
+	    <tr>
+	      <th>号码牌</th>
+	      <th>到场时间</th>
+	      <th>人数</th>
+	      <th>使用包厢</th>
+	      <th>使用时间</th>
+	      <th>客流状态</th>
+	      <th>离场时间</th>
+	    </tr>
+	  </thead>
+	  <tbody>
+	  	<%for(passFlow in passFlows.list){%>
+		    <tr>
+		      <td >${passFlow.number}</td>
+		      <td >${passFlow.toTime,'HH:mm'}</td>
+		      <td >${passFlow.people}</td>
+		      <td >${passFlow.useBox==1?'使用':'未使用'}</td>
+		      <td >${passFlow.useTime,'HH:mm'}</td>
+		      <td >${passFlow.statusName}</td>
+		      <td >${passFlow.offTime,'HH:mm'}</td>
+		      <td >
+		      	<%if(passFlow.status == 1){%>
+			      	<button type="button" class="btn btn-primary" value="${passFlow.id}" onclick="consumption(${passFlow.id},${passFlow.number})"><span class="glyphicon glyphicon-usd"></span> &nbsp;消费</button>
+			      	<button type="button" class="btn btn-primary" value="${passFlow.id}" onclick="checkOut(${passFlow.id})"><span class="glyphicon glyphicon-gbp"></span> &nbsp;结账</button>
+			      	<!-- <button type="button" class="del btn btn-danger" value="${passFlow.id}"><span class="glyphicon glyphicon-remove"></span> &nbsp;删除</button> -->
+		      	<%}%>
+		      </td>
+		    </tr>
+		<%}%>
+	  </tbody>
+	  <tfoot>
+	  	<tr>
+	  		<td colspan = "8"><div class="fenye">
+					<ul class="pagination">
+						<%if(passFlows.isHasPreviousPage){%>
+						    <li><a href="/admin/box/boxIndex?pageNum=${passFlows.prePage}">&laquo;</a></li>
+						<%}%>
+						<%
+						for(var i = 1;i<=passFlows.pages;i++){%>
+						    <li 
+						    	<%if(i == passFlows.pageNum){%>
+						    		class="active"
+								<%}%>
+						    ><a href="/admin/box/boxIndex?pageNum=${i}">${i}</a></li>
+						<%}%>
+						<%if(passFlows.isHasNextPage){%>
+						    <li><a href="/admin/box/boxIndex?pageNum=${passFlows.nextPage}">&raquo;</a></li>
+						<%}%>
+					</ul>
+				</div></td>
+	  	</tr>
+	  </tfoot>
+	</table>
 	</div>
 </body>
 </html>

@@ -1,6 +1,5 @@
 package com.young.controller;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -12,8 +11,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.github.pagehelper.PageInfo;
 import com.jacob.activeX.ActiveXComponent;
 import com.jacob.com.Dispatch;
 import com.jacob.com.Variant;
@@ -22,26 +23,30 @@ import com.young.base.support.ResponseBo;
 import com.young.model.Box;
 import com.young.model.BoxNote;
 import com.young.model.BoxSubscribeNote;
+import com.young.model.PassengerFlowNote;
+import com.young.model.Staff;
 import com.young.service.BoxService;
 import com.young.service.DictService;
+import com.young.service.PassFlowService;
 
 import jodd.datetime.JDateTime;
 import jodd.util.StringUtil;
 
 @Controller
+@RequestMapping("/admin/box")
 public class BoxController {
 	
 	@Autowired
 	private BoxService boxService;
 	
 	@Autowired
-	private DictService dictService;
+	private PassFlowService passFlowService;
 	
 	/**
 	 * 后端包厢管理主页
 	 */
-	@GetMapping("/admin/boxIndex")
-	public String boxIndex(Model model,HttpServletRequest request) {
+	@GetMapping("/boxIndex")
+	public String boxIndex(Integer pageNum,Model model,HttpServletRequest request) {
 		List<Box> list = boxService.getBoxList();
 		Map<String, List<BoxSubscribeNote>> noteMap = boxService.selectSubscribeToday();
 		List<Box> xiaobao = new ArrayList<Box>();
@@ -65,19 +70,15 @@ public class BoxController {
 				jubensha.add(box);
 			}
 		}
+		PageInfo<PassengerFlowNote> passList = passFlowService.selectPassFlowToday(pageNum);
+		model.addAttribute("passFlows", passList);
 		model.addAttribute("xiaobao", xiaobao);
 		model.addAttribute("dabao", dabao);
 		model.addAttribute("langrensha", langrensha);
 		model.addAttribute("jubensha", jubensha);
-		/*
-		 * List<Dict> typeList = dictService.getDictList(Const.BOX_TYPE); List<Dict>
-		 * statusList = dictService.getDictList(Const.BOX_STATUS);
-		 * model.addAttribute("typeList", typeList); model.addAttribute("statusList",
-		 * statusList);
-		 */
 		return "/admin_box";
 	}
-	@GetMapping("/admin/useBoxForm")
+	@GetMapping("/useBoxForm")
 	public String useBoxForm(Model model,HttpServletRequest request,Integer id) {
 		model.addAttribute("id", id);
 		return "/page/useBoxForm";
@@ -103,7 +104,7 @@ public class BoxController {
 	/*
 	 * 文字转语音并朗读
 	 */
-	@GetMapping("/admin/boxRemind")
+	@GetMapping("/boxRemind")
 	public void boxRemind(String text) {
 		 // ？？ 这个Sapi.SpVoice是需要安装什么东西吗，感觉平白无故就来了
 	    ActiveXComponent sap = new ActiveXComponent("Sapi.SpVoice");
@@ -141,7 +142,7 @@ public class BoxController {
 	
 	//包厢使用
 	@ResponseBody
-	@PostMapping("/admin/useBox")
+	@PostMapping("/useBox")
 	private Object useBox(BoxNote boxNote) {
 		if(boxNote.getNumber() <= 0) {
 			return ResponseBo.fail("请输入正确的号码牌！");
@@ -159,7 +160,7 @@ public class BoxController {
 	
 	//修改包厢名字
 	@ResponseBody
-	@PostMapping("/admin/updateBoxName")
+	@PostMapping("/updateBoxName")
 	private Object updateBoxName(Box box) {
 		if(StringUtil.isBlank(box.getName())) {
 			return ResponseBo.fail("名字不能为空！");
@@ -174,7 +175,7 @@ public class BoxController {
 	
 	//续时
 	@ResponseBody
-	@PostMapping("/admin/continuation")
+	@PostMapping("/continuation")
 	private Object continuation(Box box) {
 		if(box.getUseDuration() <= 0) {
 			return ResponseBo.fail("请输入正确的数量！");
@@ -189,7 +190,7 @@ public class BoxController {
 	
 	//出包
 	@ResponseBody
-	@PostMapping("/admin/departureBox")
+	@PostMapping("/departureBox")
 	private Object departureBox(Box box) {
 		int i = boxService.departureBox(box);
 		if(i > 0) {
@@ -201,7 +202,7 @@ public class BoxController {
 	
 	//预约包厢
 	@ResponseBody
-	@PostMapping("/admin/makeBox")
+	@PostMapping("/makeBox")
 	private Object makeBox(BoxSubscribeNote boxSubscribeNote) {
 		int i = boxService.makeBox(boxSubscribeNote);
 		if(i > 0) {
@@ -213,7 +214,7 @@ public class BoxController {
 	
 	//更新预约包厢状态
 	@ResponseBody
-	@PostMapping("/admin/updaetMakeBox")
+	@PostMapping("/updaetMakeBox")
 	private Object updaetMakeBox(BoxSubscribeNote boxSubscribeNote) {
 		int i = boxService.updaetMakeBox(boxSubscribeNote);
 		if(i > 0) {

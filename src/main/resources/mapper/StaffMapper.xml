@@ -13,7 +13,7 @@
     <result column="level" jdbcType="INTEGER" property="level" />
     <result column="holidays" jdbcType="INTEGER" property="holidays" />
     <result column="status" jdbcType="INTEGER" property="status" />
-    <result column="back1" jdbcType="VARCHAR" property="back1" />
+    <result column="back1" jdbcType="INTEGER" property="back1" />
     <result column="back2" jdbcType="VARCHAR" property="back2" />
     <result column="back3" jdbcType="VARCHAR" property="back3" />
     <result column="user_name" jdbcType="VARCHAR" property="userName" />

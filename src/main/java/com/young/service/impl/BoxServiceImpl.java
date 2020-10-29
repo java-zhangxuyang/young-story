@@ -1,5 +1,6 @@
 package com.young.service.impl;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -15,11 +16,15 @@ import com.young.base.support.ResponseBo;
 import com.young.mapper.BoxMapper;
 import com.young.mapper.BoxNoteMapper;
 import com.young.mapper.BoxSubscribeNoteMapper;
+import com.young.mapper.PassengerFlowNoteMapper;
 import com.young.model.Box;
 import com.young.model.BoxExample;
 import com.young.model.BoxNote;
 import com.young.model.BoxSubscribeNote;
+import com.young.model.ConsumptionNote;
+import com.young.model.PassengerFlowNote;
 import com.young.service.BoxService;
+import com.young.service.ConsumNoteService;
 
 import jodd.datetime.JDateTime;
 import lombok.extern.slf4j.Slf4j;
@@ -35,6 +40,10 @@ public class BoxServiceImpl implements BoxService{
 	private BoxNoteMapper boxNoteMapper;
 	@Autowired
 	private BoxSubscribeNoteMapper boxSubscribeNoteMapper;
+	@Autowired
+	private PassengerFlowNoteMapper passengerFlowNoteMapper;
+	@Autowired
+	private ConsumNoteService consumNoteService;
 	
 	//获取包厢列表
 	public List<Box> getBoxList(){
@@ -74,6 +83,10 @@ public class BoxServiceImpl implements BoxService{
 		if(null != usebox) {
 			return ResponseBo.fail("该号码牌已被使用！");
 		}
+		PassengerFlowNote passFlow = passengerFlowNoteMapper.selectTodayByNumber(boxNote.getNumber());
+		if(null == passFlow) {
+			return ResponseBo.fail("该号码牌不存在！");
+		}
 		JDateTime now = new JDateTime().subSecond(5);
 		boxNote.setStartTime(now.convertToDate());
 		Date endTime = new JDateTime().addHour(boxNote.getUseDate()).convertToDate();
@@ -87,7 +100,20 @@ public class BoxServiceImpl implements BoxService{
 			box.setRemind(boxNote.getRemind());
 			box.setBack1(noteid+"");
 			box.setBack2(boxNote.getNumber()+"");
+			passFlow.setUseBox(Const.PUBLIC_YES);
+			passFlow.setUseTime(now.convertToDate());
+			passengerFlowNoteMapper.updateByPrimaryKeySelective(passFlow);
+			if(null != box.getRemind() && box.getRemind() == 1) {
+				ConsumptionNote notes = new ConsumptionNote();
+				notes.setPassId(passFlow.getId());
+				notes.setType(Const.CON_NOTE_BOX_TYPE);
+				notes.setFreeCharge(Const.PUBLIC_NO);
+				notes.setMoney(box.getPrice().multiply(new BigDecimal(box.getUseDuration())));
+				notes.setTime(now.convertToDate());
+				consumNoteService.consumption(notes);
+			}
 			int j = boxMapper.updateByPrimaryKeySelective(box);
+			
 			if(j > 0) {
 				return ResponseBo.ok();
 			}else {
@@ -119,6 +145,16 @@ public class BoxServiceImpl implements BoxService{
 			note.setEndTime(now.addHour(box.getUseDuration()).convertToDate());
 			note.setUseDate(oldbox.getUseDuration() + box.getUseDuration());
 			int j = boxNoteMapper.updateByPrimaryKeySelective(note);
+			if(null != box.getRemind() && box.getRemind() == 1) {
+				PassengerFlowNote passFlow = passengerFlowNoteMapper.selectTodayByNumber(note.getNumber());
+				ConsumptionNote notes = new ConsumptionNote();
+				notes.setPassId(passFlow.getId());
+				notes.setType(Const.CON_NOTE_BOX_TYPE);
+				notes.setFreeCharge(Const.PUBLIC_NO);
+				notes.setMoney(box.getPrice().multiply(new BigDecimal(box.getUseDuration())));
+				notes.setTime(new Date());
+				consumNoteService.consumption(notes);
+			}
 			if(j > 0) {
 				return Const.PUBLIC_YES;
 			}else {
@@ -138,6 +174,16 @@ public class BoxServiceImpl implements BoxService{
 		note.setEndTime(now);
 		int i = boxNoteMapper.updateByPrimaryKeySelective(note);
 		if(i > 0) {
+			if(null != box.getRemind() && box.getRemind() == 0) {
+				PassengerFlowNote passFlow = passengerFlowNoteMapper.selectTodayByNumber(note.getNumber());
+				ConsumptionNote notes = new ConsumptionNote();
+				notes.setPassId(passFlow.getId());
+				notes.setType(Const.CON_NOTE_BOX_TYPE);
+				notes.setFreeCharge(Const.PUBLIC_NO);
+				notes.setMoney(box.getPrice().multiply(new BigDecimal(Math.ceil((now.getTime() - oldbox.getAdmissionTime().getTime())/1000/60/60))));
+				notes.setTime(now);
+				consumNoteService.consumption(notes);
+			}
 			Date maxdate = boxSubscribeNoteMapper.selectMaxDateToday(box.getId());
 			if(maxdate != null && maxdate.getTime() > now.getTime()) {
 				oldbox.setStatus(Const.BOX_MAKE_STATUS);

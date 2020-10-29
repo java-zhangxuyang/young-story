@@ -3,6 +3,8 @@ package com.young.model;
 import java.math.BigDecimal;
 import java.util.Date;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 public class ConsumptionNote {
     private Integer id;
 
@@ -23,8 +25,18 @@ public class ConsumptionNote {
     private String back2;
 
     private String back3;
+    
+    private String typeName;
 
-    public Integer getId() {
+    public String getTypeName() {
+		return typeName;
+	}
+
+	public void setTypeName(String typeName) {
+		this.typeName = typeName;
+	}
+
+	public Integer getId() {
         return id;
     }
 

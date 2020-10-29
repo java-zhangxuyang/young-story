@@ -13,7 +13,7 @@ public class PassengerFlowNote {
 
     private Integer useBox;
 
-    private Integer useTime;
+    private Date useTime;
 
     private Integer status;
 
@@ -24,8 +24,18 @@ public class PassengerFlowNote {
     private String back2;
 
     private String back3;
+    
+    private String statusName;
 
-    public Integer getId() {
+    public String getStatusName() {
+		return statusName;
+	}
+
+	public void setStatusName(String statusName) {
+		this.statusName = statusName;
+	}
+
+	public Integer getId() {
         return id;
     }
 
@@ -65,11 +75,11 @@ public class PassengerFlowNote {
         this.useBox = useBox;
     }
 
-    public Integer getUseTime() {
+    public Date getUseTime() {
         return useTime;
     }
 
-    public void setUseTime(Integer useTime) {
+    public void setUseTime(Date useTime) {
         this.useTime = useTime;
     }
 

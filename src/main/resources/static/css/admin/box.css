@@ -95,12 +95,6 @@
 	border-left: 1px solid black;
 	float: left;
 }
-.passenger_flow_man{
-	width: 40%;
-	height: 100%;
-	margin-left: 2%;
-	float: left;
-}
 .form-group{
 	width: 100%;
 	height: 20%;
@@ -110,3 +104,22 @@
 	font-size: 15px;
 	text-align: center;
 }
+
+.passenger_flow_man{
+	width: 53%;
+	height: 100%;
+	padding-left: 3%;
+	padding-top:2%;
+	float: left;
+}
+.table {
+	text-align: center;
+}
+.table > thead > tr > th{
+	width: 10%;
+	text-align: center;
+}
+.table > tbody > tr > td{
+	line-height: 41px
+}
+
