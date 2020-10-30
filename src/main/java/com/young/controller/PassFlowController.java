@@ -40,7 +40,7 @@ public class PassFlowController {
 		return ResponseBo.fail();
 	}
 	
-	//添加女仆消费
+	//添加消费
 	@ResponseBody
 	@PostMapping("/addConsumption")
 	private Object addConsumption(ConsumptionNote consumptionNote) {
@@ -49,7 +49,12 @@ public class PassFlowController {
 		}
 		consumptionNote.setFreeCharge(Const.PUBLIC_NO);
 		consumptionNote.setTime(new Date());
-		consumptionNote.setRemark("女仆费：每位"+Const.MAID_FEE+"元/小时，"+consumptionNote.getBack2()+"位，"+consumptionNote.getBack3()+"小时，共计"+new BigDecimal(consumptionNote.getBack3()).multiply(new BigDecimal(consumptionNote.getBack2())).multiply(Const.MAID_FEE));
+		if(consumptionNote.getType() == Const.CON_NOTE_MAID_TYPE) {
+			consumptionNote.setMoney(new BigDecimal(consumptionNote.getBack3()).multiply(new BigDecimal(consumptionNote.getBack2())).multiply(Const.MAID_FEE));
+			consumptionNote.setRemark("女仆："+Const.MAID_FEE+"元/小时，"+consumptionNote.getBack2()+"位，"+consumptionNote.getBack3()+"小时，共计"+consumptionNote.getMoney());
+		}else {
+			consumptionNote.setRemark((consumptionNote.getRemark()==null?"":consumptionNote.getRemark()+"")+"共计"+consumptionNote.getMoney());
+		}
 		int i = consumNoteService.consumption(consumptionNote);
 		if(i > 0 ) {
 			return ResponseBo.ok();

@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -27,6 +28,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Service("passFlowServiceImpl")
+@Transactional
 public class PassFlowServiceImpl implements PassFlowService{
 
 	@Autowired
@@ -61,7 +63,7 @@ public class PassFlowServiceImpl implements PassFlowService{
 		notes.setFreeCharge(Const.PUBLIC_NO);
 		notes.setMoney(new BigDecimal(passengerFlowNote.getPeople()).multiply(Const.ADMISSION_FEE));
 		notes.setTime(now.convertToDate());
-		notes.setRemark("入场费：每人"+Const.ADMISSION_FEE+"元，"+passengerFlowNote.getPeople()+"人，共计"+new BigDecimal(passengerFlowNote.getPeople()).multiply(Const.ADMISSION_FEE));
+		notes.setRemark("入场：每人"+Const.ADMISSION_FEE+"元，"+passengerFlowNote.getPeople()+"人，共计"+notes.getMoney());
 		consumNoteService.consumption(notes);
 		return i;
 	}
@@ -81,7 +83,7 @@ public class PassFlowServiceImpl implements PassFlowService{
 			notes.setPassId(id);
 			notes.setType(Const.CON_NOTE_DISCOUNT_TYPE);
 			notes.setFreeCharge(Const.PUBLIC_NO);
-			notes.setMoney(new BigDecimal(Math.floor(new BigDecimal(discount).multiply(new BigDecimal(0.01)).multiply(money).doubleValue())).subtract(money));
+			notes.setMoney(new BigDecimal(Math.floor(new BigDecimal(discount).multiply(new BigDecimal(0.1)).multiply(money).doubleValue())).subtract(money));
 			notes.setTime(new Date());
 			notes.setRemark("使用折扣："+discount+"折");
 			consumNoteService.consumption(notes);

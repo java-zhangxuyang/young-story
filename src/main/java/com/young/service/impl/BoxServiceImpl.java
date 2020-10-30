@@ -110,6 +110,7 @@ public class BoxServiceImpl implements BoxService{
 				notes.setFreeCharge(Const.PUBLIC_NO);
 				notes.setMoney(box.getPrice().multiply(new BigDecimal(box.getUseDuration())));
 				notes.setTime(now.convertToDate());
+				notes.setRemark("包厢："+box.getPrice()+"元/小时，"+box.getUseDuration()+"小时，共计"+notes.getMoney()+"元");
 				consumNoteService.consumption(notes);
 			}
 			int j = boxMapper.updateByPrimaryKeySelective(box);
@@ -153,6 +154,7 @@ public class BoxServiceImpl implements BoxService{
 				notes.setFreeCharge(Const.PUBLIC_NO);
 				notes.setMoney(box.getPrice().multiply(new BigDecimal(box.getUseDuration())));
 				notes.setTime(new Date());
+				notes.setRemark("包厢续费："+box.getPrice()+"元/小时，"+box.getUseDuration()+"小时，共计"+notes.getMoney()+"元");
 				consumNoteService.consumption(notes);
 			}
 			if(j > 0) {
@@ -180,8 +182,10 @@ public class BoxServiceImpl implements BoxService{
 				notes.setPassId(passFlow.getId());
 				notes.setType(Const.CON_NOTE_BOX_TYPE);
 				notes.setFreeCharge(Const.PUBLIC_NO);
-				notes.setMoney(box.getPrice().multiply(new BigDecimal(Math.ceil((now.getTime() - oldbox.getAdmissionTime().getTime())/1000/60/60))));
+				Double d = Math.ceil((now.getTime() - oldbox.getAdmissionTime().getTime())/1000/60/60);
+				notes.setMoney(box.getPrice().multiply(new BigDecimal(d)));
 				notes.setTime(now);
+				notes.setRemark("包厢："+box.getPrice()+"元/小时，"+d+"小时，共计"+notes.getMoney()+"元");
 				consumNoteService.consumption(notes);
 			}
 			Date maxdate = boxSubscribeNoteMapper.selectMaxDateToday(box.getId());

@@ -5,6 +5,7 @@ import com.young.model.VipExample;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Select;
 
 @Mapper
 public interface VipMapper {
@@ -23,4 +24,7 @@ public interface VipMapper {
     int updateByPrimaryKeySelective(Vip record);
 
     int updateByPrimaryKey(Vip record);
+    
+    @Select("select vip.*,dict.name as levelName,concat(vip.mobile1,vip.mobile2) as mobile from vip LEFT JOIN dict on vip.`level` = dict.`no` where dict.`key`='vip_level' ORDER BY id")
+    List<Vip> selectVipList();
 }

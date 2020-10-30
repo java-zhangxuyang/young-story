@@ -30,8 +30,36 @@ public class Vip {
     private String back2;
 
     private String back3;
+    
+    private BigDecimal money;
+    private String mobile;
+    private String levelName;
 
-    public Integer getId() {
+    public BigDecimal getMoney() {
+		return money;
+	}
+
+	public void setMoney(BigDecimal money) {
+		this.money = money;
+	}
+
+	public String getLevelName() {
+		return levelName;
+	}
+
+	public void setLevelName(String levelName) {
+		this.levelName = levelName;
+	}
+
+	public String getMobile() {
+		return mobile;
+	}
+
+	public void setMobile(String mobile) {
+		this.mobile = mobile;
+	}
+
+	public Integer getId() {
         return id;
     }
 

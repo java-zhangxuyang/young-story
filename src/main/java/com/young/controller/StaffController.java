@@ -27,6 +27,10 @@ public class StaffController {
 		return "admin_staff";
 	}
 	
+	
+	/*
+	 * 为员工添加接单时长
+	 */
 	@PostMapping("/admin/staff/addTime")
 	@ResponseBody
 	public Object addTime(Staff staff) {
@@ -38,6 +42,9 @@ public class StaffController {
 		}
 	}
 	
+	/*
+	 * 添加新员工
+	 */
 	@PostMapping("/admin/staff/addStaff")
 	@ResponseBody
 	public Object addStaff(Staff staff) {

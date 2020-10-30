@@ -585,7 +585,7 @@ Date.prototype.format = function(fmt) {
      }
     return fmt; 
 }
-function checkOut(id){
+function checkOut(id,sign){
 		$.ajax({
 			type: "POST",
 			data: {id:id},
@@ -645,7 +645,7 @@ function checkOut(id){
 	        shadeClose: true, //点击遮罩关闭
 	        content:jzcontent,
 	        maxmin: true,
-	        btn:['确定','使用折扣','取消'],
+	        btn:sign==1?['确定','使用折扣','取消']:[],
 	        success: function (layero, index) { // 弹窗成功
 	        	/*$(document).on('click', '.miandan', function() { 
 	        		alert(this.val());
@@ -674,7 +674,7 @@ function checkOut(id){
 		    	'<div class="form-group"  style="margin-top:5%;">'+
 		    	'<label for="people" class="col-sm-3 control-label">折扣</label>'+
 		    	'<div class="col-sm-8">'+
-		    	'<input type="number" class="form-control"  name="discount" id="discount" min=7 max=99 placeholder="折扣(95折，输入95)" autocomplete="off">'+
+		    	'<input type="number" class="form-control"  name="discount" id="discount" min=7 max=99 placeholder="折扣(95折，输入9.5)" autocomplete="off">'+
 		    	'</div>'+
 		    	'</div>'+
 		    	'</form></div>';
@@ -692,7 +692,7 @@ function checkOut(id){
 		    				return;
 		    			}
 		    			layer.confirm('确认为该客人打 '+discount+'折 吗？', {icon: 3, title:'提示'}, function(index){
-		    				var floorNum=Math.floor((nomaidmoney*discount*0.01)+maidmoney);
+		    				var floorNum=Math.floor((nomaidmoney*discount*0.1)+maidmoney);
 		    				layer.confirm('请确认共计 '+floorNum+'元 无误？(女仆费用不参与打折)', {icon: 3, title:'提示'}, function(index){
 			    				$.ajax({
 			    					type: "POST",

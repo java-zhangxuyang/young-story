@@ -63,4 +63,8 @@ public class Const {
     public static Integer CON_NOTE_OTHER_TYPE = 4;//其他
     public static Integer CON_NOTE_DISCOUNT_TYPE = 99;//使用折扣
     
+    //会员使用表 类型
+    public static Integer VIP_USE_NOTE_TYPE_VIP_RECHARGE = 1;//会员充值
+    public static Integer VIP_USE_NOTE_TYPE_VIP_USE = 2;//会员消费
+    
 }

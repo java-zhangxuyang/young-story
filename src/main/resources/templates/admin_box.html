@@ -332,8 +332,10 @@ var MouseEvent = function(e){
 		      <td >
 		      	<%if(passFlow.status == 1){%>
 			      	<button type="button" class="btn btn-primary" value="${passFlow.id}" onclick="consumption(${passFlow.id},${passFlow.number})"><span class="glyphicon glyphicon-usd"></span> &nbsp;消费</button>
-			      	<button type="button" class="btn btn-primary" value="${passFlow.id}" onclick="checkOut(${passFlow.id})"><span class="glyphicon glyphicon-gbp"></span> &nbsp;结账</button>
+			      	<button type="button" class="btn btn-primary" value="${passFlow.id}" onclick="checkOut(${passFlow.id},1)"><span class="glyphicon glyphicon-gbp"></span> &nbsp;结账</button>
 			      	<!-- <button type="button" class="del btn btn-danger" value="${passFlow.id}"><span class="glyphicon glyphicon-remove"></span> &nbsp;删除</button> -->
+		      	<%}else{%>
+			      	<button type="button" class="btn btn-primary" value="${passFlow.id}" onclick="checkOut(${passFlow.id},2)"><span class="glyphicon glyphicon-gbp"></span> &nbsp;账单</button>
 		      	<%}%>
 		      </td>
 		    </tr>
