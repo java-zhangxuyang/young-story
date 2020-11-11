@@ -17,7 +17,7 @@ public class BoxNote {
 
     private Date endTime;
 
-    private Integer useDate;
+    private Double useDate;
 
     private Integer maidNum;
 
@@ -83,11 +83,11 @@ public class BoxNote {
         this.endTime = endTime;
     }
 
-    public Integer getUseDate() {
+    public Double getUseDate() {
         return useDate;
     }
 
-    public void setUseDate(Integer useDate) {
+    public void setUseDate(Double useDate) {
         this.useDate = useDate;
     }
 

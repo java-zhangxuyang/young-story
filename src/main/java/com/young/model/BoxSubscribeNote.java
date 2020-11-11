@@ -23,8 +23,27 @@ public class BoxSubscribeNote {
     private String back2;
 
     private String back3;
+    
+    private String statusName;
+    private String boxName;
 
-    public Integer getId() {
+    public String getStatusName() {
+		return statusName;
+	}
+
+	public void setStatusName(String statusName) {
+		this.statusName = statusName;
+	}
+
+	public String getBoxName() {
+		return boxName;
+	}
+
+	public void setBoxName(String boxName) {
+		this.boxName = boxName;
+	}
+
+	public Integer getId() {
         return id;
     }
 

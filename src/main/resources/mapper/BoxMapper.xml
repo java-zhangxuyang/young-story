@@ -7,7 +7,7 @@
     <result column="type" jdbcType="INTEGER" property="type" />
     <result column="price" jdbcType="DECIMAL" property="price" />
     <result column="status" jdbcType="INTEGER" property="status" />
-    <result column="use_duration" jdbcType="INTEGER" property="useDuration" />
+    <result column="use_duration" jdbcType="DECIMAL" property="useDuration" />
     <result column="maid_num" jdbcType="INTEGER" property="maidNum" />
     <result column="admission_time" jdbcType="TIMESTAMP" property="admissionTime" />
     <result column="to_time" jdbcType="TIMESTAMP" property="toTime" />

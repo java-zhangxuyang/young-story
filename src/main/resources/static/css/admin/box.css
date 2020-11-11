@@ -123,3 +123,15 @@
 	line-height: 41px
 }
 
+
+body .layui-layer-page .layui-layer-btn .layui-layer-btn2{
+	border-color: #884898;
+	background-color: #884898;
+	color: #fff;
+}
+body .layui-layer-page .layui-layer-btn .layui-layer-btn1{
+	border-color: #f699b4;
+	background-color: #f699b4;
+	color: #fff;
+}
+

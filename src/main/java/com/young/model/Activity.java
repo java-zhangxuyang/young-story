@@ -3,42 +3,30 @@ package com.young.model;
 import java.math.BigDecimal;
 import java.util.Date;
 
-public class Coupon {
+import org.springframework.format.annotation.DateTimeFormat;
+
+public class Activity {
     private Integer id;
 
     private String name;
 
     private Integer type;
 
-    private BigDecimal money;
-
-    private Integer total;
-
-    private Integer surplus;
-
-    private Integer day;
+    private String number;
 
     private Date startTime;
 
     private Date endTime;
 
+    private Integer status;
+
     private String back1;
 
-    private String back2;
+    private Integer back2;
 
     private String back3;
-    
-    private String typeName;
 
-    public String getTypeName() {
-		return typeName;
-	}
-
-	public void setTypeName(String typeName) {
-		this.typeName = typeName;
-	}
-
-	public Integer getId() {
+    public Integer getId() {
         return id;
     }
 
@@ -62,36 +50,12 @@ public class Coupon {
         this.type = type;
     }
 
-    public BigDecimal getMoney() {
-        return money;
+    public String getNumber() {
+        return number;
     }
 
-    public void setMoney(BigDecimal money) {
-        this.money = money;
-    }
-
-    public Integer getTotal() {
-        return total;
-    }
-
-    public void setTotal(Integer total) {
-        this.total = total;
-    }
-
-    public Integer getSurplus() {
-        return surplus;
-    }
-
-    public void setSurplus(Integer surplus) {
-        this.surplus = surplus;
-    }
-
-    public Integer getDay() {
-        return day;
-    }
-
-    public void setDay(Integer day) {
-        this.day = day;
+    public void setNumber(String number) {
+        this.number = number;
     }
 
     public Date getStartTime() {
@@ -110,6 +74,14 @@ public class Coupon {
         this.endTime = endTime;
     }
 
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
+    }
+
     public String getBack1() {
         return back1;
     }
@@ -118,12 +90,12 @@ public class Coupon {
         this.back1 = back1 == null ? null : back1.trim();
     }
 
-    public String getBack2() {
+    public Integer getBack2() {
         return back2;
     }
 
-    public void setBack2(String back2) {
-        this.back2 = back2 == null ? null : back2.trim();
+    public void setBack2(Integer back2) {
+        this.back2 = back2;
     }
 
     public String getBack3() {

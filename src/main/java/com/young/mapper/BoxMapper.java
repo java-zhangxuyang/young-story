@@ -25,4 +25,7 @@ public interface BoxMapper {
 
     @Select("select * from box where back2 = ${number} ")
 	Box selectBoxByNumber(Integer number);
+    
+    @Select("select dict.name as typeName,b.price,b.type from (select box.type,box.price from box group by box.type,box.price)b left join dict on b.type=dict.`no` where dict.key='box_type' ")
+    List<Box> selectBoxTypePrice();
 }

@@ -4,9 +4,8 @@ import com.young.model.Coupon;
 import com.young.model.CouponExample;
 import java.util.List;
 
-import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Select;
 
-@Mapper
 public interface CouponMapper {
     long countByExample(CouponExample example);
 
@@ -23,4 +22,7 @@ public interface CouponMapper {
     int updateByPrimaryKeySelective(Coupon record);
 
     int updateByPrimaryKey(Coupon record);
+
+    @Select("select c.*, d.name as typeName from coupon c left join dict d on c.type = d.no where d.`key` = 'coupon_type' order by c.id ")
+	List<Coupon> getCouponList();
 }

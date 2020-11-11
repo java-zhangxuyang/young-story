@@ -179,7 +179,7 @@ function makeBox(){
 	'<div class="form-group">'+
 	'<label for="remark" class="col-sm-2 control-label">备注</label>'+
 	'<div class="col-sm-9">'+
-	'<textarea class="form-control" rows="3" name="remark" placeholder="备注（预约女仆）"></textarea>'+
+	'<textarea class="form-control" rows="3" name="back1" placeholder="备注（预约女仆）"></textarea>'+
 	'</div>'+
 	'</div>'+
 	'</form></div>';
@@ -420,7 +420,7 @@ function addPassFlow(){
 	'<div class="form-group"  style="margin-top:5%;">'+
 	'<label for="people" class="col-sm-3 control-label">人数</label>'+
 	'<div class="col-sm-8">'+
-	'<input type="number" class="form-control"  name="people" value=1 id="people" placeholder="人数"   autocomplete="off">'+
+	'<input type="number" class="form-control"  name="people" value=1  min=1 id="people" placeholder="人数"   autocomplete="off">'+
 	'</div>'+
 	'</div>'+
 	'</form></div>';
@@ -474,20 +474,37 @@ function consumption(id,number){
 						'<label for="type" class="col-sm-2 control-label">消费类型</label>'+
 						'<div class="col-sm-9">'+
 						'<select class="form-control" name="type" id="type">'+
-						/*'<option value="1">入场</option>'+*/
-						/*'<option value="2">包厢</option>'+*/
+						'<option value="1">入场</option>'+
+						'<option value="2">包厢</option>'+
 						'<option value="3" selected>女仆</option>'+
 						'<option value="4">其他</option>'+
 						'</select>'+
 						'</div>'+
 						'</div>'+
-						'<div class="form-group hidediv">'+
+						'<div class="form-group hidediv hidedivboxtype" style="display:none;">'+
+						'<label for="type" class="col-sm-2 control-label">包厢类型</label>'+
+						'<div class="col-sm-9">'+
+						'<select class="form-control" name="boxtype" id="boxtype">'+
+							'<option value="1">小包</option>'+
+							'<option value="2">大包</option>'+
+							'<option value="3">狼人杀</option>'+
+							'<option value="4">剧本杀</option>'+
+						'</select>'+
+						'</div>'+
+						'</div>'+
+					'<div class="form-group hidediv hidedivuseTime">'+
 						'<label for="number" class="col-sm-2 control-label">时长</label>'+
 						'<div class="col-sm-9">'+
 							'<input type="number" class="form-control" id="useTime" name="back3" min=1 value=1  placeholder="时长" autocomplete="off">'+
 						'</div>'+
 					'</div>'+
-					'<div class="form-group hidediv">'+
+					'<div class="form-group hidediv hidedivpeople" style="display:none;">'+
+					'<label for="people" class="col-sm-2 control-label">人数</label>'+
+					'<div class="col-sm-9">'+
+					'<input type="number" class="form-control"  name="people" value=1 id="people" min=1 placeholder="人数"   autocomplete="off">'+
+					'</div>'+
+					'</div>'+
+					'<div class="form-group hidediv hidedivback2">'+
 					'<label for="number" class="col-sm-2 control-label">女仆数量</label>'+
 					'<div class="col-sm-9">'+
 						'<input type="number" class="form-control" id="num" name="back2" min=1 value=1 placeholder="女仆数量" autocomplete="off">'+
@@ -519,10 +536,44 @@ function consumption(id,number){
         		var useTime = $("#useTime").val();
         		$("#money").val(58 * num * useTime);
         	});
-        	$(document).on('change', '#useTime', function() { 
-        		var num = $("#num").val();
+        	$(document).on('change', '#useTime', function() {
+        		//TODO
+        		if($("#type").val() == 2){
+        			var boxMoney=0;
+        			if($("#boxtype").val() == 1){
+        				boxMoney=38;
+        			}else if($("#boxtype").val() == 2){
+        				boxMoney=58;
+        			}else if($("#boxtype").val() == 3){
+        				boxMoney=88;
+        			}else if($("#boxtype").val() == 4){
+        				boxMoney=78;
+        			}
+        			var useTime = $("#useTime").val();
+        			$("#money").val(boxMoney * useTime);
+        		}else if($("#type").val() == 3){
+        			var num = $("#num").val();
+        			var useTime = $("#useTime").val();
+        			$("#money").val(58 * num * useTime);
+        		}
+        	});
+        	$(document).on('change', '#boxtype', function() { 
+        		var boxMoney=0;
+    			if($("#boxtype").val() == 1){
+    				boxMoney=38;
+    			}else if($("#boxtype").val() == 2){
+    				boxMoney=58;
+    			}else if($("#boxtype").val() == 3){
+    				boxMoney=88;
+    			}else if($("#boxtype").val() == 4){
+    				boxMoney=78;
+    			}
         		var useTime = $("#useTime").val();
-        		$("#money").val(58 * num * useTime);
+        		$("#money").val(boxMoney * useTime);
+        	});
+        	$(document).on('change', '#people', function() { 
+        		var people = $("#people").val();
+        		$("#money").val(28 * people);
         	});
         	$(document).on('change', '#type', function() { 
         		if($("#type").val()==4){
@@ -530,9 +581,24 @@ function consumption(id,number){
         			$("#money").removeAttr("readonly");
         			$("#money").val("");
         		}else if($("#type").val()==3){
-        			$(".hidediv").show();
+        			$(".hidediv").hide();
+        			$("#useTime").val(1);
+        			$(".hidedivuseTime").show();
+        			$(".hidedivback2").show();
         			$("#money").attr("readonly","readonly");
         			$("#money").val(58);
+        		}else if($("#type").val()==1){
+        			$(".hidediv").hide();
+        			$(".hidedivpeople").show();
+        			$("#money").attr("readonly","readonly");
+        			$("#money").val(28);
+        		}else if($("#type").val()==2){
+        			$(".hidediv").hide();
+        			$("#useTime").val(1);
+        			$(".hidedivboxtype").show();
+        			$(".hidedivuseTime").show();
+        			$("#money").attr("readonly","readonly");
+        			$("#money").val(38);
         		}
         	});
 			
@@ -585,6 +651,7 @@ Date.prototype.format = function(fmt) {
      }
     return fmt; 
 }
+
 function checkOut(id,sign){
 		$.ajax({
 			type: "POST",
@@ -601,56 +668,47 @@ function checkOut(id,sign){
 			}
 		});
 		var money = 0;
-		var maidmoney = 0;
-		var nomaidmoney = 0;
 		if(xflist != null && xflist.length > 0){
 			for (var i=0;i<xflist.length;i++){  
 				money += xflist[i].money;
-				if(xflist.type!=3&&xflist.type!=99){
-					nomaidmoney += xflist[i].money;
-				}else if(xflist.type==3){
-					maidmoney += xflist[i].money;
-				}
 			}
 		}
 		var jzcontent = '<table class="table table-striped">'+
 		  '<thead>'+
 		    '<tr>'+
-		      '<th style="width:20%;">消费类型</th>'+
-		      '<th style="width:20%;">是否免单</th>'+
+		      '<th style="width:10%;">消费类型</th>'+
+		      /*'<th style="width:10%;">是否免单</th>'+*/
 		      '<th style="width:20%;">消费时间</th>'+
-		      '<th style="width:20%;">消费金额</th>'+
-		      '<th style="width:20%;">备注</th>'+
+		      '<th style="width:10%;">消费金额</th>'+
+		      '<th style="width:50%;">备注</th>'+
 		    '</tr>'+
 		  '</thead>'+
 		  '<tbody>';
 		if(xflist != null && xflist.length > 0){
 			for (var i=0;i<xflist.length;i++){  
 				jzcontent += '<tr><td>'+xflist[i].typeName+'</td>'+
-						'<td>'+(xflist[i].freeCharge==0?'否':'是')+'</td>'+
 						'<td>'+new Date(xflist[i].time).format('hh:mm:ss')+'</td>'+
-						'<td>'+xflist[i].money+'元</td>'+
+						'<td style="'+(xflist[i].money>0?"color:green;":"color:red;")+'">'+xflist[i].money+'元</td>'+
 						'<td style="width: 50px;white-space: nowrap;overflow: hidden;text-overflow: ellipsis;">'+(xflist[i].remark==null?'':xflist[i].remark)+'</td>'+
-						/*'<td>'+
-							'<button type="button" class="btn btn-primary miandan" value="'+xflist[i].id+'" ><span class="glyphicon glyphicon-gbp"></span> &nbsp;免单</button>'+
-						'</td>'+*/
 						'</tr>';
 			}
 		}
 		  jzcontent += '</tbody></table>';
-	 var index = layer.open({
+	 var indexjiezhang = layer.open({
 	        type: 1,
 	        title: '共计'+money+'元',
-	        area: ['600px', '650px'],
+	        area: ['800px', '650px'],
 	        shadeClose: true, //点击遮罩关闭
 	        content:jzcontent,
 	        maxmin: true,
-	        btn:sign==1?['确定','使用折扣','取消']:[],
+	        btn:sign==1?['普通结账','会员结账','抵扣券','取消']:[],
 	        success: function (layero, index) { // 弹窗成功
-	        	/*$(document).on('click', '.miandan', function() { 
-	        		alert(this.val());
-	        	});*/
 			},
+			end:function(){
+	            // 清除session里缓存
+				xflist = "";
+				sumMoney = 0;
+	        },
 	        yes:function(){
 	        	layer.confirm('请确认共计 '+money+'元 无误？', {icon: 3, title:'提示'}, function(index){
 	        		$.ajax({
@@ -672,53 +730,144 @@ function checkOut(id,sign){
 		    	var content = '<div>\n' +
 		    	'<form id="addPassFlowForm">'+
 		    	'<div class="form-group"  style="margin-top:5%;">'+
-		    	'<label for="people" class="col-sm-3 control-label">折扣</label>'+
+		    	'<label for="mobile" class="col-sm-3 control-label">手机号</label>'+
 		    	'<div class="col-sm-8">'+
-		    	'<input type="number" class="form-control"  name="discount" id="discount" min=7 max=99 placeholder="折扣(95折，输入9.5)" autocomplete="off">'+
+		    	'<input type="mobile" class="form-control"  name="mobile" id="mobile" placeholder="请输入会员手机号" autocomplete="off">'+
 		    	'</div>'+
 		    	'</div>'+
 		    	'</form></div>';
 		    	var index = layer.open({
 		    		type: 1,
-		    		title: '使用折扣',
+		    		title: '会员结账',
 		    		area: ['400px', '200px'],
 		    		shadeClose: true, //点击遮罩关闭
 		    		content:content,
 		    		btn:['确定','取消'],
 		    		yes:function(){
-		    			var discount = $("#discount").val();
-		    			if(discount==null || discount <= 0){
+		    			var mobile = $("#mobile").val();
+		    			if(!(/^1[0-9]{10}$/.test(mobile))){ 
+		    				layer.msg("手机号码有误，请重新输入！");  
+		    		        return; 
+		    		    } 
+		    			$.ajax({
+		    				type: "POST",
+		    				async: false,
+		    				data: {id:id,mobile:mobile},
+		    				url: "/admin/passFlow/settleAccounts",
+		    				dataType: "json",
+		    				success: function(data) {
+		    					if(data.code == -1){
+		    						layer.msg(data.msg);
+		    					}else if(data.code == 1){
+		    						sumMoney = data.payload;
+		    					}
+		    				}
+		    			});
+	    				layer.confirm('打折后共计 '+sumMoney+'元', {icon: 3, title:'提示'}, function(index){
+		    				$.ajax({
+		    					type: "POST",
+		    					data: {id:id,mobile:mobile},
+		    					url: "/admin/passFlow/checkOut",
+		    					dataType: "json",
+		    					success: function(data) {
+		    						if(data.code == -1){
+		    							layer.msg(data.msg);
+		    						}else if(data.code == 1){
+		    							window.location.reload(); 
+		    						}
+		    					}
+		    				});
+	    				});
+		    		}
+		    	});
+		    },
+		    btn3:function(){
+		    	$.ajax({
+					type: "POST",
+					url: "/admin/coupon/getCouponList",
+					dataType: "json",
+					async: false,
+					success: function(data) {
+						if(data.code == -1){
+							layer.msg(data.msg);
+						}else if(data.code == 1){
+							yhxlist = data.payload;
+						}
+					}
+				});
+		    	var yhqcontent='';
+		    	if(yhxlist != null && yhxlist.length > 0){
+					for (var i=0;i<yhxlist.length;i++){  
+						yhqcontent += '<option value="'+yhxlist[i].money+'">'+yhxlist[i].name+'</option>';
+					}
+				}
+		    	var content = '<div>\n' +
+		    	'<form id="addPassFlowForm">'+
+		    	'<div class="form-group"  style="margin-top:5%;">'+
+				    '<label for="type" class="col-sm-3 control-label">类别</label>'+
+				    '<div class="col-sm-8">'+
+					    '<select class="form-control" id="type" name="type">'+yhqcontent+
+						 '</select>'+
+				    '</div>'+
+			    '</div>'+
+			    '<div class="form-group"  style="margin-top:13%;">'+
+			    '<label for="number" class="col-sm-3 control-label">使用数量</label>'+
+			    '<div class="col-sm-8">'+
+			    '<input type="number" class="form-control"  name="number" id="number" min="1" value="1" placeholder="使用数量" autocomplete="off">'+
+			    '</div>'+
+			    '</div>'+
+		    	'<div class="form-group"  style="margin-top:13%;">'+
+		    	'<label for="money" class="col-sm-3 control-label">抵扣金额</label>'+
+		    	'<div class="col-sm-8">'+
+		    	'<input type="text" class="form-control"  name="money" id="money" value="'+yhxlist[0].money+'" placeholder="抵扣金额" autocomplete="off" readonly="readonly">'+
+		    	'</div>'+
+		    	'</div>'+
+		    	'</form></div>';
+		    	var indexmen = layer.open({
+		    		type: 1,
+		    		title: '使用抵扣券',
+		    		area: ['400px', '300px'],
+		    		shadeClose: true, //点击遮罩关闭
+		    		content:content,
+		    		btn:['确定','取消'],
+		    		success: function (layero, index) { // 弹窗成功
+		            	$(document).on('change', '#number', function() { 
+		            		var number = $("#number").val();
+		            		var type = $("#type").val();
+		            		$("#money").val(type * number);
+		            	});
+		            	$(document).on('change', '#type', function() { 
+		            		var number = $("#number").val();
+		            		var type = $("#type").val();
+		            		$("#money").val(type * number);
+		            	});
+		    		},
+		    		yes:function(){
+		    			var money = $("#money").val();
+		    			if(money==null || money <= 0){
 		    				layer.msg("输入有误，请重试！");
 		    				return;
 		    			}
-		    			layer.confirm('确认为该客人打 '+discount+'折 吗？', {icon: 3, title:'提示'}, function(index){
-		    				var floorNum=Math.floor((nomaidmoney*discount*0.1)+maidmoney);
-		    				layer.confirm('请确认共计 '+floorNum+'元 无误？(女仆费用不参与打折)', {icon: 3, title:'提示'}, function(index){
-			    				$.ajax({
-			    					type: "POST",
-			    					data: {id:id,discount:discount},
-			    					url: "/admin/passFlow/checkOut",
-			    					dataType: "json",
-			    					success: function(data) {
-			    						if(data.code == -1){
-			    							layer.msg(data.msg);
-			    						}else if(data.code == 1){
-			    							window.location.reload(); 
-			    						}
-			    					}
-			    				});
+	    				layer.confirm('请确认抵扣金额 '+money+'元 无误？', {icon: 3, title:'提示'}, function(index){
+		    				$.ajax({
+		    					type: "POST",
+		    					data: {id:id,money:money},
+		    					url: "/admin/passFlow/deductionVoucher",
+		    					dataType: "json",
+		    					success: function(data) {
+		    						if(data.code == -1){
+		    							layer.msg(data.msg);
+		    						}else if(data.code == 1){
+		    							layer.msg("操作成功！");
+		    							layer.closeAll(layer.indexmen); //关闭当前窗口
+		    							checkOut(id,sign);
+		    						}
+		    					}
 		    				});
-		    			});
-		    		},
-		    		btn2:function(){
-		    			layer.closeAll(index); //关闭当前窗口
+	    				});
 		    		}
 		    	});
 		    	
-	        	
-		    },
-		    btn3:function(){
-		        layer.closeAll(index); //关闭当前窗口
 		    }
 	    });
 }

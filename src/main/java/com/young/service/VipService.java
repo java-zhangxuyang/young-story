@@ -1,7 +1,10 @@
 package com.young.service;
 
 
+import java.util.List;
+
 import com.github.pagehelper.PageInfo;
+import com.young.model.Flushing;
 import com.young.model.Staff;
 import com.young.model.Vip;
 
@@ -12,5 +15,9 @@ public interface VipService {
 	int addVip(Vip vip);
 
 	int vipRecharge(Vip vip);
+
+	List<Flushing> getFlushingList();
+	
+	Vip getVipByMobile(String mobile);
 
 }

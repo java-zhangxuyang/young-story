@@ -23,6 +23,8 @@ public class Vip {
 
     private BigDecimal totalMoney;
 
+    private BigDecimal sumConsume;
+
     private String remark;
 
     private String back1;
@@ -35,6 +37,7 @@ public class Vip {
     private String mobile;
     private String levelName;
 
+    
     public BigDecimal getMoney() {
 		return money;
 	}
@@ -43,20 +46,20 @@ public class Vip {
 		this.money = money;
 	}
 
-	public String getLevelName() {
-		return levelName;
-	}
-
-	public void setLevelName(String levelName) {
-		this.levelName = levelName;
-	}
-
 	public String getMobile() {
 		return mobile;
 	}
 
 	public void setMobile(String mobile) {
 		this.mobile = mobile;
+	}
+
+	public String getLevelName() {
+		return levelName;
+	}
+
+	public void setLevelName(String levelName) {
+		this.levelName = levelName;
 	}
 
 	public Integer getId() {
@@ -137,6 +140,14 @@ public class Vip {
 
     public void setTotalMoney(BigDecimal totalMoney) {
         this.totalMoney = totalMoney;
+    }
+
+    public BigDecimal getSumConsume() {
+        return sumConsume;
+    }
+
+    public void setSumConsume(BigDecimal sumConsume) {
+        this.sumConsume = sumConsume;
     }
 
     public String getRemark() {

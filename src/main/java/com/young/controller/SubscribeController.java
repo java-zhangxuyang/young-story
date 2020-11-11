@@ -1,7 +1,5 @@
 package com.young.controller;
 
-import java.util.List;
-
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,41 +10,39 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.alibaba.fastjson.JSONArray;
 import com.github.pagehelper.PageInfo;
 import com.young.base.support.ResponseBo;
-import com.young.model.Flushing;
+import com.young.model.BoxSubscribeNote;
 import com.young.model.Staff;
 import com.young.model.Vip;
 import com.young.service.StaffService;
+import com.young.service.SubscribeService;
 import com.young.service.VipService;
 
 @Controller
-@RequestMapping("/admin/vip")
-public class VipController {
+@RequestMapping("/admin/subscribe")
+public class SubscribeController {
 
 	@Autowired
-	private VipService vipService;
+	private SubscribeService subscribeService;
 	
 	/*
-	 * 会员界面
+	 * 预约列表界面
 	 */
 	@GetMapping("")
-	public String vip(Integer pageNum, Model model,HttpServletRequest request) {
-		PageInfo<Vip> vipList = vipService.getVipList(pageNum);
-		model.addAttribute("vips", vipList);
-		List<Flushing> flushList = vipService.getFlushingList();
-		model.addAttribute("flushs", JSONArray.toJSON(flushList));
-		return "admin_vip";
+	public String subscribe(Integer pageNum, Model model,HttpServletRequest request) {
+		PageInfo<BoxSubscribeNote> subscribeList = subscribeService.getBoxSubscribeNoteList(pageNum);
+		model.addAttribute("notes", subscribeList);
+		return "admin_subscribe";
 	}
 	
 	/*
-	 * 为会员充值
+	 * 修改预约状态
 	 */
-	@PostMapping("/vipRecharge")
+	@PostMapping("/updateSubscribeStatus")
 	@ResponseBody
-	public Object vipRecharge(Vip vip) {
-		int i = vipService.vipRecharge(vip);
+	public Object updateSubscribeStatus(Integer id, Integer status) {
+		int i = subscribeService.updateSubscribeStatus(id,status);
 		if(i > 0) {
 			return ResponseBo.ok();
 		}else {
@@ -54,18 +50,5 @@ public class VipController {
 		}
 	}
 	
-	/*
-	 * 添加新会员
-	 */
-	@PostMapping("/addVip")
-	@ResponseBody
-	public Object addVip(Vip vip) {
-		int i = vipService.addVip(vip);
-		if(i > 0) {
-			return ResponseBo.ok();
-		}else {
-			return ResponseBo.fail();
-		}
-	}
 	
 }

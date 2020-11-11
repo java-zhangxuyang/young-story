@@ -755,6 +755,66 @@ public class VipExample {
             return (Criteria) this;
         }
 
+        public Criteria andSumConsumeIsNull() {
+            addCriterion("sum_consume is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andSumConsumeIsNotNull() {
+            addCriterion("sum_consume is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andSumConsumeEqualTo(BigDecimal value) {
+            addCriterion("sum_consume =", value, "sumConsume");
+            return (Criteria) this;
+        }
+
+        public Criteria andSumConsumeNotEqualTo(BigDecimal value) {
+            addCriterion("sum_consume <>", value, "sumConsume");
+            return (Criteria) this;
+        }
+
+        public Criteria andSumConsumeGreaterThan(BigDecimal value) {
+            addCriterion("sum_consume >", value, "sumConsume");
+            return (Criteria) this;
+        }
+
+        public Criteria andSumConsumeGreaterThanOrEqualTo(BigDecimal value) {
+            addCriterion("sum_consume >=", value, "sumConsume");
+            return (Criteria) this;
+        }
+
+        public Criteria andSumConsumeLessThan(BigDecimal value) {
+            addCriterion("sum_consume <", value, "sumConsume");
+            return (Criteria) this;
+        }
+
+        public Criteria andSumConsumeLessThanOrEqualTo(BigDecimal value) {
+            addCriterion("sum_consume <=", value, "sumConsume");
+            return (Criteria) this;
+        }
+
+        public Criteria andSumConsumeIn(List<BigDecimal> values) {
+            addCriterion("sum_consume in", values, "sumConsume");
+            return (Criteria) this;
+        }
+
+        public Criteria andSumConsumeNotIn(List<BigDecimal> values) {
+            addCriterion("sum_consume not in", values, "sumConsume");
+            return (Criteria) this;
+        }
+
+        public Criteria andSumConsumeBetween(BigDecimal value1, BigDecimal value2) {
+            addCriterion("sum_consume between", value1, value2, "sumConsume");
+            return (Criteria) this;
+        }
+
+        public Criteria andSumConsumeNotBetween(BigDecimal value1, BigDecimal value2) {
+            addCriterion("sum_consume not between", value1, value2, "sumConsume");
+            return (Criteria) this;
+        }
+
         public Criteria andRemarkIsNull() {
             addCriterion("remark is null");
             return (Criteria) this;

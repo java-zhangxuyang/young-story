@@ -1,13 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.young.mapper.VipCouponNoteMapper">
-  <resultMap id="BaseResultMap" type="com.young.model.VipCouponNote">
+<mapper namespace="com.young.mapper.ActivityMapper">
+  <resultMap id="BaseResultMap" type="com.young.model.Activity">
     <id column="id" jdbcType="INTEGER" property="id" />
-    <result column="vip_id" jdbcType="INTEGER" property="vipId" />
-    <result column="coupon_id" jdbcType="INTEGER" property="couponId" />
-    <result column="due_date" jdbcType="TIMESTAMP" property="dueDate" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="type" jdbcType="INTEGER" property="type" />
+    <result column="number" jdbcType="VARCHAR" property="number" />
+    <result column="start_time" jdbcType="TIMESTAMP" property="startTime" />
+    <result column="end_time" jdbcType="TIMESTAMP" property="endTime" />
+    <result column="status" jdbcType="INTEGER" property="status" />
     <result column="back1" jdbcType="VARCHAR" property="back1" />
-    <result column="back2" jdbcType="VARCHAR" property="back2" />
+    <result column="back2" jdbcType="INTEGER" property="back2" />
     <result column="back3" jdbcType="VARCHAR" property="back3" />
   </resultMap>
   <sql id="Example_Where_Clause">
@@ -40,16 +43,16 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, vip_id, coupon_id, due_date, back1, back2, back3
+    id, name, type, number, start_time, end_time, status, back1, back2, back3
   </sql>
-  <select id="selectByExample" parameterType="com.young.model.VipCouponNoteExample" resultMap="BaseResultMap">
+  <select id="selectByExample" parameterType="com.young.model.ActivityExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
       distinct
     </if>
     'true' as QUERYID,
     <include refid="Base_Column_List" />
-    from vip_coupon_note
+    from activity
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
@@ -60,35 +63,46 @@
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from vip_coupon_note
+    from activity
     where id = #{id,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-    delete from vip_coupon_note
+    delete from activity
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.young.model.VipCouponNote">
-    insert into vip_coupon_note (id, vip_id, coupon_id, 
-      due_date, back1, back2, 
+  <insert id="insert" parameterType="com.young.model.Activity">
+    insert into activity (id, name, type, 
+      number, start_time, end_time, 
+      status, back1, back2, 
       back3)
-    values (#{id,jdbcType=INTEGER}, #{vipId,jdbcType=INTEGER}, #{couponId,jdbcType=INTEGER}, 
-      #{dueDate,jdbcType=TIMESTAMP}, #{back1,jdbcType=VARCHAR}, #{back2,jdbcType=VARCHAR}, 
+    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{type,jdbcType=INTEGER}, 
+      #{number,jdbcType=DECIMAL}, #{startTime,jdbcType=TIMESTAMP}, #{endTime,jdbcType=TIMESTAMP}, 
+      #{status,jdbcType=INTEGER}, #{back1,jdbcType=VARCHAR}, #{back2,jdbcType=INTEGER}, 
       #{back3,jdbcType=VARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="com.young.model.VipCouponNote">
-    insert into vip_coupon_note
+  <insert id="insertSelective" parameterType="com.young.model.Activity">
+    insert into activity
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
         id,
       </if>
-      <if test="vipId != null">
-        vip_id,
+      <if test="name != null">
+        name,
       </if>
-      <if test="couponId != null">
-        coupon_id,
+      <if test="type != null">
+        type,
       </if>
-      <if test="dueDate != null">
-        due_date,
+      <if test="number != null">
+        number,
+      </if>
+      <if test="startTime != null">
+        start_time,
+      </if>
+      <if test="endTime != null">
+        end_time,
+      </if>
+      <if test="status != null">
+        status,
       </if>
       <if test="back1 != null">
         back1,
@@ -104,49 +118,67 @@
       <if test="id != null">
         #{id,jdbcType=INTEGER},
       </if>
-      <if test="vipId != null">
-        #{vipId,jdbcType=INTEGER},
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
       </if>
-      <if test="couponId != null">
-        #{couponId,jdbcType=INTEGER},
+      <if test="type != null">
+        #{type,jdbcType=INTEGER},
       </if>
-      <if test="dueDate != null">
-        #{dueDate,jdbcType=TIMESTAMP},
+      <if test="number != null">
+        #{number,jdbcType=DECIMAL},
+      </if>
+      <if test="startTime != null">
+        #{startTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endTime != null">
+        #{endTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
       </if>
       <if test="back1 != null">
         #{back1,jdbcType=VARCHAR},
       </if>
       <if test="back2 != null">
-        #{back2,jdbcType=VARCHAR},
+        #{back2,jdbcType=INTEGER},
       </if>
       <if test="back3 != null">
         #{back3,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="com.young.model.VipCouponNoteExample" resultType="java.lang.Long">
-    select count(*) from vip_coupon_note
+  <select id="countByExample" parameterType="com.young.model.ActivityExample" resultType="java.lang.Long">
+    select count(*) from activity
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </select>
-  <update id="updateByPrimaryKeySelective" parameterType="com.young.model.VipCouponNote">
-    update vip_coupon_note
+  <update id="updateByPrimaryKeySelective" parameterType="com.young.model.Activity">
+    update activity
     <set>
-      <if test="vipId != null">
-        vip_id = #{vipId,jdbcType=INTEGER},
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
       </if>
-      <if test="couponId != null">
-        coupon_id = #{couponId,jdbcType=INTEGER},
+      <if test="type != null">
+        type = #{type,jdbcType=INTEGER},
       </if>
-      <if test="dueDate != null">
-        due_date = #{dueDate,jdbcType=TIMESTAMP},
+      <if test="number != null">
+        number = #{number,jdbcType=DECIMAL},
+      </if>
+      <if test="startTime != null">
+        start_time = #{startTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endTime != null">
+        end_time = #{endTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=INTEGER},
       </if>
       <if test="back1 != null">
         back1 = #{back1,jdbcType=VARCHAR},
       </if>
       <if test="back2 != null">
-        back2 = #{back2,jdbcType=VARCHAR},
+        back2 = #{back2,jdbcType=INTEGER},
       </if>
       <if test="back3 != null">
         back3 = #{back3,jdbcType=VARCHAR},
@@ -154,13 +186,16 @@
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.young.model.VipCouponNote">
-    update vip_coupon_note
-    set vip_id = #{vipId,jdbcType=INTEGER},
-      coupon_id = #{couponId,jdbcType=INTEGER},
-      due_date = #{dueDate,jdbcType=TIMESTAMP},
+  <update id="updateByPrimaryKey" parameterType="com.young.model.Activity">
+    update activity
+    set name = #{name,jdbcType=VARCHAR},
+      type = #{type,jdbcType=INTEGER},
+      number = #{number,jdbcType=DECIMAL},
+      start_time = #{startTime,jdbcType=TIMESTAMP},
+      end_time = #{endTime,jdbcType=TIMESTAMP},
+      status = #{status,jdbcType=INTEGER},
       back1 = #{back1,jdbcType=VARCHAR},
-      back2 = #{back2,jdbcType=VARCHAR},
+      back2 = #{back2,jdbcType=INTEGER},
       back3 = #{back3,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>

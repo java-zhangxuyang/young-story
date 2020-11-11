@@ -4,10 +4,8 @@ import com.young.model.Vip;
 import com.young.model.VipExample;
 import java.util.List;
 
-import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 
-@Mapper
 public interface VipMapper {
     long countByExample(VipExample example);
 
@@ -27,4 +25,7 @@ public interface VipMapper {
     
     @Select("select vip.*,dict.name as levelName,concat(vip.mobile1,vip.mobile2) as mobile from vip LEFT JOIN dict on vip.`level` = dict.`no` where dict.`key`='vip_level' ORDER BY id")
     List<Vip> selectVipList();
+    
+    @Select("select * from vip where CONCAT(mobile1,mobile2) = #{mobile}")
+    Vip selectVipByMobile(String mobile);
 }

@@ -12,6 +12,7 @@
     <result column="level" jdbcType="INTEGER" property="level" />
     <result column="now_money" jdbcType="DECIMAL" property="nowMoney" />
     <result column="total_money" jdbcType="DECIMAL" property="totalMoney" />
+    <result column="sum_consume" jdbcType="DECIMAL" property="sumConsume" />
     <result column="remark" jdbcType="VARCHAR" property="remark" />
     <result column="back1" jdbcType="VARCHAR" property="back1" />
     <result column="back2" jdbcType="VARCHAR" property="back2" />
@@ -48,7 +49,7 @@
   </sql>
   <sql id="Base_Column_List">
     id, name, sex, birthday, mobile1, mobile2, score, level, now_money, total_money, 
-    remark, back1, back2, back3
+    sum_consume, remark, back1, back2, back3
   </sql>
   <select id="selectByExample" parameterType="com.young.model.VipExample" resultMap="BaseResultMap">
     select
@@ -79,13 +80,13 @@
     insert into vip (id, name, sex, birthday, 
       mobile1, mobile2, score, 
       level, now_money, total_money, 
-      remark, back1, back2, 
-      back3)
+      sum_consume, remark, back1, 
+      back2, back3)
     values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{sex,jdbcType=CHAR}, #{birthday,jdbcType=VARCHAR}, 
       #{mobile1,jdbcType=VARCHAR}, #{mobile2,jdbcType=VARCHAR}, #{score,jdbcType=DECIMAL}, 
       #{level,jdbcType=INTEGER}, #{nowMoney,jdbcType=DECIMAL}, #{totalMoney,jdbcType=DECIMAL}, 
-      #{remark,jdbcType=VARCHAR}, #{back1,jdbcType=VARCHAR}, #{back2,jdbcType=VARCHAR}, 
-      #{back3,jdbcType=VARCHAR})
+      #{sumConsume,jdbcType=DECIMAL}, #{remark,jdbcType=VARCHAR}, #{back1,jdbcType=VARCHAR}, 
+      #{back2,jdbcType=VARCHAR}, #{back3,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.young.model.Vip">
     insert into vip
@@ -119,6 +120,9 @@
       </if>
       <if test="totalMoney != null">
         total_money,
+      </if>
+      <if test="sumConsume != null">
+        sum_consume,
       </if>
       <if test="remark != null">
         remark,
@@ -163,6 +167,9 @@
       </if>
       <if test="totalMoney != null">
         #{totalMoney,jdbcType=DECIMAL},
+      </if>
+      <if test="sumConsume != null">
+        #{sumConsume,jdbcType=DECIMAL},
       </if>
       <if test="remark != null">
         #{remark,jdbcType=VARCHAR},
@@ -214,6 +221,9 @@
       <if test="totalMoney != null">
         total_money = #{totalMoney,jdbcType=DECIMAL},
       </if>
+      <if test="sumConsume != null">
+        sum_consume = #{sumConsume,jdbcType=DECIMAL},
+      </if>
       <if test="remark != null">
         remark = #{remark,jdbcType=VARCHAR},
       </if>
@@ -240,6 +250,7 @@
       level = #{level,jdbcType=INTEGER},
       now_money = #{nowMoney,jdbcType=DECIMAL},
       total_money = #{totalMoney,jdbcType=DECIMAL},
+      sum_consume = #{sumConsume,jdbcType=DECIMAL},
       remark = #{remark,jdbcType=VARCHAR},
       back1 = #{back1,jdbcType=VARCHAR},
       back2 = #{back2,jdbcType=VARCHAR},

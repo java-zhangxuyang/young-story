@@ -2,14 +2,18 @@ package com.young.model;
 
 import java.util.Date;
 
-public class VipCouponNote {
+public class VipScoreNote {
     private Integer id;
 
     private Integer vipId;
 
-    private Integer couponId;
+    private String mobile;
 
-    private Date dueDate;
+    private Integer type;
+
+    private Long score;
+
+    private Date time;
 
     private String back1;
 
@@ -33,20 +37,36 @@ public class VipCouponNote {
         this.vipId = vipId;
     }
 
-    public Integer getCouponId() {
-        return couponId;
+    public String getMobile() {
+        return mobile;
     }
 
-    public void setCouponId(Integer couponId) {
-        this.couponId = couponId;
+    public void setMobile(String mobile) {
+        this.mobile = mobile == null ? null : mobile.trim();
     }
 
-    public Date getDueDate() {
-        return dueDate;
+    public Integer getType() {
+        return type;
     }
 
-    public void setDueDate(Date dueDate) {
-        this.dueDate = dueDate;
+    public void setType(Integer type) {
+        this.type = type;
+    }
+
+    public Long getScore() {
+        return score;
+    }
+
+    public void setScore(Long score) {
+        this.score = score;
+    }
+
+    public Date getTime() {
+        return time;
+    }
+
+    public void setTime(Date time) {
+        this.time = time;
     }
 
     public String getBack1() {

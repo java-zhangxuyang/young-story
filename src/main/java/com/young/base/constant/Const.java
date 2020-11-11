@@ -1,6 +1,7 @@
 package com.young.base.constant;
 
 import java.math.BigDecimal;
+import java.util.HashMap;
 
 public class Const {
 
@@ -61,10 +62,56 @@ public class Const {
     public static Integer CON_NOTE_BOX_TYPE = 2;//包厢
     public static Integer CON_NOTE_MAID_TYPE = 3;//女仆
     public static Integer CON_NOTE_OTHER_TYPE = 4;//其他
-    public static Integer CON_NOTE_DISCOUNT_TYPE = 99;//使用折扣
+    public static Integer CON_NOTE_SUBTRACT_TYPE = 100;//使用抵扣券
+    public static Integer CON_NOTE_ACT_DISCOUNT_TYPE = 98;//活动折扣
+    public static Integer CON_NOTE_VIP_DISCOUNT_TYPE = 99;//会员折扣
     
     //会员使用表 类型
     public static Integer VIP_USE_NOTE_TYPE_VIP_RECHARGE = 1;//会员充值
     public static Integer VIP_USE_NOTE_TYPE_VIP_USE = 2;//会员消费
+    
+    //活动表 类型
+    public static Integer ACTIVITY_TYPE_SCORE = 1;//积分翻倍
+    public static Integer ACTIVITY_TYPE_DISCOUNT = 2;//消费打折
+    
+    //积分表 类型
+    public static Integer SCORE_TYPE_GET = 1;//获取
+    public static Integer SCORE_TYPE_CONSUME = 2;//消耗
+    
+    //会员等级对应的折扣
+    public static HashMap<String, String > LEVELDISCOUNT = new HashMap<String, String>(){
+		{  
+	        put("lv1","1");      
+	        put("lv2","0.98");      
+	        put("lv3","0.95");      
+	        put("lv4","0.92");      
+	        put("lv5","0.88");      
+	    }
+	}; 
+	//对应折扣
+	public static HashMap<String, String > DISCOUNT = new HashMap<String, String>(){
+		{  
+			put("0.99","九九");      
+			put("0.98","九八");      
+			put("0.97","九七");      
+			put("0.96","九六");      
+			put("0.95","九五");      
+			put("0.94","九四");      
+			put("0.93","九三");      
+			put("0.92","九二");      
+			put("0.91","九一");      
+			put("0.9","九");      
+			put("0.89","八九");      
+			put("0.88","八八");      
+			put("0.87","八七");      
+			put("0.86","八六");      
+			put("0.85","八五");      
+			put("0.84","八四");      
+			put("0.83","八三");      
+			put("0.82","八二");      
+			put("0.81","八一");      
+			put("0.8","八");      
+		}
+	}; 
     
 }

@@ -29,7 +29,7 @@
         </a></caption>
 	  <thead>
 	    <tr>
-	      <th style="width: 9%;">员工号</th>
+	      <th style="width: 9%;">序列号</th>
 	      <th style="width: 9%;">姓名</th>
 	      <th style="width: 9%;">性别</th>
 	      <th style="width: 9%;">年龄</th>
@@ -44,7 +44,7 @@
 	  <tbody>
 	  	<%for(staff in staffs.list){%>
 		    <tr>
-		      <td style="line-height: 35px;">${staff.id}</td>
+		      <td style="line-height: 35px;">${staffLP.index}</td>
 		      <td style="line-height: 35px;"><!-- <div style="width: 95%;white-space: nowrap;overflow: hidden;text-overflow: ellipsis;"></div> -->${staff.name}</td>
 		      <td style="line-height: 35px;">${staff.sex}</td>
 		      <td style="line-height: 35px;">${staff.age}</td>

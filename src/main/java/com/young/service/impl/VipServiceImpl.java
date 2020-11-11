@@ -12,9 +12,11 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.young.base.constant.Const;
 import com.young.base.utils.PublicUtils;
+import com.young.mapper.FlushingMapper;
 import com.young.mapper.VipMapper;
 import com.young.mapper.VipUseNoteMapper;
-import com.young.model.Staff;
+import com.young.model.Flushing;
+import com.young.model.FlushingExample;
 import com.young.model.Vip;
 import com.young.model.VipUseNote;
 import com.young.service.VipService;
@@ -30,6 +32,8 @@ public class VipServiceImpl implements VipService{
 	private VipMapper vipMapper;
 	@Autowired
 	private VipUseNoteMapper vipUseNoteMapper;
+	@Autowired
+	private FlushingMapper flushingMapper;
 
 	@Override
 	public PageInfo<Vip> getVipList(Integer pageNum) {
@@ -64,10 +68,22 @@ public class VipServiceImpl implements VipService{
 		if(i > 0) {
 			v.setNowMoney(v.getNowMoney().add(vip.getMoney()));
 			v.setTotalMoney(v.getTotalMoney().add(vip.getMoney()));
-			//TODO  会员等级  会员机会
+			//TODO  会员等级
 			return vipMapper.updateByPrimaryKeySelective(v);
 		}
 		return 0;
+	}
+
+	@Override
+	public List<Flushing> getFlushingList() {
+		FlushingExample example = new FlushingExample();
+		example.setOrderByClause(" id asc");
+		return flushingMapper.selectByExample(example);
+	}
+
+	@Override
+	public Vip getVipByMobile(String mobile) {
+		return vipMapper.selectVipByMobile(mobile);
 	}
 	
 	

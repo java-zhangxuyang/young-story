@@ -1,16 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.young.mapper.CouponMapper">
-  <resultMap id="BaseResultMap" type="com.young.model.Coupon">
+<mapper namespace="com.young.mapper.VipScoreNoteMapper">
+  <resultMap id="BaseResultMap" type="com.young.model.VipScoreNote">
     <id column="id" jdbcType="INTEGER" property="id" />
-    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="vip_id" jdbcType="INTEGER" property="vipId" />
+    <result column="mobile" jdbcType="VARCHAR" property="mobile" />
     <result column="type" jdbcType="INTEGER" property="type" />
-    <result column="money" jdbcType="DECIMAL" property="money" />
-    <result column="total" jdbcType="INTEGER" property="total" />
-    <result column="surplus" jdbcType="INTEGER" property="surplus" />
-    <result column="day" jdbcType="INTEGER" property="day" />
-    <result column="start_time" jdbcType="TIMESTAMP" property="startTime" />
-    <result column="end_time" jdbcType="TIMESTAMP" property="endTime" />
+    <result column="score" jdbcType="DECIMAL" property="score" />
+    <result column="time" jdbcType="TIMESTAMP" property="time" />
     <result column="back1" jdbcType="VARCHAR" property="back1" />
     <result column="back2" jdbcType="VARCHAR" property="back2" />
     <result column="back3" jdbcType="VARCHAR" property="back3" />
@@ -45,16 +42,16 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, name, type, money, total, surplus, day, start_time, end_time, back1, back2, back3
+    id, vip_id, mobile, type, score, time, back1, back2, back3
   </sql>
-  <select id="selectByExample" parameterType="com.young.model.CouponExample" resultMap="BaseResultMap">
+  <select id="selectByExample" parameterType="com.young.model.VipScoreNoteExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
       distinct
     </if>
     'true' as QUERYID,
     <include refid="Base_Column_List" />
-    from coupon
+    from vip_score_note
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
@@ -65,54 +62,43 @@
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from coupon
+    from vip_score_note
     where id = #{id,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-    delete from coupon
+    delete from vip_score_note
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.young.model.Coupon">
-    insert into coupon (id, name, type, 
-      money, total, surplus, 
-      day, start_time, end_time, 
+  <insert id="insert" parameterType="com.young.model.VipScoreNote">
+    insert into vip_score_note (id, vip_id, mobile, 
+      type, score, time, 
       back1, back2, back3
       )
-    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{type,jdbcType=INTEGER}, 
-      #{money,jdbcType=DECIMAL}, #{total,jdbcType=INTEGER}, #{surplus,jdbcType=INTEGER}, 
-      #{day,jdbcType=INTEGER}, #{startTime,jdbcType=TIMESTAMP}, #{endTime,jdbcType=TIMESTAMP}, 
+    values (#{id,jdbcType=INTEGER}, #{vipId,jdbcType=INTEGER}, #{mobile,jdbcType=VARCHAR}, 
+      #{type,jdbcType=INTEGER}, #{score,jdbcType=DECIMAL}, #{time,jdbcType=TIMESTAMP}, 
       #{back1,jdbcType=VARCHAR}, #{back2,jdbcType=VARCHAR}, #{back3,jdbcType=VARCHAR}
       )
   </insert>
-  <insert id="insertSelective" parameterType="com.young.model.Coupon">
-    insert into coupon
+  <insert id="insertSelective" parameterType="com.young.model.VipScoreNote">
+    insert into vip_score_note
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
         id,
       </if>
-      <if test="name != null">
-        name,
+      <if test="vipId != null">
+        vip_id,
+      </if>
+      <if test="mobile != null">
+        mobile,
       </if>
       <if test="type != null">
         type,
       </if>
-      <if test="money != null">
-        money,
+      <if test="score != null">
+        score,
       </if>
-      <if test="total != null">
-        total,
-      </if>
-      <if test="surplus != null">
-        surplus,
-      </if>
-      <if test="day != null">
-        day,
-      </if>
-      <if test="startTime != null">
-        start_time,
-      </if>
-      <if test="endTime != null">
-        end_time,
+      <if test="time != null">
+        time,
       </if>
       <if test="back1 != null">
         back1,
@@ -128,29 +114,20 @@
       <if test="id != null">
         #{id,jdbcType=INTEGER},
       </if>
-      <if test="name != null">
-        #{name,jdbcType=VARCHAR},
+      <if test="vipId != null">
+        #{vipId,jdbcType=INTEGER},
+      </if>
+      <if test="mobile != null">
+        #{mobile,jdbcType=VARCHAR},
       </if>
       <if test="type != null">
         #{type,jdbcType=INTEGER},
       </if>
-      <if test="money != null">
-        #{money,jdbcType=DECIMAL},
+      <if test="score != null">
+        #{score,jdbcType=DECIMAL},
       </if>
-      <if test="total != null">
-        #{total,jdbcType=INTEGER},
-      </if>
-      <if test="surplus != null">
-        #{surplus,jdbcType=INTEGER},
-      </if>
-      <if test="day != null">
-        #{day,jdbcType=INTEGER},
-      </if>
-      <if test="startTime != null">
-        #{startTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="endTime != null">
-        #{endTime,jdbcType=TIMESTAMP},
+      <if test="time != null">
+        #{time,jdbcType=TIMESTAMP},
       </if>
       <if test="back1 != null">
         #{back1,jdbcType=VARCHAR},
@@ -163,38 +140,29 @@
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="com.young.model.CouponExample" resultType="java.lang.Long">
-    select count(*) from coupon
+  <select id="countByExample" parameterType="com.young.model.VipScoreNoteExample" resultType="java.lang.Long">
+    select count(*) from vip_score_note
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </select>
-  <update id="updateByPrimaryKeySelective" parameterType="com.young.model.Coupon">
-    update coupon
+  <update id="updateByPrimaryKeySelective" parameterType="com.young.model.VipScoreNote">
+    update vip_score_note
     <set>
-      <if test="name != null">
-        name = #{name,jdbcType=VARCHAR},
+      <if test="vipId != null">
+        vip_id = #{vipId,jdbcType=INTEGER},
+      </if>
+      <if test="mobile != null">
+        mobile = #{mobile,jdbcType=VARCHAR},
       </if>
       <if test="type != null">
         type = #{type,jdbcType=INTEGER},
       </if>
-      <if test="money != null">
-        money = #{money,jdbcType=DECIMAL},
+      <if test="score != null">
+        score = #{score,jdbcType=DECIMAL},
       </if>
-      <if test="total != null">
-        total = #{total,jdbcType=INTEGER},
-      </if>
-      <if test="surplus != null">
-        surplus = #{surplus,jdbcType=INTEGER},
-      </if>
-      <if test="day != null">
-        day = #{day,jdbcType=INTEGER},
-      </if>
-      <if test="startTime != null">
-        start_time = #{startTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="endTime != null">
-        end_time = #{endTime,jdbcType=TIMESTAMP},
+      <if test="time != null">
+        time = #{time,jdbcType=TIMESTAMP},
       </if>
       <if test="back1 != null">
         back1 = #{back1,jdbcType=VARCHAR},
@@ -208,16 +176,13 @@
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.young.model.Coupon">
-    update coupon
-    set name = #{name,jdbcType=VARCHAR},
+  <update id="updateByPrimaryKey" parameterType="com.young.model.VipScoreNote">
+    update vip_score_note
+    set vip_id = #{vipId,jdbcType=INTEGER},
+      mobile = #{mobile,jdbcType=VARCHAR},
       type = #{type,jdbcType=INTEGER},
-      money = #{money,jdbcType=DECIMAL},
-      total = #{total,jdbcType=INTEGER},
-      surplus = #{surplus,jdbcType=INTEGER},
-      day = #{day,jdbcType=INTEGER},
-      start_time = #{startTime,jdbcType=TIMESTAMP},
-      end_time = #{endTime,jdbcType=TIMESTAMP},
+      score = #{score,jdbcType=DECIMAL},
+      time = #{time,jdbcType=TIMESTAMP},
       back1 = #{back1,jdbcType=VARCHAR},
       back2 = #{back2,jdbcType=VARCHAR},
       back3 = #{back3,jdbcType=VARCHAR}

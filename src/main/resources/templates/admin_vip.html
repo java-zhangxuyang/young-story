@@ -14,6 +14,9 @@
 <link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css"/>
 <link href="/bootstrap/css/bootstrap-datetimepicker.min.css" rel="stylesheet" media="screen">
 <title>轻C物语信息管理系统</title>
+<script type="text/javascript">
+	var flushs = eval('${flushs}');
+</script>
 <style type="text/css">
 .form-group{
 	width: 100%;
@@ -29,7 +32,7 @@
         </a></caption>
 	  <thead>
 	    <tr>
-	      <th style="width: 9%;">员工号</th>
+	      <th style="width: 9%;">序号</th>
 	      <th style="width: 9%;">姓名</th>
 	      <th style="width: 9%;">性别</th>
 	      <th style="width: 9%;">生日</th>
@@ -44,7 +47,7 @@
 	  <tbody>
 	  	<%for(vip in vips.list){%>
 		    <tr>
-		      <td style="line-height: 35px;">${vip.id}</td>
+		      <td style="line-height: 35px;">${vipLP.index}</td>
 		      <td style="line-height: 35px;"><!-- <div style="width: 95%;white-space: nowrap;overflow: hidden;text-overflow: ellipsis;"></div> -->${vip.name}</td>
 		      <td style="line-height: 35px;">${vip.sex}</td>
 		      <td style="line-height: 35px;">${vip.birthday}</td>

@@ -32,4 +32,7 @@ public interface BoxSubscribeNoteMapper {
     
     @Select("select * from box_subscribe_note bsn where to_days(bsn.to_time) = to_days(now()) order by bsn.to_time ")
     List<BoxSubscribeNote> selectSubscribeToday();
+
+    @Select("select bsn.*,d.name as statusName,b.name as boxName from box_subscribe_note bsn left join box b on bsn.box_id = b.id LEFT JOIN dict d on bsn.`status`=d.no where d.key='box_note_status' order by bsn.to_time desc")
+	List<BoxSubscribeNote> selectNoteList();
 }

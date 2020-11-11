@@ -89,6 +89,10 @@ function addVip(){
 }
 //会员充值
 function vipRecharge(id,name){
+	var text = '';
+	for(var i=0;i<flushs.length;i++){
+		text += '<option value="'+flushs[i].total+'" selected>'+flushs[i].name+'</option>';
+	}
 	var content = '<div>\n' +
 	'<form id="vipRechargeForm">'+
 	'<input type="hidden" name="id" value="'+id+'">'+
@@ -96,12 +100,7 @@ function vipRecharge(id,name){
 	    '<label for="sex" class="col-sm-3 control-label">充值金额</label>'+
 	    '<div class="col-sm-9">'+
 		    '<select class="form-control" name="money" id="money">'+
-	    		'<option value="300" selected>300元</option>'+
-	    		'<option value="500">500元</option>'+
-	    		'<option value="1000">1000元</option>'+
-	    		'<option value="3000">3000元</option>'+
-	    		'<option value="5000">5000元</option>'+
-			 '</select>'+
+		    	text+'</select>'+
 	    '</div>'+
 	'</div>'+
 	'</form></div>';
