@@ -27,8 +27,7 @@ public class SubscribeServiceImpl implements SubscribeService{
 		pageNum = PublicUtils.page(pageNum, false);
 		PageHelper.startPage(pageNum, 10);
 		List<BoxSubscribeNote> noteList = boxSubscribeNoteMapper.selectNoteList();
-		PageInfo<BoxSubscribeNote> page = new PageInfo<>();
-		page.setList(noteList);
+		PageInfo<BoxSubscribeNote> page = new PageInfo<>(noteList);
 		return page;
 	}
 

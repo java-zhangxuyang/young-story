@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.logging.log4j.util.StringBuilders;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,6 +22,7 @@ import com.young.model.Vip;
 import com.young.model.VipUseNote;
 import com.young.service.VipService;
 
+import jodd.util.StringUtil;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -36,12 +38,18 @@ public class VipServiceImpl implements VipService{
 	private FlushingMapper flushingMapper;
 
 	@Override
-	public PageInfo<Vip> getVipList(Integer pageNum) {
+	public PageInfo<Vip> getVipList(Integer pageNum, String mobile, String vipName) {
 		pageNum = PublicUtils.page(pageNum, false);
 		PageHelper.startPage(pageNum, 10);
-		List<Vip> vipList = vipMapper.selectVipList();
-		PageInfo<Vip> page = new PageInfo<>();
-		page.setList(vipList);
+		String sql = "";
+		if(StringUtil.isNotBlank(mobile)) {
+			sql += " and vip.mobile2 like '%"+mobile+"' ";
+		}
+		if(StringUtil.isNotBlank(vipName)) {
+			sql += " and vip.name like '%"+vipName+"%' ";
+		}
+		List<Vip> vipList = vipMapper.selectVipList(sql);
+		PageInfo<Vip> page = new PageInfo<>(vipList);
 		return page;
 	}
 

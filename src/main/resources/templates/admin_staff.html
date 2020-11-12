@@ -20,11 +20,15 @@
 	height: 20%;
 	margin-top: 8%;
 }
+.fenye{
+	text-align:center;
+}
 </style>
 </head>
 <body>
+<h1 style="font-size: 35px;margin-bottom: 20px;text-align:center;">员工管理</h1>
 	<table class="table table-striped">
-	  <caption><span style="font-size: 25px;margin-left: 10px;">员工管理</span><a class="btn btn-info" onclick="addStaff()" style="float: right; margin-right: 100px;">
+	  <caption><a class="btn btn-info" onclick="addStaff()" style="float: right; margin-right: 100px;">
           <span class="glyphicon glyphicon-plus"></span> 添加新员工
         </a></caption>
 	  <thead>
@@ -63,7 +67,7 @@
 	  </tbody>
 	  <tfoot>
 	  	<tr>
-	  		<td colspan = "8"><div class="fenye">
+	  		<td colspan = "11"><div class="fenye">
 					<ul class="pagination">
 						<%if(staffs.isHasPreviousPage){%>
 						    <li><a href="/admin/staff?pageNum=${staffs.prePage}">&laquo;</a></li>

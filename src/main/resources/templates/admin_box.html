@@ -19,7 +19,7 @@
 <title>轻C物语信息管理系统</title>
 <script type="text/javascript">
 var xflist;
-var sumMoney;
+var moneyMap;
 var yhxlist;
 var boxlist;
 var MouseEvent = function(e){
@@ -49,7 +49,7 @@ var MouseEvent = function(e){
 <body style="height: 650px;">
 	<div class="box_man">
 		<div class="title">
-			<h4 style="margin-left: 10px;">包厢</h4>
+			<h4>包厢管理</h4>
 		</div>
 		<div class="button">
 			<button type="button" class="btn btn-primary boxbutton" id="useBox" onclick="useBox()">使用</button>
@@ -303,13 +303,13 @@ var MouseEvent = function(e){
 	<div class="fenge">
 	</div>
 	<div class="passenger_flow_man">
-		<!-- <div class="title">
-			<h4 style="margin-left: 10px;">客流</h4>
-		</div> -->
 		<input id="list" type="hidden">
+		<div class="title">
+			<h4 style="margin-left: 10px;">客流管理</h4>
+		</div>
 		<table class="table table-striped">
-	  <caption><span style="font-size: 25px;margin-left: 10px;">客流管理</span><a onclick="addPassFlow()" class="btn btn-info" style="float: right; margin-right: 100px;">
-          <span class="glyphicon glyphicon-plus"></span> 添加客流
+		<caption style="padding-top:0px;"><a onclick="addPassFlow()" class="btn btn-info" style="float: right; margin-right: 100px;">
+          <span class="glyphicon glyphicon-plus"></span> 新来客
         </a></caption>
 	  <thead>
 	    <tr>

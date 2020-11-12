@@ -2,6 +2,7 @@ package com.young.controller;
 
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -77,12 +78,19 @@ public class PassFlowController {
 		if(id == null) {
 			return ResponseBo.fail("填写有误，请检查后重试！");
 		}
+		Map<String, Object> map = new HashMap<String, Object>();
 		Vip vip = null;
 		if(StringUtil.isNotBlank(mobile)) {
 			vip = vipService.getVipByMobile(mobile);
+			Long sumMoney = passFlowService.settleAccounts(id,vip,1);
+			map.put("sumMoney", sumMoney);
+			map.put("surMoney", vip.getNowMoney().subtract(new BigDecimal(sumMoney)).stripTrailingZeros().toPlainString());
+			map.put("vipMoney", vip.getNowMoney().stripTrailingZeros().toPlainString());
+		}else {
+			Long sumMoney = passFlowService.settleAccounts(id,vip,1);
+			map.put("sumMoney", sumMoney);
 		}
-		Long money = passFlowService.settleAccounts(id,vip,1);
-		return ResponseBo.ok(money);
+		return ResponseBo.ok(map);
 	}
 	
 	
@@ -92,9 +100,9 @@ public class PassFlowController {
 	private Object checkOut(Integer id,String mobile) {
 		if(id == null) {
 			return ResponseBo.fail("填写有误，请检查后重试！");
-		}
+		} 
 		Object result = passFlowService.checkOut(id,mobile);
-		return result;
+		return ResponseBo.ok(result);
 	}
 	
 	//抵扣券

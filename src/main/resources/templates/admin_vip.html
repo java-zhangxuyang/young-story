@@ -23,13 +23,55 @@
 	height: 20%;
 	margin-top: 8%;
 }
+.fenye{
+	text-align:center;
+}
+.my-container {
+    float: left;
+    display: inline-block;
+    margin-right:30px;
+}
+
+.myLabel-content ,.myText-content,.myBtn-content{
+    float: left;
+    display: inline-block;
+    margin-left: 10px;
+}
+.myLabel-content,.myText-content input[type='text'],.myBtn-content .btn {
+    height: 30px;
+    font-size: 12px;
+}
+.myLabel-content {
+    height: 30px;
+    font-size: 20px;
+}
+.myBtn-content .btn {
+    margin-bottom: 10px;
+}
 </style>
 </head>
 <body>
-	<table class="table table-striped">
-	  <caption><span style="font-size: 25px;margin-left: 10px;">会员管理</span><a class="btn btn-info" onclick="addVip()" style="float: right; margin-right: 100px;">
+	<h1 style="font-size: 35px;margin-bottom: 20px;text-align:center;">会员管理</h1>
+	 <caption><a class="btn btn-info" onclick="addVip()" style="float: right; margin-right: 100px;">
           <span class="glyphicon glyphicon-plus"></span> 添加新会员
         </a></caption>
+	<div id="toolbar">
+    <div class="my-container">
+        <label class="myLabel-content">手机号：</label>
+        <div class="myText-content">
+            <input id="phone" name="phone" value="${mobile}" type="text" class="form-control" placeholder="手机号后四位">
+        </div>
+        <label class="myLabel-content">姓名：</label>
+        <div class="myText-content">
+            <input id="vipname" name="vipname" value="${vipName}" type="text" class="form-control" placeholder="姓名">
+        </div>
+    </div>
+    <div class="myBtn-content">
+        <button id="search" type="button" class="btn btn-primary">搜索</button>
+        <button id="reset" type="button" class="btn btn-default">重置</button>
+    </div>
+</div>
+	<table class="table table-striped"  id="vipTable">
 	  <thead>
 	    <tr>
 	      <th style="width: 9%;">序号</th>
@@ -52,7 +94,7 @@
 		      <td style="line-height: 35px;">${vip.sex}</td>
 		      <td style="line-height: 35px;">${vip.birthday}</td>
 		      <td style="line-height: 35px;">${vip.mobile}</td>
-		      <td style="line-height: 35px;">${vip.score}</td>
+		      <td style="line-height: 35px;">${vip.score,'0.0'}</td>
 		      <td style="line-height: 35px;">${vip.levelName}</td>
 		      <td style="line-height: 35px;">${vip.nowMoney}</td>
 		      <td style="line-height: 35px;">${vip.totalMoney}</td>
@@ -66,7 +108,7 @@
 	  </tbody>
 	  <tfoot>
 	  	<tr>
-	  		<td colspan = "8"><div class="fenye">
+	  		<td colspan = "11"><div class="fenye">
 					<ul class="pagination">
 						<%if(vips.isHasPreviousPage){%>
 						    <li><a href="/admin/vip?pageNum=${vips.prePage}">&laquo;</a></li>

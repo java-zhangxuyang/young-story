@@ -20,13 +20,14 @@
 	height: 30%;
 	margin-top: 13%;
 }
+.fenye{
+	text-align:center;
+}
 </style>
 </head>
 <body>
+<h1 style="font-size: 35px;margin-bottom: 40px;text-align:center;">预约管理</h1>
 	<table class="table table-striped">
-	  <caption><span style="font-size: 25px;margin-left: 10px;">预约管理</span><!-- <a class="btn btn-info" onclick="addnote()" style="float: right; margin-right: 100px;">
-          <span class="glyphicon glyphicon-plus"></span> 添加新会员
-        </a> --></caption>
 	  <thead>
 	    <tr>
 	      <th style="width: 9%;">编号</th>
@@ -59,7 +60,7 @@
 	  </tbody>
 	  <tfoot>
 	  	<tr>
-	  		<td colspan = "8"><div class="fenye">
+	  		<td colspan = "7"><div class="fenye">
 					<ul class="pagination">
 						<%if(notes.isHasPreviousPage){%>
 						    <li><a href="/admin/subscribe?pageNum=${notes.prePage}">&laquo;</a></li>

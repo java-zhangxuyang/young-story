@@ -43,7 +43,10 @@ function departureBox(){
             	if(data.code == -1){
                 	layer.msg(data.msg);
                 }else if(data.code == 1){
-                	window.location.reload(); 
+                	layer.closeAll(layer.indexmen);
+                	layer.msg("操作成功", { time: 500 }, function () {
+	                    window.location.reload(); 
+	                }); 
                 }
             }
         });
@@ -131,7 +134,10 @@ function useBoxAction(){
         				if(data.code == -1){
         					layer.msg(data.msg);
         				}else if(data.code == 1){
-        					window.location.reload(); 
+        					layer.closeAll(layer.indexmen);
+        					layer.msg("操作成功", { time: 500 }, function () {
+			                    window.location.reload(); 
+			                });
         				}
         			}
         		});
@@ -222,7 +228,10 @@ function makeBox(){
 						if(data.code == -1){
 							layer.msg(data.msg);
 						}else if(data.code == 1){
-							window.location.reload(); 
+							layer.closeAll(layer.indexmen);
+							layer.msg("操作成功", { time: 500 }, function () {
+			                    window.location.reload(); 
+			                });
 						}
 					}
 				});
@@ -275,7 +284,10 @@ function updateBoxName(){
 						if(data.code == -1){
 							layer.msg(data.msg);
 						}else if(data.code == 1){
-							window.location.reload(); 
+							layer.closeAll(layer.indexmen);
+							layer.msg("操作成功", { time: 500 }, function () {
+			                    window.location.reload(); 
+			                });
 						}
 					}
 				});
@@ -328,7 +340,10 @@ function continuation(){
 						if(data.code == -1){
 							layer.msg(data.msg);
 						}else if(data.code == 1){
-							window.location.reload(); 
+							layer.closeAll(layer.indexmen);
+							layer.msg("操作成功", { time: 500 }, function () {
+			                    window.location.reload(); 
+			                });
 						}
 					}
 				});
@@ -447,7 +462,10 @@ function addPassFlow(){
 						if(data.code == -1){
 							layer.msg(data.msg);
 						}else if(data.code == 1){
-							window.location.reload(); 
+							layer.closeAll(layer.indexmen);
+							layer.msg("操作成功", { time: 500 }, function () {
+			                    window.location.reload(); 
+			                });
 						}
 					}
 				});
@@ -619,7 +637,10 @@ function consumption(id,number){
         				if(data.code == -1){
         					layer.msg(data.msg);
         				}else if(data.code == 1){
-        					window.location.reload(); 
+        					layer.closeAll(layer.indexmen);
+        					layer.msg("操作成功", { time: 500 }, function () {
+			                    window.location.reload(); 
+			                });
         				}
         			}
         		});
@@ -710,7 +731,22 @@ function checkOut(id,sign){
 				sumMoney = 0;
 	        },
 	        yes:function(){
-	        	layer.confirm('请确认共计 '+money+'元 无误？', {icon: 3, title:'提示'}, function(index){
+	        	$.ajax({
+    				type: "POST",
+    				async: false,
+    				data: {id:id},
+    				url: "/admin/passFlow/settleAccounts",
+    				dataType: "json",
+    				success: function(data) {
+    					if(data.code == -1){
+    						layer.msg(data.msg);
+    					}else if(data.code == 1){
+    						moneyMap = data.payload;
+    					}
+    				}
+    			});
+    			var sumMoney = moneyMap.sumMoney;
+	        	layer.confirm('请确认共计 '+sumMoney+'元 无误？', {icon: 3, title:'提示'}, function(index){
 	        		$.ajax({
 	        			type: "POST",
 	        			data: {id:id},
@@ -720,7 +756,10 @@ function checkOut(id,sign){
 	        				if(data.code == -1){
 	        					layer.msg(data.msg);
 	        				}else if(data.code == 1){
-	        					window.location.reload(); 
+	        					layer.closeAll(layer.indexmen);
+	        					layer.msg("操作成功", { time: 500 }, function () {
+				                    window.location.reload(); 
+				                });
 	        				}
 	        			}
 	        		});
@@ -759,25 +798,73 @@ function checkOut(id,sign){
 		    					if(data.code == -1){
 		    						layer.msg(data.msg);
 		    					}else if(data.code == 1){
-		    						sumMoney = data.payload;
+		    						moneyMap = data.payload;
 		    					}
 		    				}
 		    			});
-	    				layer.confirm('打折后共计 '+sumMoney+'元', {icon: 3, title:'提示'}, function(index){
-		    				$.ajax({
-		    					type: "POST",
-		    					data: {id:id,mobile:mobile},
-		    					url: "/admin/passFlow/checkOut",
-		    					dataType: "json",
-		    					success: function(data) {
-		    						if(data.code == -1){
-		    							layer.msg(data.msg);
-		    						}else if(data.code == 1){
-		    							window.location.reload(); 
+		    			var sumMoney = moneyMap.sumMoney;
+		    			var vipMoney = moneyMap.vipMoney;
+		    			var surMoney = moneyMap.surMoney;
+		    			if(sumMoney > vipMoney){
+		    				if(vipMoney > 0){
+		    					layer.confirm('<center>此次消费：'+sumMoney+'元，会员余额：'+vipMoney+'元。<br/>会员额度不足,请充值！<br/>确认结账吗？<center/>',
+		    							{
+		    						icon: 7, 
+		    						title:'提示', 
+		    						btn:['去充值','继续结账','取消'],
+		    						btn1:function(){
+		    							window.location = "/admin/vip?mobile="+mobile.substr(7,11);
+		    						},
+		    						btn2:function(){
+		    							layer.confirm('会员卡额度清零，手工收费 '+(sumMoney-vipMoney)+'元', {icon: 3, title:'提示'}, function(index){
+		    								$.ajax({
+		    									type: "POST",
+		    									data: {id:id,mobile:mobile},
+		    									url: "/admin/passFlow/checkOut",
+		    									dataType: "json",
+		    									success: function(data) {
+		    										if(data.code == -1){
+		    											layer.msg(data.msg);
+		    										}else if(data.code == 1){
+		    											layer.closeAll(layer.indexmen);
+		    											layer.msg("操作成功", { time: 500 }, function () {
+		    							                    window.location.reload(); 
+		    							                });
+		    										}
+		    									}
+		    								});
+		    							});
 		    						}
-		    					}
-		    				});
-	    				});
+    							});
+		    				}else{
+		    					layer.confirm('<center>此次消费：'+sumMoney+'元，会员余额：'+vipMoney+'元。<br/>会员额度不足,请充值！<br/>确认结账吗？<center/>',
+	    							{
+			    						icon: 7, 
+			    						title:'提示', 
+			    						btn:['去充值','取消'],
+			    						btn1:function(){
+			    							window.location = "/admin/vip?mobile="+mobile.substr(7,11);
+			    						},
+	    							});
+		    				}
+		    			}else{
+        	        		$.ajax({
+        	        			type: "POST",
+        	        			data: {id:id,mobile:mobile},
+        	        			url: "/admin/passFlow/checkOut",
+        	        			dataType: "json",
+        	        			success: function(data) {
+        	        				if(data.code == -1){
+        	        					layer.msg(data.msg);
+        	        				}else if(data.code == 1){
+        	        					layer.closeAll(layer.indexmen);
+        	        					layer.confirm(data.payload, {icon: 3, title:'提示',btn:['确定']}, function(index){
+        	        						window.location.reload(); 
+        	        					});
+        	        				}
+        	        			}
+        	        		});
+		    			}
 		    		}
 		    	});
 		    },

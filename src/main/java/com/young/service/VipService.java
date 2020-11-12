@@ -10,7 +10,7 @@ import com.young.model.Vip;
 
 public interface VipService {
 
-	PageInfo<Vip> getVipList(Integer pageNum);
+	PageInfo<Vip> getVipList(Integer pageNum, String mobile, String vipName);
 
 	int addVip(Vip vip);
 

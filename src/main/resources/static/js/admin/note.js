@@ -7,7 +7,7 @@ function updateSubscribeStatus(id,name){
 	    '<label for="sex" class="col-sm-2 control-label">状态</label>'+
 	    '<div class="col-sm-9">'+
 		    '<select class="form-control" name="status" id="status">'+
-	    		'<option value="2" selected>已到场</option>'+
+	    		'<option value="2" selected>如约到场</option>'+
 	    		'<option value="3">迟到</option>'+
 	    		'<option value="4">爽约</option>'+
 			 '</select>'+
@@ -43,7 +43,10 @@ function updateSubscribeStatus(id,name){
 						if(data.code == -1){
 							layer.msg(data.msg);
 						}else if(data.code == 1){
-							window.location.reload(); 
+							layer.closeAll(layer.indexmen);
+							layer.msg("操作成功", { time: 500 }, function () {
+			                    window.location.reload(); 
+			                });
 						}
 					}
 				});

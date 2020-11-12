@@ -20,11 +20,15 @@
 	height: 30%;
 	margin-top: 10%;
 }
+.fenye{
+	text-align:center;
+}
 </style>
 </head>
 <body>
+	<h1 style="font-size: 35px;margin-bottom: 20px;text-align:center;">优惠项管理</h1>
 	<table class="table table-striped">
-	  <caption><span style="font-size: 25px;margin-left: 10px;">优惠项管理</span><a class="btn btn-info" onclick="addCoupon()" style="float: right; margin-right: 100px;">
+	  <caption><a class="btn btn-info" onclick="addCoupon()" style="float: right; margin-right: 100px;">
           <span class="glyphicon glyphicon-plus"></span> 添加优惠项
         </a></caption>
 	  <thead>
@@ -61,7 +65,7 @@
 	  </tbody>
 	  <tfoot>
 	  	<tr>
-	  		<td colspan = "8"><div class="fenye">
+	  		<td colspan = "10"><div class="fenye">
 					<ul class="pagination">
 						<%if(coupons.isHasPreviousPage){%>
 						    <li><a href="/admin/coupon?pageNum=${coupons.prePage}">&laquo;</a></li>

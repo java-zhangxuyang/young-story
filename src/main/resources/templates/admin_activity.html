@@ -20,11 +20,15 @@
 	height: 30%;
 	margin-top: 10%;
 }
+.fenye{
+	text-align:center;
+}
 </style>
 </head>
 <body>
+<h1 style="font-size: 35px;margin-bottom: 20px;text-align:center;">活动管理</h1>
 	<table class="table table-striped">
-	  <caption><span style="font-size: 25px;margin-left: 10px;">活动管理</span><a class="btn btn-info" onclick="addActivity()" style="float: right; margin-right: 100px;">
+	  <caption><a class="btn btn-info" onclick="addActivity()" style="float: right; margin-right: 100px;">
           <span class="glyphicon glyphicon-plus"></span> 添加新活动
         </a></caption>
 	  <thead>
@@ -49,7 +53,7 @@
 		      <td style="line-height: 35px;">${activity.endTime,'yyyy-MM-dd'}</td>
 		      <td style="line-height: 35px;">${activity.status==1?'可用':'不可用'}</td>
 		      <td style="line-height: 35px;">
-		      		<!-- <button type="button" class="del btn btn-danger" value="${activity.id}" onclick="deleteActivity(${activity.id},'${activity.name}',${activity.status})"><span class="glyphicon glyphicon-remove"></span> &nbsp;删除</button> -->
+		      		<button type="button" class="del btn btn-danger" value="${activity.id}" onclick="deleteActivity(${activity.id},'${activity.name}',${activity.status})"><span class="glyphicon glyphicon-remove"></span> &nbsp;删除</button>
 			      	<button type="button" class="edit btn btn-primary" value="${activity.id}" onclick="updateActivityStatus(${activity.id},'${activity.name}',${activity.status})"><span class="glyphicon glyphicon-edit"></span> &nbsp;修改状态</button>
 		      </td>
 		    </tr>

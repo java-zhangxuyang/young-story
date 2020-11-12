@@ -34,8 +34,7 @@ public class StaffServiceImpl implements StaffService{
 		pageNum = PublicUtils.page(pageNum, false);
 		PageHelper.startPage(pageNum, 10);
 		List<Staff> list = staffMapper.selectStaffList();
-		PageInfo<Staff> page = new PageInfo<>();
-		page.setList(list);
+		PageInfo<Staff> page = new PageInfo<>(list);
 		return page;
 	}
 

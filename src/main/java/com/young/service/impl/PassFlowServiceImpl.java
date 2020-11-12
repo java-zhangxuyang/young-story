@@ -87,6 +87,7 @@ public class PassFlowServiceImpl implements PassFlowService{
 
 	@Override
 	public Object checkOut(Integer id,String mobile) {
+		String text = "";
 		if(StringUtil.isNotBlank(mobile)) {
 			Vip vip = vipMapper.selectVipByMobile(mobile);
 			Long money = this.settleAccounts(id, vip,2);
@@ -100,13 +101,17 @@ public class PassFlowServiceImpl implements PassFlowService{
 			if(i > 0) {
 				vip.setScore(vip.getScore().add(new BigDecimal(money)));
 				vip.setSumConsume(vip.getSumConsume().add(new BigDecimal(money)));
+				BigDecimal now = vip.getNowMoney().subtract(new BigDecimal(money));
+				vip.setNowMoney(now);
 				vipMapper.updateByPrimaryKeySelective(vip);
+				text = "本次共消费:"+money+"元，会员余额："+now.stripTrailingZeros().toPlainString()+"元。";
 			}
 		}
-		//TODO
 		PassengerFlowNote note = passengerFlowNoteMapper.selectByPrimaryKey(id);
 		note.setStatus(Const.PASS_FLOW_LI_STATUS);
-		return passengerFlowNoteMapper.updateByPrimaryKeySelective(note);
+		note.setOffTime(new Date());
+		passengerFlowNoteMapper.updateByPrimaryKeySelective(note);
+		return text;
 	}
 
 	@Override
@@ -132,7 +137,7 @@ public class PassFlowServiceImpl implements PassFlowService{
 		//计算活动折扣
 		List<Activity> activityList = activityMapper.selectActivityNowListByType(Const.ACTIVITY_TYPE_DISCOUNT);
 		BigDecimal activityDiscount = new BigDecimal(1);
-		if(CollectionUtils.isEmpty(activityList)) {
+		if(!CollectionUtils.isEmpty(activityList)) {
 			activityDiscount = activityDiscount.multiply(new BigDecimal(activityList.get(0).getNumber()));
 		}
 		//计算会员折扣

@@ -39,8 +39,7 @@ public class CouponServiceImpl implements CouponService{
 		pageNum = PublicUtils.page(pageNum, false);
 		PageHelper.startPage(pageNum, 10);
 		List<Coupon> couponList = couponMapper.getCouponList();
-		PageInfo<Coupon> page = new PageInfo<>();
-		page.setList(couponList);
+		PageInfo<Coupon> page = new PageInfo<>(couponList);
 		return page;
 	}
 

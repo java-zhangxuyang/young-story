@@ -88,7 +88,10 @@ function addActivity(){
 						if(data.code == -1){
 							layer.msg(data.msg);
 						}else if(data.code == 1){
-							window.location.reload(); 
+							layer.closeAll(layer.indexmen);
+							layer.msg("操作成功", { time: 500 }, function () {
+			                    window.location.reload(); 
+			                });
 						}
 					}
 				});
@@ -116,7 +119,10 @@ function deleteActivity(id,name,status){
 				if(data.code == -1){
 					layer.msg(data.msg);
 				}else if(data.code == 1){
-					window.location.reload(); 
+					layer.closeAll(layer.indexmen);
+					layer.msg("操作成功", { time: 500 }, function () {
+	                    window.location.reload(); 
+	                });
 				}
 			}
 		});
@@ -141,7 +147,10 @@ function updateActivityStatus(id,name,status){
 				if(data.code == -1){
 					layer.msg(data.msg);
 				}else if(data.code == 1){
-					window.location.reload(); 
+					layer.closeAll(layer.indexmen);
+					layer.msg("操作成功", { time: 500 }, function () {
+	                    window.location.reload(); 
+	                });
 				}
 			}
 		});

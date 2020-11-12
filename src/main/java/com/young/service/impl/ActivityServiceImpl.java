@@ -38,8 +38,7 @@ public class ActivityServiceImpl implements ActivityService{
 		ActivityExample example = new ActivityExample();
 		example.setOrderByClause(" status desc, end_time asc");
 		List<Activity> activityList = activityMapper.selectByExample(example);
-		PageInfo<Activity> page = new PageInfo<>();
-		page.setList(activityList);
+		PageInfo<Activity> page = new PageInfo<>(activityList);
 		return page;
 	}
 

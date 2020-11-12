@@ -1,3 +1,15 @@
+$(function(){
+	$('#search').click(function () {
+        var phone = $('#phone').val();
+        var vipname = $('#vipname').val();
+        window.location = '/admin/vip?mobile='+phone+'&vipName=' +vipname;
+    });
+    $('#reset').click(function() {
+        $('#phone').val('');
+        $('#vipname').val('');
+        window.location = '/admin/vip';
+    });
+})
 function addVip(){
 	var content = '<div>\n' +
 					'<form id="addVipForm">'+
@@ -76,7 +88,10 @@ function addVip(){
         				if(data.code == -1){
         					layer.msg(data.msg);
         				}else if(data.code == 1){
-        					window.location.reload(); 
+        					layer.closeAll(layer.indexmen);
+        					layer.msg("操作成功", { time: 500 }, function () {
+			                    window.location.reload(); 
+			                });
         				}
         			}
         		});
@@ -91,7 +106,7 @@ function addVip(){
 function vipRecharge(id,name){
 	var text = '';
 	for(var i=0;i<flushs.length;i++){
-		text += '<option value="'+flushs[i].total+'" selected>'+flushs[i].name+'</option>';
+		text += '<option value="'+flushs[i].total+'">'+flushs[i].name+'</option>';
 	}
 	var content = '<div>\n' +
 	'<form id="vipRechargeForm">'+
@@ -127,7 +142,10 @@ function vipRecharge(id,name){
 						if(data.code == -1){
 							layer.msg(data.msg);
 						}else if(data.code == 1){
-							window.location.reload(); 
+							layer.closeAll(layer.indexmen);
+							layer.msg("操作成功", { time: 500 }, function () {
+			                    window.location.reload(); 
+			                });
 						}
 					}
 				});

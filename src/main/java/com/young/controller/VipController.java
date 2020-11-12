@@ -32,11 +32,13 @@ public class VipController {
 	 * 会员界面
 	 */
 	@GetMapping("")
-	public String vip(Integer pageNum, Model model,HttpServletRequest request) {
-		PageInfo<Vip> vipList = vipService.getVipList(pageNum);
+	public String vip(Integer pageNum, String mobile, String vipName, Model model,HttpServletRequest request) {
+		PageInfo<Vip> vipList = vipService.getVipList(pageNum,mobile,vipName);
 		model.addAttribute("vips", vipList);
 		List<Flushing> flushList = vipService.getFlushingList();
 		model.addAttribute("flushs", JSONArray.toJSON(flushList));
+		model.addAttribute("mobile", mobile);
+		model.addAttribute("vipName", vipName);
 		return "admin_vip";
 	}
 	
