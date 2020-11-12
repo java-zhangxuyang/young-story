@@ -109,6 +109,7 @@ var MouseEvent = function(e){
 				<%}else if(box.status==2){%>
 					<div class = "baoxiang" id = "baoxiang${box.id}" onclick = "box_check(${box.id},'${box.name}',${box.status},${box.remind})" style="background-color:#ffe745"> 
 						<div class = "box_name">${box.name}</div>
+						<div class = "box_name" style="color: teal;">预订</div>
 					</div>
 				<%}else{%>
 					<div class = "baoxiang" id = "baoxiang${box.id}" onclick = "box_check(${box.id},'${box.name}',${box.status},${box.remind})"> 
