@@ -156,3 +156,24 @@ function vipRecharge(id,name){
 		}
 	});
 }
+
+function vipLevelUpgrade(id,name){
+	layer.confirm('确认消耗积分为 '+name+' 升级会员吗？', {icon: 3, title:'提示'}, function(index){
+		$.ajax({
+			type: "POST",
+			data: {id:id},
+			url: "/admin/vip/vipLevelUpgrade",
+			dataType: "json",
+			success: function(data) {
+				if(data.code == -1){
+					layer.msg(data.msg);
+				}else if(data.code == 1){
+					layer.closeAll(layer.indexmen);
+					layer.msg("升级成功", { time: 500 }, function () {
+						window.location.reload(); 
+					});
+				}
+			}
+		});
+	});
+}

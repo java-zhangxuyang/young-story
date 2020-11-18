@@ -70,4 +70,18 @@ public class VipController {
 		}
 	}
 	
+	/*
+	 * 消耗积分提升会员
+	 */
+	@PostMapping("/vipLevelUpgrade")
+	@ResponseBody
+	public ResponseBo vipLevelUpgrade(Integer id) {
+		ResponseBo ob = vipService.vipLevelUpgrade(id);
+		if(ob.isSuccess()) {
+			return ResponseBo.ok();
+		}else {
+			return ResponseBo.fail();
+		}
+	}
+	
 }

@@ -366,10 +366,12 @@ function box_check(id,name,status,remind){
 		$(".boxbutton").show();
 		$("#continuation").hide();
 		$("#departureBox").hide();
+		$("#statusRecovery").hide();
 	}else if(status == 1){
 		$(".boxbutton").show();
 		$("#useBox").hide();
 		$("#makeBox").hide();
+		$("#statusRecovery").hide();
 		if(remind == 0){
 			$("#continuation").hide();
 		}

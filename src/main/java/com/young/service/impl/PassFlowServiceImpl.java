@@ -102,7 +102,12 @@ public class PassFlowServiceImpl implements PassFlowService{
 				vip.setScore(vip.getScore().add(new BigDecimal(money)));
 				vip.setSumConsume(vip.getSumConsume().add(new BigDecimal(money)));
 				BigDecimal now = vip.getNowMoney().subtract(new BigDecimal(money));
-				vip.setNowMoney(now);
+				BigDecimal big0 = new BigDecimal(0);
+				if(now.compareTo(big0) < 1) {
+					vip.setNowMoney(big0);
+				}else {
+					vip.setNowMoney(now);
+				}
 				vipMapper.updateByPrimaryKeySelective(vip);
 				text = "本次共消费:"+money+"元，会员余额："+now.stripTrailingZeros().toPlainString()+"元。";
 			}

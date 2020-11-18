@@ -74,16 +74,16 @@
 	<table class="table table-striped"  id="vipTable">
 	  <thead>
 	    <tr>
-	      <th style="width: 9%;">序号</th>
+	      <th style="width: 5%;">序号</th>
 	      <th style="width: 9%;">姓名</th>
-	      <th style="width: 9%;">性别</th>
+	      <th style="width: 5%;">性别</th>
 	      <th style="width: 9%;">生日</th>
 	      <th style="width: 9%;">电话</th>
 	      <th style="width: 9%;">积分</th>
 	      <th style="width: 9%;">等级</th>
 	      <th style="width: 9%;">当前额度</th>
 	      <th style="width: 9%;">累计额度</th>
-	      <th style="width: 9%;">备注</th>
+	      <th style="width: 12%;">备注</th>
 	    </tr>
 	  </thead>
 	  <tbody>
@@ -95,12 +95,15 @@
 		      <td style="line-height: 35px;">${vip.birthday}</td>
 		      <td style="line-height: 35px;">${vip.mobile}</td>
 		      <td style="line-height: 35px;">${vip.score,'0.0'}</td>
-		      <td style="line-height: 35px;">${vip.levelName}</td>
+		      <td style="line-height: 35px;">${vip.level}级 ${vip.levelName}</td>
 		      <td style="line-height: 35px;">${vip.nowMoney}</td>
 		      <td style="line-height: 35px;">${vip.totalMoney}</td>
 		      <td style="line-height: 35px;">${vip.remark}</td>
 		      <td style="line-height: 35px;">
 		      	<button type="button" class="edit btn btn-primary" value="${vip.id}" onclick="vipRecharge(${vip.id},'${vip.name}')"><span class="glyphicon glyphicon-edit"></span> &nbsp;充值</button>
+		      	<%if(vip.level < 4){%>
+		      		<button type="button" class="edit btn btn-primary" value="${vip.id}" onclick="vipLevelUpgrade(${vip.id},'${vip.name}')"><span class="glyphicon glyphicon-edit"></span> &nbsp;积分升等级</button>
+		      	<%}%>
 		      	<!-- <button type="button" class="del btn btn-danger" value="${vip.id}"><span class="glyphicon glyphicon-remove"></span> &nbsp;删除</button> -->
 		      </td>
 		    </tr>

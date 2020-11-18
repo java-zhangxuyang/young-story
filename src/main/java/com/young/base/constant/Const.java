@@ -84,9 +84,17 @@ public class Const {
 	        put("lv1","1");      
 	        put("lv2","0.98");      
 	        put("lv3","0.95");      
-	        put("lv4","0.92");      
-	        put("lv5","0.88");      
+	        put("lv4","0.9");      
+	        put("lv5","0.85");      
 	    }
+	}; 
+	//积分升级会员等级对应积分
+	public static HashMap<String, BigDecimal > LEVELUPGRADE = new HashMap<String, BigDecimal>(){
+		{  
+			put("1-2",new BigDecimal(2000));      
+			put("2-3",new BigDecimal(4000));      
+			put("3-4",new BigDecimal(4000));      
+		}
 	}; 
 	//对应折扣
 	public static HashMap<String, String > DISCOUNT = new HashMap<String, String>(){

@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.young.base.constant.Const;
+import com.young.base.support.ResponseBo;
 import com.young.base.utils.PublicUtils;
 import com.young.mapper.FlushingMapper;
 import com.young.mapper.VipMapper;
@@ -74,9 +75,10 @@ public class VipServiceImpl implements VipService{
 		note.setMoney(vip.getMoney());
 		int i = vipUseNoteMapper.insertSelective(note);
 		if(i > 0) {
+			//会员等级
+			v = this.vipLevelRecharge(vip.getMoney(), v);
 			v.setNowMoney(v.getNowMoney().add(vip.getMoney()));
 			v.setTotalMoney(v.getTotalMoney().add(vip.getMoney()));
-			//TODO  会员等级
 			return vipMapper.updateByPrimaryKeySelective(v);
 		}
 		return 0;
@@ -95,6 +97,40 @@ public class VipServiceImpl implements VipService{
 	}
 	
 	
+	public Vip vipLevelRecharge(BigDecimal money,Vip vip) {
+		Double dmoney = money.doubleValue();
+		if(1000d <= dmoney && dmoney < 3000d && vip.getLevel() < 2) {
+			vip.setLevel(2);
+		}else if(3000d <= dmoney && dmoney < 5000d && vip.getLevel() < 3) {
+			vip.setLevel(3);
+		}else if(5000d <= dmoney && dmoney < 10000d && vip.getLevel() < 4) {
+			vip.setLevel(4);
+		}else if(10000d <= dmoney && vip.getLevel() < 5) {
+			vip.setLevel(5);
+		}
+		return vip;
+	}
+
+	@Override
+	public ResponseBo vipLevelUpgrade(Integer id) {
+		Vip vip = vipMapper.selectByPrimaryKey(id);
+		BigDecimal needScore = null;
+		if(vip.getLevel() == 1) {
+			needScore = Const.LEVELUPGRADE.get("1-2");
+		}else if(vip.getLevel() == 2) {
+			needScore = Const.LEVELUPGRADE.get("2-3");
+		}else if(vip.getLevel() == 3) {
+			needScore = Const.LEVELUPGRADE.get("3-4");
+		}
+		if(vip.getScore().compareTo(needScore) == -1) {
+			return ResponseBo.fail("所需积分不足！");
+		}else {
+			vip.setLevel(vip.getLevel() + 1);
+			vip.setScore(vip.getScore().subtract(needScore));
+			int i =vipMapper.updateByPrimaryKeySelective(vip);
+			return ResponseBo.ok(i);
+		}
+	}
 
 	
 }

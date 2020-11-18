@@ -30,6 +30,9 @@ public interface BoxSubscribeNoteMapper {
     @Select("select max(bsn.to_time) from box_subscribe_note bsn where bsn.box_id = #{boxId}  and to_days(bsn.to_time) = to_days(now())")
     Date selectMaxDateToday(Integer boxId);
     
+    @Select("select max(bsn.to_time) from box_subscribe_note bsn where bsn.box_id = #{boxId}  and to_days(bsn.to_time) = to_days(now()) and id <> #{id} ")
+    Date selectMaxDateTodayNoId(Integer boxId, Integer id);
+    
     @Select("select * from box_subscribe_note bsn where to_days(bsn.to_time) = to_days(now()) order by bsn.to_time ")
     List<BoxSubscribeNote> selectSubscribeToday();
 
