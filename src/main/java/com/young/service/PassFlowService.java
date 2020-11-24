@@ -28,4 +28,8 @@ public interface PassFlowService {
 
 	int addConsumption(ConsumptionNote consumptionNote, Integer people, Integer boxtype);
 
+	List<PassengerFlowNote> getPassFlowList();
+
+	int birthdayBenefits(Integer id, BigDecimal money);
+
 }

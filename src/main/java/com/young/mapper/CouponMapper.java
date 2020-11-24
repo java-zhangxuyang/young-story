@@ -23,6 +23,9 @@ public interface CouponMapper {
 
     int updateByPrimaryKey(Coupon record);
 
-    @Select("select c.*, d.name as typeName from coupon c left join dict d on c.type = d.no where d.`key` = 'coupon_type' order by c.id ")
-	List<Coupon> getCouponList();
+    @Select("select c.*, d.name as typeName from coupon c left join dict d on c.type = d.no where d.`key` = 'coupon_type' and c.type = #{type} order by c.id ")
+	List<Coupon> getCoupondkqList(Integer type);
+    
+    @Select("select c.*, d.name as typeName from coupon c left join dict d on c.type = d.no where d.`key` = 'coupon_type'  order by c.id ")
+    List<Coupon> getCouponList();
 }

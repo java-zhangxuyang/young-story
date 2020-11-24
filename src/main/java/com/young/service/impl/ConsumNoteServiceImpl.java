@@ -34,8 +34,8 @@ public class ConsumNoteServiceImpl implements ConsumNoteService{
 	}
 
 	@Override
-	public List<ConsumptionNote> selectConsumptionNoteById(Integer id) {
-		return consumptionNoteMapper.selectConsumptionNoteById(id);
+	public List<ConsumptionNote> selectConsumptionNoteByPassId(Integer id) {
+		return consumptionNoteMapper.selectConsumptionNoteByPassId(id);
 	}
 	
 	

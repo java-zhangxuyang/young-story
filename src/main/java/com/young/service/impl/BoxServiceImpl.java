@@ -109,7 +109,7 @@ public class BoxServiceImpl implements BoxService{
 				notes.setFreeCharge(Const.PUBLIC_NO);
 				notes.setMoney(box.getPrice().multiply(new BigDecimal(box.getUseDuration())));
 				notes.setTime(now.convertToDate());
-				notes.setRemark("包厢："+box.getPrice().stripTrailingZeros().toPlainString()+"元/小时，"+box.getUseDuration()+"小时，共计"+notes.getMoney().stripTrailingZeros().toPlainString()+"元");
+				notes.setRemark("包厢："+box.getPrice().stripTrailingZeros().toPlainString()+"元/小时，"+new BigDecimal(box.getUseDuration()).stripTrailingZeros().toPlainString()+"小时，共计"+notes.getMoney().stripTrailingZeros().toPlainString()+"元");
 				consumNoteService.consumption(notes);
 			}
 			int j = boxMapper.updateByPrimaryKeySelective(box);

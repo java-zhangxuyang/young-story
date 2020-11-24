@@ -13,6 +13,7 @@ function addCoupon(){
 				    '<div class="col-sm-9">'+
 					    '<select class="form-control" name="type" id="type">'+
 					    	'<option value="1" selected>抵扣券</option>'+
+					    	'<option value="2">生日福利</option>'+
 						 '</select>'+
 				    '</div>'+
 			    '</div>'+

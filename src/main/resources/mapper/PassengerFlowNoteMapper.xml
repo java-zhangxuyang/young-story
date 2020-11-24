@@ -3,7 +3,7 @@
 <mapper namespace="com.young.mapper.PassengerFlowNoteMapper">
   <resultMap id="BaseResultMap" type="com.young.model.PassengerFlowNote">
     <id column="id" jdbcType="INTEGER" property="id" />
-    <result column="number" jdbcType="INTEGER" property="number" />
+    <result column="number" jdbcType="VARCHAR" property="number" />
     <result column="to_time" jdbcType="TIMESTAMP" property="toTime" />
     <result column="people" jdbcType="INTEGER" property="people" />
     <result column="use_box" jdbcType="INTEGER" property="useBox" />

@@ -29,5 +29,8 @@ public interface PassengerFlowNoteMapper {
 	List<PassengerFlowNote> selectPassFlowToday();
 
     @Select("select * from passenger_flow_note where number = #{number} and to_days(to_time) = to_days(now()) ")
-	PassengerFlowNote selectTodayByNumber(Integer number);
+	PassengerFlowNote selectTodayByNumber(String number);
+
+    @Select("select * from passenger_flow_note where status = 1 and to_days(to_time) = to_days(now()) ")
+	List<PassengerFlowNote> getPassFlowList();
 }

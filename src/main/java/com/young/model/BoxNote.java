@@ -11,7 +11,7 @@ public class BoxNote {
 
     private Integer boxId;
 
-    private Integer number;
+    private String number;
 
     private Date startTime;
 
@@ -59,11 +59,11 @@ public class BoxNote {
         this.boxId = boxId;
     }
 
-    public Integer getNumber() {
+    public String getNumber() {
         return number;
     }
 
-    public void setNumber(Integer number) {
+    public void setNumber(String number) {
         this.number = number;
     }
 

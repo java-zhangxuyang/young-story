@@ -56,8 +56,8 @@ public class CouponServiceImpl implements CouponService{
 
 
 	@Override
-	public List<Coupon> getCouponList() {
-		return couponMapper.getCouponList();
+	public List<Coupon> getCoupondkqList(Integer type) {
+		return couponMapper.getCoupondkqList(type);
 	};
 
 }

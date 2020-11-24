@@ -6,7 +6,8 @@ import java.util.HashMap;
 public class Const {
 
 	//加密 密钥
-	public static String LOGIN_PASSWORD_SALT = "qingcwuyu";
+	public static String LOGIN_ACCOUNTS_SALT = "qingcwuyu";
+	public static String LOGIN_PASSWORD_SALT = "qcwy";
 	
 	//session 存放员工实体
     public static String LOGIN_SESSION_STAFF = "staff";
@@ -31,7 +32,7 @@ public class Const {
     
     //入场费  28元/人
     public static BigDecimal ADMISSION_FEE =  new BigDecimal(28);
-    //入场费  28元/人
+    //女仆费  58元/人/小时
     public static BigDecimal MAID_FEE =  new BigDecimal(58);
     
     //公用  是否
@@ -62,6 +63,8 @@ public class Const {
     public static Integer CON_NOTE_BOX_TYPE = 2;//包厢
     public static Integer CON_NOTE_MAID_TYPE = 3;//女仆
     public static Integer CON_NOTE_OTHER_TYPE = 4;//其他
+    public static Integer CON_NOTE_BIRTHDAY_BUY_TYPE = 102;//生日福利购买
+    public static Integer CON_NOTE_BIRTHDAY_TYPE = 101;//使用生日福利
     public static Integer CON_NOTE_SUBTRACT_TYPE = 100;//使用抵扣券
     public static Integer CON_NOTE_ACT_DISCOUNT_TYPE = 98;//活动折扣
     public static Integer CON_NOTE_VIP_DISCOUNT_TYPE = 99;//会员折扣

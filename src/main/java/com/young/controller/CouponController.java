@@ -59,10 +59,10 @@ public class CouponController {
 	/*
 	 * 查询优惠项
 	 */
-	@PostMapping("/getCouponList")
+	@PostMapping("/getCoupondkqList")
 	@ResponseBody
-	public Object getCouponList() {
-		List<Coupon> list = couponService.getCouponList();
+	public Object getCoupondkqList(Integer type) {
+		List<Coupon> list = couponService.getCoupondkqList(type);
 		return ResponseBo.ok(list);
 	}
 	

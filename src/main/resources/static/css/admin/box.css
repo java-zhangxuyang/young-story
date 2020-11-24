@@ -125,11 +125,16 @@
 
 
 body .layui-layer-page .layui-layer-btn .layui-layer-btn2{
+	border-color: #cc6c1d;
+	background-color: #cc6c1d;
+	color: #fff;
+}
+body .layui-layer-page .layui-layer-btn .layui-layer-btn1{
 	border-color: #884898;
 	background-color: #884898;
 	color: #fff;
 }
-body .layui-layer-page .layui-layer-btn .layui-layer-btn1{
+body .layui-layer-page .layui-layer-btn .layui-layer-btn3{
 	border-color: #f699b4;
 	background-color: #f699b4;
 	color: #fff;

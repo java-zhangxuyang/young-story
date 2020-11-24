@@ -67,7 +67,7 @@ public class PassFlowController {
 		if(id == null) {
 			return ResponseBo.fail("请检查后重试！");
 		}
-		List<ConsumptionNote> list = consumNoteService.selectConsumptionNoteById(id);
+		List<ConsumptionNote> list = consumNoteService.selectConsumptionNoteByPassId(id);
 		return ResponseBo.ok(list);
 	}
 	
@@ -117,6 +117,28 @@ public class PassFlowController {
 			return ResponseBo.ok();
 		}
 		return ResponseBo.fail();
+	}
+	
+	//生日福利
+	@ResponseBody
+	@PostMapping("/birthdayBenefits")
+	private Object birthdayBenefits(Integer id,BigDecimal money) {
+		if(id == null) {
+			return ResponseBo.fail("填写有误，请检查后重试！");
+		}
+		int i = passFlowService.birthdayBenefits(id,money);
+		if(i > 0 ) {
+			return ResponseBo.ok();
+		}
+		return ResponseBo.fail();
+	}
+	
+	//获取号码牌列表
+	@ResponseBody
+	@PostMapping("/getPassFlowList")
+	private Object getPassFlowList() {
+		List<PassengerFlowNote> List = passFlowService.getPassFlowList();
+		return ResponseBo.ok(List);
 	}
 
 }

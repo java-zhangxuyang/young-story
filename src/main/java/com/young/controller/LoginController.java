@@ -41,9 +41,8 @@ public class LoginController extends BaseController {
 				error_count = null == error_count ? 1 : error_count + 1;
 				cache.set(ip, error_count, 10 * 60);
 			} else {
-				Staff staff = responseBo.getPayload();
-				log.info(staff.getName()+" 成功登陆系统。");
-				request.getSession().setAttribute(Const.LOGIN_SESSION_STAFF, staff);
+				log.info("成功登陆系统。");
+				request.getSession().setAttribute(Const.LOGIN_SESSION_STAFF, "admin");
 				request.getSession().setMaxInactiveInterval(12 * 60 * 60);
 				cache.del(ip);
 			}

@@ -9,6 +9,6 @@ public interface ConsumNoteService {
 
 	int consumption(ConsumptionNote note);
 
-	List<ConsumptionNote> selectConsumptionNoteById(Integer id);
+	List<ConsumptionNote> selectConsumptionNoteByPassId(Integer id);
 
 }

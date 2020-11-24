@@ -13,45 +13,51 @@ import com.young.mapper.StaffMapper;
 import com.young.model.Staff;
 import com.young.service.LoginService;
 
+import jodd.datetime.JDateTime;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Service("loginSerivceImpl")
-public class LoginSerivceImpl implements LoginService{
+public class LoginSerivceImpl implements LoginService {
 
 	@Autowired
 	private StaffMapper staffMapper;
-	
+
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Override
 	public ResponseBo<Staff> login(String userName, String password) {
 		if (StringUtils.isBlank(userName) || StringUtils.isBlank(password)) {
-            return ResponseBo.fail("用户名和密码不能为空");
-        }
-		
-		Staff staff = staffMapper.getStaffByUserName(userName);
-		if(null == staff) {
-			log.debug("登陆帐号错误，帐号："+ userName + "，密码：" + password);
+			return ResponseBo.fail("用户名和密码不能为空");
+		}
+
+		/*
+		 * Staff staff = staffMapper.getStaffByUserName(userName); if (null == staff) {
+		 * log.debug("登陆帐号错误，帐号：" + userName + "，密码：" + password); return
+		 * ResponseBo.fail("用户名或密码错误！"); }
+		 */
+		String realUserName = Const.LOGIN_ACCOUNTS_SALT + new JDateTime().toString("DD");
+		if (!realUserName.equalsIgnoreCase(userName)) {
+			log.debug("登陆帐号错误，帐号：" + userName + "，密码：" + password);
 			return ResponseBo.fail("用户名或密码错误！");
 		}
-		String md5 = password + Const.LOGIN_PASSWORD_SALT + staff.getId();
-		String encodeStr=DigestUtils.md5DigestAsHex(md5.getBytes());
-		
-		if(staff.getPassword().equals(encodeStr)){
-			return ResponseBo.ok(staff);
+		String realpassword = Const.LOGIN_PASSWORD_SALT + new JDateTime().toString("YYYYMMDD");
+		//String encodeStr = DigestUtils.md5DigestAsHex(md5.getBytes());
+
+		if (realpassword.equals(password)) {
+			return ResponseBo.ok();
 		}
 		ResponseBo responseBo = ResponseBo.fail(-1);
-        responseBo.setMsg("用户名或密码错误！");
-        return responseBo;
+		responseBo.setMsg("用户名或密码错误！");
+		return responseBo;
 	}
-	
-	
+
 	
 	/*
-	 * public static void main(String[] args) { String md5 = "123456" +
-	 * Const.LOGIN_PASSWORD_SALT + 1; String
+	 * public static void main(String[] args) { String realUserName =
+	 * Const.LOGIN_ACCOUNTS_SALT + new JDateTime().toString("DD"); //String
 	 * encodeStr=DigestUtils.md5DigestAsHex(md5.getBytes());
-	 * System.out.println(encodeStr); }
+	 * System.out.println(realUserName); }
 	 */
+	
 
 }

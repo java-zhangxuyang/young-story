@@ -4,7 +4,7 @@
   <resultMap id="BaseResultMap" type="com.young.model.BoxNote">
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="box_id" jdbcType="INTEGER" property="boxId" />
-    <result column="number" jdbcType="INTEGER" property="number" />
+    <result column="number" jdbcType="VARCHAR" property="number" />
     <result column="start_time" jdbcType="TIMESTAMP" property="startTime" />
     <result column="end_time" jdbcType="TIMESTAMP" property="endTime" />
     <result column="use_date" jdbcType="INTEGER" property="useDate" />

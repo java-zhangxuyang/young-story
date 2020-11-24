@@ -144,7 +144,7 @@ public class BoxController {
 	@ResponseBody
 	@PostMapping("/useBox")
 	private Object useBox(BoxNote boxNote) {
-		if(boxNote.getNumber() <= 0) {
+		if(StringUtil.isBlank(boxNote.getNumber())) {
 			return ResponseBo.fail("请输入正确的号码牌！");
 		}
 		if(boxNote.getUseDate() <= 0 ) {

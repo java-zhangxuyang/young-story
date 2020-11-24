@@ -22,6 +22,7 @@ var xflist;
 var moneyMap;
 var yhxlist;
 var boxlist;
+var passFlowList;
 var MouseEvent = function(e){
 	 this.x = e.pageX
 	 this.y = e.pageY
@@ -335,7 +336,7 @@ var MouseEvent = function(e){
 		      <td >${passFlow.offTime,'HH:mm'}</td>
 		      <td >
 		      	<%if(passFlow.status == 1){%>
-			      	<button type="button" class="btn btn-primary" value="${passFlow.id}" onclick="consumption(${passFlow.id},${passFlow.number})"><span class="glyphicon glyphicon-usd"></span> &nbsp;消费</button>
+			      	<button type="button" class="btn btn-primary" value="${passFlow.id}" onclick="consumption(${passFlow.id},'${passFlow.number}')"><span class="glyphicon glyphicon-usd"></span> &nbsp;消费</button>
 			      	<button type="button" class="btn btn-primary" value="${passFlow.id}" onclick="checkOut(${passFlow.id},1)"><span class="glyphicon glyphicon-gbp"></span> &nbsp;结账</button>
 			      	<!-- <button type="button" class="del btn btn-danger" value="${passFlow.id}"><span class="glyphicon glyphicon-remove"></span> &nbsp;删除</button> -->
 		      	<%}else{%>

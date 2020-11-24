@@ -13,6 +13,7 @@ import com.young.base.support.ResponseBo;
 import com.young.model.Staff;
 
 import jodd.datetime.JDateTime;
+import jodd.util.StringUtil;
 
 @Controller
 public class AdminController {
@@ -22,8 +23,8 @@ public class AdminController {
 	 */
 	@GetMapping("/admin/index")
 	public String index(Model model,HttpServletRequest request) {
-		Staff staff = (Staff)request.getSession().getAttribute(Const.LOGIN_SESSION_STAFF);
-		if(null == staff) {
+		String staff = request.getSession().getAttribute(Const.LOGIN_SESSION_STAFF).toString();
+		if(StringUtil.isBlank(staff)) {
 			return "/admin";
 		}
 		String date = new JDateTime().toString("YYYY-MM");

@@ -51,7 +51,7 @@
 		      <td style="line-height: 35px;">${coupon.name}</td>
 		      <td style="line-height: 35px;">${coupon.typeName}</td>
 		      <td style="line-height: 35px;">${coupon.money,'0'}</td>
-		      <td style="line-height: 35px;">${coupon.total}</td>
+		      <td style="line-height: 35px;">${(coupon.total==0?'不限':coupon.total)}</td>
 		      <td style="line-height: 35px;">${coupon.surplus}</td>
 		      <td style="line-height: 35px;">${coupon.day}</td>
 		      <td style="line-height: 35px;">${coupon.startTime,'yyyy-MM-dd'}</td>

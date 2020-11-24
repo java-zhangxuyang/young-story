@@ -5,7 +5,7 @@ import java.util.Date;
 public class PassengerFlowNote {
     private Integer id;
 
-    private Integer number;
+    private String number;
 
     private Date toTime;
 
@@ -43,11 +43,11 @@ public class PassengerFlowNote {
         this.id = id;
     }
 
-    public Integer getNumber() {
+    public String getNumber() {
         return number;
     }
 
-    public void setNumber(Integer number) {
+    public void setNumber(String number) {
         this.number = number;
     }
 

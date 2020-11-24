@@ -13,7 +13,7 @@ public interface CouponService {
 
 	PageInfo<Coupon> getCouponList(Integer pageNum);
 	
-	List<Coupon> getCouponList();
+	List<Coupon> getCoupondkqList(Integer type);
 
 	
 }

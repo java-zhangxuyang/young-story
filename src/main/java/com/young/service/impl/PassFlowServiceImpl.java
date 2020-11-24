@@ -19,6 +19,7 @@ import com.young.base.constant.Const;
 import com.young.base.utils.PublicUtils;
 import com.young.mapper.ActivityMapper;
 import com.young.mapper.BoxMapper;
+import com.young.mapper.ConsumptionNoteMapper;
 import com.young.mapper.PassengerFlowNoteMapper;
 import com.young.mapper.VipMapper;
 import com.young.mapper.VipScoreNoteMapper;
@@ -52,6 +53,8 @@ public class PassFlowServiceImpl implements PassFlowService{
 	private VipScoreNoteMapper vipScoreNoteMapper;
 	@Autowired
 	private BoxMapper boxMapper;
+	@Autowired
+	private ConsumptionNoteMapper consumptionNoteMapper;
 
 	@Override
 	public PageInfo<PassengerFlowNote> selectPassFlowToday(Integer pageNum) {
@@ -65,13 +68,19 @@ public class PassFlowServiceImpl implements PassFlowService{
 	@Override
 	public int addPassFlow(PassengerFlowNote passengerFlowNote) {
 		JDateTime now = new JDateTime();
-		Integer number = Integer.parseInt(now.getDay() + "" +now.getHour() +"" +now.getMinute()+""+ PublicUtils.getRandom());
+		String minute = "0";
+		if(now.getMinute() < 10) {
+			minute += now.getMinute();
+		}else {
+			minute = now.getMinute()+""; 
+		}
+		String number = now.getDay() + " " +now.getHour() +":" +minute+"-"+ PublicUtils.getRandom();
 		PassengerFlowNote passFlow = passengerFlowNoteMapper.selectTodayByNumber(number);
 		if(null != passFlow) {
-			number = Integer.parseInt(now.getDay() + "" +now.getHour() + "" + now.getMinute() + "" + now.getSecond() );
+			number = now.getDay() + " " +now.getHour() + ":" + minute + "-" + now.getSecond();
 		}
 		passengerFlowNote.setNumber(number);
-		passengerFlowNote.setToTime(now.subSecond(20).convertToDate());
+		passengerFlowNote.setToTime(now.convertToDate());
 		passengerFlowNote.setStatus(Const.PASS_FLOW_ZAI_STATUS);
 		int i = passengerFlowNoteMapper.insertSelective(passengerFlowNote);
 		ConsumptionNote notes = new ConsumptionNote();
@@ -134,7 +143,7 @@ public class PassFlowServiceImpl implements PassFlowService{
 	//计算消费折扣后的总额
 	public Long settleAccounts(Integer id, Vip vip, Integer sign) {
 		//计算消费总额
-		List<ConsumptionNote> NoteList = consumNoteService.selectConsumptionNoteById(id);
+		List<ConsumptionNote> NoteList = consumNoteService.selectConsumptionNoteByPassId(id);
 		BigDecimal money = new BigDecimal(0);
 		for (ConsumptionNote consumptionNote : NoteList) {
 			money = money.add(consumptionNote.getMoney());//计算消费
@@ -212,6 +221,9 @@ public class PassFlowServiceImpl implements PassFlowService{
 			Map<String, BigDecimal> map = this.selectBoxTypePrice();
 			consumptionNote.setMoney(map.get("type"+boxtype).multiply(new BigDecimal(consumptionNote.getBack3())));
 			consumptionNote.setRemark("包厢："+map.get("type"+boxtype).stripTrailingZeros().toPlainString()+"元/小时，"+consumptionNote.getBack3()+"小时，共计"+consumptionNote.getMoney().stripTrailingZeros().toPlainString()+"元");
+			PassengerFlowNote note = passengerFlowNoteMapper.selectByPrimaryKey(consumptionNote.getPassId());
+			note.setUseBox(1);
+			passengerFlowNoteMapper.updateByPrimaryKeySelective(note);
 		}else if(consumptionNote.getType() == Const.CON_NOTE_MAID_TYPE) {
 			consumptionNote.setMoney(new BigDecimal(consumptionNote.getBack3()).multiply(new BigDecimal(consumptionNote.getBack2())).multiply(Const.MAID_FEE));
 			consumptionNote.setRemark("女仆："+Const.MAID_FEE+"元/小时，"+consumptionNote.getBack2()+"位，"+consumptionNote.getBack3()+"小时，共计"+consumptionNote.getMoney().stripTrailingZeros().toPlainString()+"元");
@@ -223,6 +235,36 @@ public class PassFlowServiceImpl implements PassFlowService{
 	
 	public int updatePassengerFlowNote(PassengerFlowNote passengerFlowNote) {
 		return passengerFlowNoteMapper.updateByPrimaryKeySelective(passengerFlowNote);
+	}
+
+	@Override
+	public List<PassengerFlowNote> getPassFlowList() {
+		return passengerFlowNoteMapper.getPassFlowList();
+	}
+
+	@Override
+	public int birthdayBenefits(Integer id, BigDecimal money) {
+		ConsumptionNote notes = new ConsumptionNote();
+		notes.setPassId(id);
+		notes.setType(Const.CON_NOTE_BIRTHDAY_BUY_TYPE);
+		notes.setFreeCharge(Const.PUBLIC_NO);
+		notes.setMoney(money);
+		notes.setTime(new Date());
+		notes.setRemark("购买生日福利，消费："+money.stripTrailingZeros().toPlainString()+"元");
+		int i = consumNoteService.consumption(notes);
+		BigDecimal sumMoney = consumptionNoteMapper.selectSumMoneyByPassIdAndType(id);
+		if(i > 0 && sumMoney.compareTo(new BigDecimal(0)) == 1) {
+			ConsumptionNote note = new ConsumptionNote();
+			note.setPassId(id);
+			note.setType(Const.CON_NOTE_BIRTHDAY_TYPE);
+			note.setFreeCharge(Const.PUBLIC_NO);
+			note.setMoney(new BigDecimal(0).subtract(sumMoney));
+			note.setTime(new Date());
+			note.setRemark("生日福利抵消包厢费，抵消："+sumMoney.stripTrailingZeros().toPlainString()+"元");
+			return consumNoteService.consumption(note);
+		}else {
+			return 0;
+		}
 	}
 	
 	

@@ -72,13 +72,34 @@ function useBoxAction(){
 		layer.msg("请先选择包厢！");
 		return;
 	}
+	$.ajax({
+		type: "POST",
+		url: "/admin/passFlow/getPassFlowList",
+		dataType: "json",
+		async: false,
+		success: function(data) {
+			if(data.code == -1){
+				layer.msg(data.msg);
+			}else if(data.code == 1){
+				passFlowList = data.payload;
+			}
+		}
+	});
+	var passFlowContent = '';
+	if(passFlowList != null && passFlowList.length > 0){
+		for (var i=0;i<passFlowList.length;i++){  
+			passFlowContent += '<option value="'+passFlowList[i].number+'">'+passFlowList[i].number+'</option>';
+		}
+	}
 	var content = '<div>\n' +
 					'<form id="useBoxForm">'+
 						'<input type="hidden" name="boxId" value="'+id+'">'+
 						'<div class="form-group"  style="margin-top:5%;">'+
 							'<label for="number" class="col-sm-2 control-label">号码牌</label>'+
 							'<div class="col-sm-9">'+
-								'<input type="text" class="form-control" id="number" name="number" placeholder="右侧号码牌"  autocomplete="off">'+
+								/*'<input type="text" class="form-control" id="number" name="number" placeholder="右侧号码牌"  autocomplete="off">'+*/
+							    '<select class="form-control" name="number" id="number">'+passFlowContent+
+								 '</select>'+
 							'</div>'+
 						'</div>'+
 					    '<div class="form-group">'+
@@ -94,11 +115,11 @@ function useBoxAction(){
 						    '</div>'+
 					    '</div>'+
 					    '<div class="form-group">'+
-						    '<label for="remind" class="col-sm-2 control-label">到时提醒</label>'+
+						    '<label for="remind" class="col-sm-2 control-label">计时方式</label>'+
 						    '<div class="col-sm-9">'+
 							    '<select class="form-control" name="remind">'+
-							    	'<option value="1">是</option>'+
-						    		'<option value="0">否</option>'+
+							    	'<option value="1">倒计时</option>'+
+						    		'<option value="0">正计时</option>'+
 								 '</select>'+
 						    '</div>'+
 					    '</div>'+
@@ -120,7 +141,7 @@ function useBoxAction(){
         	var number = $("#number").val();
         	var useDate = $("#useDate").val();
         	var people = $("#people").val();
-        	if(number==null || number<=0 ||useDate==null || useDate<=0 ||people==null || people<=0){
+        	if(number==null ||useDate==null || useDate<=0 ||people==null || people<=0){
         		layer.msg("输入有误，请重试！");
         		return;
         	}
@@ -565,9 +586,9 @@ function consumption(id,number){
         			}else if($("#boxtype").val() == 2){
         				boxMoney=58;
         			}else if($("#boxtype").val() == 3){
-        				boxMoney=88;
+        				boxMoney=118;
         			}else if($("#boxtype").val() == 4){
-        				boxMoney=78;
+        				boxMoney=108;
         			}
         			var useTime = $("#useTime").val();
         			$("#money").val(boxMoney * useTime);
@@ -584,9 +605,9 @@ function consumption(id,number){
     			}else if($("#boxtype").val() == 2){
     				boxMoney=58;
     			}else if($("#boxtype").val() == 3){
-    				boxMoney=88;
+    				boxMoney=118;
     			}else if($("#boxtype").val() == 4){
-    				boxMoney=78;
+    				boxMoney=108;
     			}
         		var useTime = $("#useTime").val();
         		$("#money").val(boxMoney * useTime);
@@ -699,9 +720,9 @@ function checkOut(id,sign){
 		var jzcontent = '<table class="table table-striped">'+
 		  '<thead>'+
 		    '<tr>'+
-		      '<th style="width:10%;">消费类型</th>'+
+		      '<th style="width:15%;">消费类型</th>'+
 		      /*'<th style="width:10%;">是否免单</th>'+*/
-		      '<th style="width:20%;">消费时间</th>'+
+		      '<th style="width:15%;">消费时间</th>'+
 		      '<th style="width:10%;">消费金额</th>'+
 		      '<th style="width:50%;">备注</th>'+
 		    '</tr>'+
@@ -724,7 +745,7 @@ function checkOut(id,sign){
 	        shadeClose: true, //点击遮罩关闭
 	        content:jzcontent,
 	        maxmin: true,
-	        btn:sign==1?['普通结账','会员结账','抵扣券','取消']:[],
+	        btn:sign==1?['普通结账','会员结账','抵扣券','生日福利','取消']:[],
 	        success: function (layero, index) { // 弹窗成功
 			},
 			end:function(){
@@ -873,7 +894,8 @@ function checkOut(id,sign){
 		    btn3:function(){
 		    	$.ajax({
 					type: "POST",
-					url: "/admin/coupon/getCouponList",
+					url: "/admin/coupon/getCoupondkqList",
+					data:{type:1},
 					dataType: "json",
 					async: false,
 					success: function(data) {
@@ -887,7 +909,7 @@ function checkOut(id,sign){
 		    	var yhqcontent='';
 		    	if(yhxlist != null && yhxlist.length > 0){
 					for (var i=0;i<yhxlist.length;i++){  
-						yhqcontent += '<option value="'+yhxlist[i].money+'">'+yhxlist[i].name+'</option>';
+						yhqcontent += '<option value="'+yhxlist[i].money+'" >'+yhxlist[i].name+'</option>';
 					}
 				}
 		    	var content = '<div>\n' +
@@ -942,6 +964,71 @@ function checkOut(id,sign){
 		    					type: "POST",
 		    					data: {id:id,money:money},
 		    					url: "/admin/passFlow/deductionVoucher",
+		    					dataType: "json",
+		    					success: function(data) {
+		    						if(data.code == -1){
+		    							layer.msg(data.msg);
+		    						}else if(data.code == 1){
+		    							layer.msg("操作成功！");
+		    							layer.closeAll(layer.indexmen); //关闭当前窗口
+		    							checkOut(id,sign);
+		    						}
+		    					}
+		    				});
+	    				});
+		    		}
+		    	});
+		    	
+		    },
+		    btn4:function(){
+		    	$.ajax({
+					type: "POST",
+					url: "/admin/coupon/getCoupondkqList",
+					data:{type:2},
+					dataType: "json",
+					async: false,
+					success: function(data) {
+						if(data.code == -1){
+							layer.msg(data.msg);
+						}else if(data.code == 1){
+							yhxlist = data.payload;
+						}
+					}
+				});
+		    	var yhqcontent='';
+		    	if(yhxlist != null && yhxlist.length > 0){
+					for (var i=0;i<yhxlist.length;i++){  
+						yhqcontent += '<option value="'+yhxlist[i].money+'" >'+yhxlist[i].name+'</option>';
+					}
+				}
+		    	var content = '<div>\n' +
+		    	'<form id="addPassFlowForm">'+
+		    	'<div class="form-group"  style="margin-top:5%;">'+
+				    '<label for="type" class="col-sm-3 control-label">类别</label>'+
+				    '<div class="col-sm-8">'+
+					    '<select class="form-control" id="type" name="type">'+yhqcontent+
+						 '</select>'+
+				    '</div>'+
+			    '</div>'+
+		    	'</form></div>';
+		    	var indexmen = layer.open({
+		    		type: 1,
+		    		title: '生日福利',
+		    		area: ['400px', '200px'],
+		    		shadeClose: true, //点击遮罩关闭
+		    		content:content,
+		    		btn:['确定','取消'],
+		    		yes:function(){
+		    			var money = $("#type").val();
+		    			if(money==null || money <= 0){
+		    				layer.msg("输入有误，请重试！");
+		    				return;
+		    			}
+	    				layer.confirm('请确认生日福利无误？', {icon: 3, title:'提示'}, function(index){
+		    				$.ajax({
+		    					type: "POST",
+		    					data: {id:id,money:money},
+		    					url: "/admin/passFlow/birthdayBenefits",
 		    					dataType: "json",
 		    					success: function(data) {
 		    						if(data.code == -1){
