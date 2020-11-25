@@ -96,7 +96,7 @@ public class PassFlowServiceImpl implements PassFlowService{
 
 	@Override
 	public Object checkOut(Integer id,String mobile) {
-		String text = "";
+		String text = "非会员~手工结账成功！";
 		if(StringUtil.isNotBlank(mobile)) {
 			Vip vip = vipMapper.selectVipByMobile(mobile);
 			Long money = this.settleAccounts(id, vip,2);
@@ -108,17 +108,23 @@ public class PassFlowServiceImpl implements PassFlowService{
 			vipScoreNote.setTime(new Date());
 			int i = vipScoreNoteMapper.insertSelective(vipScoreNote);
 			if(i > 0) {
-				vip.setScore(vip.getScore().add(new BigDecimal(money)));
-				vip.setSumConsume(vip.getSumConsume().add(new BigDecimal(money)));
-				BigDecimal now = vip.getNowMoney().subtract(new BigDecimal(money));
+				BigDecimal thismoney = new BigDecimal(money);
+				vip.setScore(vip.getScore().add(thismoney));
+				vip.setSumConsume(vip.getSumConsume().add(thismoney));
 				BigDecimal big0 = new BigDecimal(0);
-				if(now.compareTo(big0) < 1) {
+				if(vip.getNowMoney().compareTo(big0) < 1) {
 					vip.setNowMoney(big0);
+					text = "手工结账~~本次共消费："+money+"元，会员余额：0元。";
 				}else {
-					vip.setNowMoney(now);
+					BigDecimal now = vip.getNowMoney().subtract(thismoney);
+					if(now.compareTo(big0) < 1) {
+						vip.setNowMoney(big0);
+					}else {
+						vip.setNowMoney(now);
+					}
+					text = "本次共消费:"+money+"元，会员余额："+now.stripTrailingZeros().toPlainString()+"元。";
 				}
 				vipMapper.updateByPrimaryKeySelective(vip);
-				text = "本次共消费:"+money+"元，会员余额："+now.stripTrailingZeros().toPlainString()+"元。";
 			}
 		}
 		PassengerFlowNote note = passengerFlowNoteMapper.selectByPrimaryKey(id);
@@ -221,6 +227,7 @@ public class PassFlowServiceImpl implements PassFlowService{
 			Map<String, BigDecimal> map = this.selectBoxTypePrice();
 			consumptionNote.setMoney(map.get("type"+boxtype).multiply(new BigDecimal(consumptionNote.getBack3())));
 			consumptionNote.setRemark("包厢："+map.get("type"+boxtype).stripTrailingZeros().toPlainString()+"元/小时，"+consumptionNote.getBack3()+"小时，共计"+consumptionNote.getMoney().stripTrailingZeros().toPlainString()+"元");
+			consumptionNote.setBack3(boxtype+"");
 			PassengerFlowNote note = passengerFlowNoteMapper.selectByPrimaryKey(consumptionNote.getPassId());
 			note.setUseBox(1);
 			passengerFlowNoteMapper.updateByPrimaryKeySelective(note);
@@ -250,10 +257,16 @@ public class PassFlowServiceImpl implements PassFlowService{
 		notes.setFreeCharge(Const.PUBLIC_NO);
 		notes.setMoney(money);
 		notes.setTime(new Date());
-		notes.setRemark("购买生日福利，消费："+money.stripTrailingZeros().toPlainString()+"元");
+		if(money.compareTo(new BigDecimal(198)) == 0){
+		    notes.setBack3("1");
+		    notes.setRemark("购买生日福利（小包），消费："+money.stripTrailingZeros().toPlainString()+"元");
+		}else if(money.compareTo(new BigDecimal(368)) == 0){
+		    notes.setBack3("2");
+		    notes.setRemark("购买生日福利（大包），消费："+money.stripTrailingZeros().toPlainString()+"元");
+		}
 		int i = consumNoteService.consumption(notes);
-		BigDecimal sumMoney = consumptionNoteMapper.selectSumMoneyByPassIdAndType(id);
-		if(i > 0 && sumMoney.compareTo(new BigDecimal(0)) == 1) {
+		BigDecimal sumMoney = consumptionNoteMapper.selectSumMoneyByPassIdAndType(id,notes.getBack3());
+		if(i > 0 && sumMoney != null &&  sumMoney.compareTo(new BigDecimal(0)) == 1) {
 			ConsumptionNote note = new ConsumptionNote();
 			note.setPassId(id);
 			note.setType(Const.CON_NOTE_BIRTHDAY_TYPE);
@@ -261,6 +274,11 @@ public class PassFlowServiceImpl implements PassFlowService{
 			note.setMoney(new BigDecimal(0).subtract(sumMoney));
 			note.setTime(new Date());
 			note.setRemark("生日福利抵消包厢费，抵消："+sumMoney.stripTrailingZeros().toPlainString()+"元");
+			if(money.compareTo(new BigDecimal(198)) == 0){
+			    notes.setBack3("1");
+			}else if(money.compareTo(new BigDecimal(368)) == 0){
+			    notes.setBack3("2");
+			}
 			return consumNoteService.consumption(note);
 		}else {
 			return 0;

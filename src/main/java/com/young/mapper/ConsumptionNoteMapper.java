@@ -30,6 +30,6 @@ public interface ConsumptionNoteMapper {
     @Select("select cn.*,d.name as typeName from consumption_note cn LEFT JOIN dict d on cn.type = d.`no` where cn.pass_id = #{id} and d.`key`='con_note_type' order by  time asc ")
 	List<ConsumptionNote> selectConsumptionNoteByPassId(Integer id);
     
-    @Select("select sum(cn.money) from consumption_note cn  where cn.pass_id = #{id} and cn.type = 2 order by  cn.time asc ")
-    BigDecimal selectSumMoneyByPassIdAndType(Integer id);
+    @Select("select sum(cn.money) from consumption_note cn  where cn.pass_id = #{id} and cn.type = 2 and cn.back3 = #{back3} order by  cn.time asc ")
+    BigDecimal selectSumMoneyByPassIdAndType(Integer id, String back3);
 }

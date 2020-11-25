@@ -315,13 +315,12 @@ var MouseEvent = function(e){
         </a></caption>
 	  <thead>
 	    <tr>
-	      <th>号码牌</th>
-	      <th>到场时间</th>
-	      <th>人数</th>
-	      <th>使用包厢</th>
-	      <th>使用时间</th>
-	      <th>客流状态</th>
-	      <th>离场时间</th>
+	      <th style="width: 15%;">号码牌</th>
+	      <th style="width: 15%;">到场时间</th>
+	      <th style="width: 7%;">人数</th>
+	      <th style="width: 10%;">使用包厢</th>
+	      <th style="width: 10%;">客流状态</th>
+	      <th style="width: 15%;">离场时间</th>
 	    </tr>
 	  </thead>
 	  <tbody>
@@ -331,7 +330,6 @@ var MouseEvent = function(e){
 		      <td >${passFlow.toTime,'HH:mm'}</td>
 		      <td >${passFlow.people}</td>
 		      <td >${passFlow.useBox==1?'使用':'未使用'}</td>
-		      <td >${passFlow.useTime,'HH:mm'}</td>
 		      <td >${passFlow.statusName}</td>
 		      <td >${passFlow.offTime,'HH:mm'}</td>
 		      <td >

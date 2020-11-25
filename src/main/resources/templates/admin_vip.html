@@ -75,14 +75,15 @@
 	  <thead>
 	    <tr>
 	      <th style="width: 5%;">序号</th>
-	      <th style="width: 9%;">姓名</th>
+	      <th style="width: 7%;">姓名</th>
 	      <th style="width: 5%;">性别</th>
 	      <th style="width: 9%;">生日</th>
 	      <th style="width: 9%;">电话</th>
-	      <th style="width: 9%;">积分</th>
-	      <th style="width: 9%;">等级</th>
-	      <th style="width: 9%;">当前额度</th>
-	      <th style="width: 9%;">累计额度</th>
+	      <th style="width: 5%;">积分</th>
+	      <th style="width: 7%;">等级</th>
+	      <th style="width: 7%;">当前额度</th>
+	      <th style="width: 7%;">累计消费</th>
+	      <th style="width: 7%;">累计充值</th>
 	      <th style="width: 12%;">备注</th>
 	    </tr>
 	  </thead>
@@ -97,6 +98,7 @@
 		      <td style="line-height: 35px;">${vip.score,'0.0'}</td>
 		      <td style="line-height: 35px;">${vip.level}级 ${vip.levelName}</td>
 		      <td style="line-height: 35px;">${vip.nowMoney}</td>
+		      <td style="line-height: 35px;">${vip.sumConsume}</td>
 		      <td style="line-height: 35px;">${vip.totalMoney}</td>
 		      <td style="line-height: 35px;">${vip.remark}</td>
 		      <td style="line-height: 35px;">

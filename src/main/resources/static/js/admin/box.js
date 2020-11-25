@@ -780,9 +780,9 @@ function checkOut(id,sign){
 	        					layer.msg(data.msg);
 	        				}else if(data.code == 1){
 	        					layer.closeAll(layer.indexmen);
-	        					layer.msg("操作成功", { time: 500 }, function () {
-				                    window.location.reload(); 
-				                });
+	        					layer.confirm(data.payload, {icon: 1, title:'提示',btn:['确定']}, function(index){
+	        						window.location.reload(); 
+	        					});
 	        				}
 	        			}
 	        		});
@@ -850,9 +850,9 @@ function checkOut(id,sign){
 		    											layer.msg(data.msg);
 		    										}else if(data.code == 1){
 		    											layer.closeAll(layer.indexmen);
-		    											layer.msg("操作成功", { time: 500 }, function () {
-		    							                    window.location.reload(); 
-		    							                });
+		    											layer.confirm(data.payload, {icon: 1, title:'提示',btn:['确定']}, function(index){
+		    	        	        						window.location.reload(); 
+		    	        	        					});
 		    										}
 		    									}
 		    								});
@@ -860,14 +860,32 @@ function checkOut(id,sign){
 		    						}
     							});
 		    				}else{
-		    					layer.confirm('<center>此次消费：'+sumMoney+'元，会员余额：'+vipMoney+'元。<br/>会员额度不足,请充值！<br/>确认结账吗？<center/>',
+		    					layer.confirm('<center>此次消费：'+sumMoney+'元，会员余额：'+vipMoney+'元。<br/>会员额度不足，请选择充值或者手工结账！<center/>',
 	    							{
 			    						icon: 7, 
 			    						title:'提示', 
-			    						btn:['去充值','取消'],
+			    						btn:['去充值','手工结账','取消'],
 			    						btn1:function(){
 			    							window.location = "/admin/vip?mobile="+mobile.substr(7,11);
 			    						},
+			    						btn2:function(){
+		    								$.ajax({
+		    									type: "POST",
+		    									data: {id:id,mobile:mobile},
+		    									url: "/admin/passFlow/checkOut",
+		    									dataType: "json",
+		    									success: function(data) {
+		    										if(data.code == -1){
+		    											layer.msg(data.msg);
+		    										}else if(data.code == 1){
+		    											layer.closeAll(layer.indexmen);
+		    											layer.confirm(data.payload, {icon: 1, title:'提示',btn:['确定']}, function(index){
+		    	        	        						window.location.reload(); 
+		    	        	        					});
+		    										}
+		    									}
+		    								});
+			    						}
 	    							});
 		    				}
 		    			}else{
@@ -881,7 +899,7 @@ function checkOut(id,sign){
         	        					layer.msg(data.msg);
         	        				}else if(data.code == 1){
         	        					layer.closeAll(layer.indexmen);
-        	        					layer.confirm(data.payload, {icon: 3, title:'提示',btn:['确定']}, function(index){
+        	        					layer.confirm(data.payload, {icon: 1, title:'提示',btn:['确定']}, function(index){
         	        						window.location.reload(); 
         	        					});
         	        				}
