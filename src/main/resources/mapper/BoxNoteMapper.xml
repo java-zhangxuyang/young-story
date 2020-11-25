@@ -73,7 +73,7 @@
     delete from box_note
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.young.model.BoxNote">
+  <insert id="insert" parameterType="com.young.model.BoxNote" useGeneratedKeys="true" keyProperty="id">
     insert into box_note (id, box_id, number, 
       start_time, end_time, use_date, 
       maid_num, people, remark, 
@@ -85,7 +85,7 @@
       #{back1,jdbcType=VARCHAR}, #{back2,jdbcType=VARCHAR}, #{back3,jdbcType=VARCHAR}
       )
   </insert>
-  <insert id="insertSelective" parameterType="com.young.model.BoxNote">
+  <insert id="insertSelective" parameterType="com.young.model.BoxNote" useGeneratedKeys="true" keyProperty="id">
     insert into box_note
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">

@@ -23,8 +23,9 @@ public class AdminController {
 	 */
 	@GetMapping("/admin/index")
 	public String index(Model model,HttpServletRequest request) {
-		String staff = request.getSession().getAttribute(Const.LOGIN_SESSION_STAFF).toString();
-		if(StringUtil.isBlank(staff)) {
+		Staff staff = (Staff)request.getSession().getAttribute(Const.LOGIN_SESSION_STAFF);
+        //如果session中没有user，表示没登陆
+        if (null == staff){
 			return "/admin";
 		}
 		String date = new JDateTime().toString("YYYY-MM");

@@ -90,14 +90,13 @@ public class BoxServiceImpl implements BoxService{
 		boxNote.setStartTime(now.convertToDate());
 		Date endTime = new JDateTime().addMinute((int)(60*boxNote.getUseDate())).convertToDate();
 		boxNote.setEndTime(endTime);
-		int noteid = boxNoteMapper.insertSelective(boxNote);
+		int noteid = boxNoteMapper.insert(boxNote);
 		if(noteid > 0) {
 			box.setStatus(Const.BOX_USE_STATUS);
 			box.setUseDuration(boxNote.getUseDate());
 			box.setAdmissionTime(now.convertToDate());
 			box.setToTime(endTime);
 			box.setRemind(boxNote.getRemind());
-			box.setBack1(noteid+"");
 			box.setBack2(boxNote.getNumber()+"");
 			passFlow.setUseBox(Const.PUBLIC_YES);
 			passFlow.setUseTime(now.convertToDate());
@@ -138,32 +137,21 @@ public class BoxServiceImpl implements BoxService{
 	public int continuation(Box box) {
 		Box oldbox = boxMapper.selectByPrimaryKey(box.getId());
 		JDateTime now = new JDateTime(oldbox.getToTime());
-		System.out.println(oldbox.getUseDuration());
-		System.out.println(box.getUseDuration());
 		oldbox.setUseDuration(oldbox.getUseDuration() + box.getUseDuration());
 		oldbox.setToTime(now.addMinute((int)(60*box.getUseDuration())).convertToDate());
 		int i = boxMapper.updateByPrimaryKeySelective(oldbox);
 		if(i > 0) {
-			BoxNote note = boxNoteMapper.selectByPrimaryKey(Integer.parseInt(oldbox.getBack1()));
-			note.setEndTime(now.addMinute((int)(60*box.getUseDuration())).convertToDate());
-			note.setUseDate(oldbox.getUseDuration() + box.getUseDuration());
-			int j = boxNoteMapper.updateByPrimaryKeySelective(note);
-			if(null != box.getRemind() && box.getRemind() == 1) {
-				PassengerFlowNote passFlow = passengerFlowNoteMapper.selectTodayByNumber(note.getNumber());
-				ConsumptionNote notes = new ConsumptionNote();
-				notes.setPassId(passFlow.getId());
-				notes.setType(Const.CON_NOTE_BOX_TYPE);
-				notes.setFreeCharge(Const.PUBLIC_NO);
-				notes.setMoney(box.getPrice().multiply(new BigDecimal(box.getUseDuration())));
-				notes.setTime(new Date());
-				notes.setRemark("包厢续费："+box.getPrice().stripTrailingZeros().toPlainString()+"元/小时，"+box.getUseDuration()+"小时，共计"+notes.getMoney().stripTrailingZeros().toPlainString()+"元");
-				consumNoteService.consumption(notes);
-			}
-			if(j > 0) {
-				return Const.PUBLIC_YES;
-			}else {
-				return Const.PUBLIC_NO;
-			}
+			PassengerFlowNote passFlow = passengerFlowNoteMapper.selectTodayByNumber(oldbox.getBack2());
+			ConsumptionNote notes = new ConsumptionNote();
+			notes.setPassId(passFlow.getId());
+			notes.setType(Const.CON_NOTE_BOX_TYPE);
+			notes.setFreeCharge(Const.PUBLIC_NO);
+			BigDecimal useDuration = new BigDecimal(box.getUseDuration());
+			notes.setMoney(oldbox.getPrice().multiply(useDuration));
+			notes.setTime(new Date());
+			notes.setRemark("包厢续费："+oldbox.getPrice().stripTrailingZeros().toPlainString()+"元/小时，"+useDuration.stripTrailingZeros().toPlainString()+"小时，共计"+notes.getMoney().stripTrailingZeros().toPlainString()+"元");
+			consumNoteService.consumption(notes);
+			return Const.PUBLIC_YES;
 		}else {
 			return Const.PUBLIC_NO;
 		}
@@ -173,39 +161,32 @@ public class BoxServiceImpl implements BoxService{
 	@Override
 	public int departureBox(Box box) {
 		Box oldbox = boxMapper.selectByPrimaryKey(box.getId());
-		BoxNote note = boxNoteMapper.selectByPrimaryKey(Integer.parseInt(oldbox.getBack1()));
 		Date now = new Date();
-		note.setEndTime(now);
-		int i = boxNoteMapper.updateByPrimaryKeySelective(note);
-		if(i > 0) {
-			if(null != box.getRemind() && box.getRemind() == 0) {
-				PassengerFlowNote passFlow = passengerFlowNoteMapper.selectTodayByNumber(note.getNumber());
-				ConsumptionNote notes = new ConsumptionNote();
-				notes.setPassId(passFlow.getId());
-				notes.setType(Const.CON_NOTE_BOX_TYPE);
-				notes.setFreeCharge(Const.PUBLIC_NO);
-				Double d = Math.ceil((now.getTime() - oldbox.getAdmissionTime().getTime())/1000/60/60);
-				notes.setMoney(box.getPrice().multiply(new BigDecimal(d)));
-				notes.setTime(now);
-				notes.setRemark("包厢："+box.getPrice().stripTrailingZeros().toPlainString()+"元/小时，"+d+"小时，共计"+notes.getMoney().stripTrailingZeros().toPlainString()+"元");
-				consumNoteService.consumption(notes);
-			}
-			Date maxdate = boxSubscribeNoteMapper.selectMaxDateToday(box.getId());
-			if(maxdate != null && maxdate.getTime() > now.getTime()) {
-				oldbox.setStatus(Const.BOX_MAKE_STATUS);
-			}else {
-				oldbox.setStatus(Const.BOX_NO_USE_STATUS);
-			}
-			oldbox.setUseDuration(null);
-			oldbox.setAdmissionTime(null);
-			oldbox.setToTime(null);
-			oldbox.setRemind(0);
-			oldbox.setBack1(null);
-			oldbox.setBack2(null);
-			return boxMapper.updateByPrimaryKey(oldbox);
-		}else {
-			return Const.PUBLIC_NO;
+		if(null != box.getRemind() && box.getRemind() == 0) {
+			PassengerFlowNote passFlow = passengerFlowNoteMapper.selectTodayByNumber(oldbox.getBack2());
+			ConsumptionNote notes = new ConsumptionNote();
+			notes.setPassId(passFlow.getId());
+			notes.setType(Const.CON_NOTE_BOX_TYPE);
+			notes.setFreeCharge(Const.PUBLIC_NO);
+			Double d = Math.ceil((now.getTime() - oldbox.getAdmissionTime().getTime())/1000/60/60);
+			notes.setMoney(box.getPrice().multiply(new BigDecimal(d)));
+			notes.setTime(now);
+			notes.setRemark("包厢："+box.getPrice().stripTrailingZeros().toPlainString()+"元/小时，"+d+"小时，共计"+notes.getMoney().stripTrailingZeros().toPlainString()+"元");
+			consumNoteService.consumption(notes);
 		}
+		Date maxdate = boxSubscribeNoteMapper.selectMaxDateToday(box.getId());
+		if(maxdate != null && maxdate.getTime() > now.getTime()) {
+			oldbox.setStatus(Const.BOX_MAKE_STATUS);
+		}else {
+			oldbox.setStatus(Const.BOX_NO_USE_STATUS);
+		}
+		oldbox.setUseDuration(null);
+		oldbox.setAdmissionTime(null);
+		oldbox.setToTime(null);
+		oldbox.setRemind(0);
+		oldbox.setBack1(null);
+		oldbox.setBack2(null);
+		return boxMapper.updateByPrimaryKey(oldbox);
 	}
 	
 	//预约包厢

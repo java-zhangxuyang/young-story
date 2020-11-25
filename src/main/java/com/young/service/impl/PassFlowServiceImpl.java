@@ -265,24 +265,39 @@ public class PassFlowServiceImpl implements PassFlowService{
 		    notes.setRemark("购买生日福利（大包），消费："+money.stripTrailingZeros().toPlainString()+"元");
 		}
 		int i = consumNoteService.consumption(notes);
-		BigDecimal sumMoney = consumptionNoteMapper.selectSumMoneyByPassIdAndType(id,notes.getBack3());
-		if(i > 0 && sumMoney != null &&  sumMoney.compareTo(new BigDecimal(0)) == 1) {
+		BigDecimal sumBoxMoney = consumptionNoteMapper.selectSumMoneyByPassIdAndType(id,2,notes.getBack3());
+		if(i > 0 && sumBoxMoney != null &&  sumBoxMoney.compareTo(new BigDecimal(0)) == 1) {
 			ConsumptionNote note = new ConsumptionNote();
 			note.setPassId(id);
 			note.setType(Const.CON_NOTE_BIRTHDAY_TYPE);
 			note.setFreeCharge(Const.PUBLIC_NO);
-			note.setMoney(new BigDecimal(0).subtract(sumMoney));
+			note.setMoney(new BigDecimal(0).subtract(sumBoxMoney));
 			note.setTime(new Date());
-			note.setRemark("生日福利抵消包厢费，抵消："+sumMoney.stripTrailingZeros().toPlainString()+"元");
+			note.setRemark("生日福利抵消包厢费，抵消："+sumBoxMoney.stripTrailingZeros().toPlainString()+"元");
 			if(money.compareTo(new BigDecimal(198)) == 0){
 			    notes.setBack3("1");
 			}else if(money.compareTo(new BigDecimal(368)) == 0){
 			    notes.setBack3("2");
 			}
-			return consumNoteService.consumption(note);
-		}else {
-			return 0;
+			consumNoteService.consumption(note);
 		}
+		BigDecimal ruchangMoney = consumptionNoteMapper.selectRuchangMoneyByPassIdAndType(id,1);
+		if(i > 0 && ruchangMoney != null &&  ruchangMoney.compareTo(new BigDecimal(0)) == 1) {
+			ConsumptionNote note = new ConsumptionNote();
+			note.setPassId(id);
+			note.setType(Const.CON_NOTE_BIRTHDAY_TYPE);
+			note.setFreeCharge(Const.PUBLIC_NO);
+			note.setMoney(new BigDecimal(0).subtract(ruchangMoney));
+			note.setTime(new Date());
+			note.setRemark("生日福利抵消入场费，抵消："+ruchangMoney.stripTrailingZeros().toPlainString()+"元");
+			if(money.compareTo(new BigDecimal(198)) == 0){
+				notes.setBack3("1");
+			}else if(money.compareTo(new BigDecimal(368)) == 0){
+				notes.setBack3("2");
+			}
+			consumNoteService.consumption(note);
+		}
+		return i;
 	}
 	
 	

@@ -42,7 +42,9 @@ public class LoginController extends BaseController {
 				cache.set(ip, error_count, 10 * 60);
 			} else {
 				log.info("成功登陆系统。");
-				request.getSession().setAttribute(Const.LOGIN_SESSION_STAFF, "admin");
+				Staff staff = new Staff();
+				staff.setName("admin"); 
+				request.getSession().setAttribute(Const.LOGIN_SESSION_STAFF, staff);
 				request.getSession().setMaxInactiveInterval(12 * 60 * 60);
 				cache.del(ip);
 			}

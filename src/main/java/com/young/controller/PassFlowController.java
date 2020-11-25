@@ -82,10 +82,14 @@ public class PassFlowController {
 		Vip vip = null;
 		if(StringUtil.isNotBlank(mobile)) {
 			vip = vipService.getVipByMobile(mobile);
-			Long sumMoney = passFlowService.settleAccounts(id,vip,1);
-			map.put("sumMoney", sumMoney);
-			map.put("surMoney", vip.getNowMoney().subtract(new BigDecimal(sumMoney)).stripTrailingZeros().toPlainString());
-			map.put("vipMoney", vip.getNowMoney().stripTrailingZeros().toPlainString());
+			if(null != vip) {
+				Long sumMoney = passFlowService.settleAccounts(id,vip,1);
+				map.put("sumMoney", sumMoney);
+				map.put("surMoney", vip.getNowMoney().subtract(new BigDecimal(sumMoney)).stripTrailingZeros().toPlainString());
+				map.put("vipMoney", vip.getNowMoney().stripTrailingZeros().toPlainString());
+			}else {
+				return ResponseBo.fail("该会员不存在！");
+			}
 		}else {
 			Long sumMoney = passFlowService.settleAccounts(id,vip,1);
 			map.put("sumMoney", sumMoney);
