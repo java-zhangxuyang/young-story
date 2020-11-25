@@ -54,9 +54,9 @@ function addStaff(){
 						    '<label for="level" class="col-sm-2 control-label">级别</label>'+
 						    '<div class="col-sm-9">'+
 							    '<select class="form-control" name="level">'+
-						    		'<option value="3">全职工</option>'+
-						    		'<option value="4">临时工（兼职）</option>'+
-						    		'<option value="5">实习生</option>'+
+						    		'<option value="3">全职</option>'+
+						    		'<option value="4">全天兼职</option>'+
+						    		'<option value="5">半天兼职</option>'+
 								 '</select>'+
 						    '</div>'+
 					    '</div>'+
