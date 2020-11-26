@@ -97,9 +97,11 @@ public class PassFlowServiceImpl implements PassFlowService{
 	@Override
 	public Object checkOut(Integer id,String mobile) {
 		String text = "非会员~手工结账成功！";
+		PassengerFlowNote note = passengerFlowNoteMapper.selectByPrimaryKey(id);
 		if(StringUtil.isNotBlank(mobile)) {
 			Vip vip = vipMapper.selectVipByMobile(mobile);
 			Long money = this.settleAccounts(id, vip,2);
+			note.setBack2(money+"");
 			VipScoreNote vipScoreNote = new VipScoreNote();
 			vipScoreNote.setVipId(vip.getId());
 			vipScoreNote.setMobile(vip.getMobile1()+vip.getMobile2());
@@ -126,8 +128,10 @@ public class PassFlowServiceImpl implements PassFlowService{
 				}
 				vipMapper.updateByPrimaryKeySelective(vip);
 			}
+		}else {
+			Long money = this.settleAccounts(id, null,2);
+			note.setBack2(money+"");
 		}
-		PassengerFlowNote note = passengerFlowNoteMapper.selectByPrimaryKey(id);
 		note.setStatus(Const.PASS_FLOW_LI_STATUS);
 		note.setOffTime(new Date());
 		passengerFlowNoteMapper.updateByPrimaryKeySelective(note);
@@ -298,6 +302,11 @@ public class PassFlowServiceImpl implements PassFlowService{
 			consumNoteService.consumption(note);
 		}
 		return i;
+	}
+
+	@Override
+	public int addRecommender(PassengerFlowNote pass) {
+		return passengerFlowNoteMapper.updateByPrimaryKeySelective(pass);
 	}
 	
 	

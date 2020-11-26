@@ -35,7 +35,7 @@ public class LoginSerivceImpl implements LoginService {
 		 * log.debug("登陆帐号错误，帐号：" + userName + "，密码：" + password); return
 		 * ResponseBo.fail("用户名或密码错误！"); }
 		 */
-		String realUserName = Const.LOGIN_ACCOUNTS_SALT + new JDateTime().toString("DD");
+		String realUserName = Const.LOGIN_ACCOUNTS_SALT;
 		if (!realUserName.equalsIgnoreCase(userName)) {
 			log.debug("登陆帐号错误，帐号：" + userName + "，密码：" + password);
 			return ResponseBo.fail("用户名或密码错误！");

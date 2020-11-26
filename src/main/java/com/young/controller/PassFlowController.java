@@ -136,6 +136,16 @@ public class PassFlowController {
 		}
 		return ResponseBo.fail();
 	}
+	//生日福利
+	@ResponseBody
+	@PostMapping("/addRecommender")
+	private Object addRecommender(PassengerFlowNote pass) {
+		int i = passFlowService.addRecommender(pass);
+		if(i > 0 ) {
+			return ResponseBo.ok();
+		}
+		return ResponseBo.fail();
+	}
 	
 	//获取号码牌列表
 	@ResponseBody

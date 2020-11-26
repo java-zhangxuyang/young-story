@@ -35,4 +35,12 @@ public interface StaffMapper {
     		"LEFT JOIN (SELECT * FROM dict WHERE dict.`key` = 'staff_status') dic ON staff.`status` = dic.`no`" + 
     		"order by staff.status asc,staff.`level` asc")
 	List<Staff> selectStaffList();
+
+    //获取员工列表关联字典表
+    @Select("SELECT staff.*,dict.name as levelName,dic.name as statusName FROM staff " + 
+    		"LEFT JOIN dict ON staff.`level` = dict.`no` and dict.`key` = 'staff_level' " + 
+    		"LEFT JOIN (SELECT * FROM dict WHERE dict.`key` = 'staff_status') dic ON staff.`status` = dic.`no` " + 
+    		"WHERE STAFF.user_name is not null "+
+    		"order by staff.status asc,staff.`level` asc")
+	List<Staff> selectStaffListNoNull();
 }

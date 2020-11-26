@@ -23,6 +23,7 @@ var moneyMap;
 var yhxlist;
 var boxlist;
 var passFlowList;
+var staffList;
 var MouseEvent = function(e){
 	 this.x = e.pageX
 	 this.y = e.pageY
@@ -316,11 +317,12 @@ var MouseEvent = function(e){
 	  <thead>
 	    <tr>
 	      <th style="width: 15%;">号码牌</th>
-	      <th style="width: 15%;">到场时间</th>
+	      <th style="width: 10%;">到场时间</th>
 	      <th style="width: 7%;">人数</th>
-	      <th style="width: 10%;">使用包厢</th>
-	      <th style="width: 10%;">客流状态</th>
-	      <th style="width: 15%;">离场时间</th>
+	      <th style="width: 10%;">包厢</th>
+	      <th style="width: 10%;">状态</th>
+	      <th style="width: 10%;">离场时间</th>
+	      <th style="width: 10%;">推荐人</th>
 	    </tr>
 	  </thead>
 	  <tbody>
@@ -332,6 +334,11 @@ var MouseEvent = function(e){
 		      <td >${passFlow.useBox==1?'使用':'未使用'}</td>
 		      <td >${passFlow.statusName}</td>
 		      <td >${passFlow.offTime,'HH:mm'}</td>
+		      <%if(passFlow.back1 == null){%>
+		      	<td><button type="button" class="btn btn-primary" value="${passFlow.id}" onclick="addRecommender(${passFlow.id},'${passFlow.number}')"><span class="glyphicon glyphicon-usd"></span> &nbsp;添加</button></td>
+		      <%}else{%>
+		      	<td>${passFlow.back1}</td>
+		      <%}%>
 		      <td >
 		      	<%if(passFlow.status == 1){%>
 			      	<button type="button" class="btn btn-primary" value="${passFlow.id}" onclick="consumption(${passFlow.id},'${passFlow.number}')"><span class="glyphicon glyphicon-usd"></span> &nbsp;消费</button>

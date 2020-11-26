@@ -21,7 +21,7 @@
   
  }
 .box_man{
-	width: 45%;
+	width: 40%;
 	height: 100%;
 	float: left;
 }
@@ -107,9 +107,9 @@
 }
 
 .passenger_flow_man{
-	width: 53%;
+	width: 58%;
 	height: 100%;
-	padding-left: 3%;
+	padding-left: 2%;
 	float: left;
 }
 .table {

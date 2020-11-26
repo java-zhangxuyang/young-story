@@ -23,6 +23,13 @@
 .fenye{
 	text-align:center;
 }
+.table {
+	text-align: center;
+}
+.table > thead > tr > th{
+	width: 10%;
+	text-align: center;
+}
 </style>
 </head>
 <body>
@@ -33,10 +40,11 @@
         </a></caption>
 	  <thead>
 	    <tr>
-	      <th style="width: 9%;">序列号</th>
+	      <th style="width: 5%;">序列号</th>
 	      <th style="width: 9%;">姓名</th>
-	      <th style="width: 9%;">性别</th>
-	      <th style="width: 9%;">年龄</th>
+	      <th style="width: 9%;">昵称</th>
+	      <th style="width: 5%;">性别</th>
+	      <th style="width: 5%;">年龄</th>
 	      <th style="width: 9%;">生日</th>
 	      <th style="width: 9%;">入职时间</th>
 	      <th style="width: 9%;">级别</th>
@@ -50,6 +58,7 @@
 		    <tr>
 		      <td style="line-height: 35px;">${staffLP.index}</td>
 		      <td style="line-height: 35px;"><!-- <div style="width: 95%;white-space: nowrap;overflow: hidden;text-overflow: ellipsis;"></div> -->${staff.name}</td>
+	      	  <td style="line-height: 35px;">${staff.userName}</td>
 		      <td style="line-height: 35px;">${staff.sex}</td>
 		      <td style="line-height: 35px;">${staff.age}</td>
 		      <td style="line-height: 35px;">${staff.birthday}</td>
@@ -59,7 +68,8 @@
 		      <td style="line-height: 35px;">${staff.statusName}</td>
 		      <td style="line-height: 35px;">${staff.back1}小时</td>
 		      <td style="line-height: 35px;">
-		      	<button type="button" class="edit btn btn-primary" value="${staff.id}" onclick="addTime(${staff.id},'${staff.name}')"><span class="glyphicon glyphicon-edit"></span> &nbsp;加时</button>
+		      	<button type="button" class="edit btn btn-primary" value="${staff.id}" onclick="addTime(${staff.id},'${staff.userName}')"><span class="glyphicon glyphicon-edit"></span> &nbsp;加时</button>
+		      	<button type="button" class="edit btn btn-primary" value="${staff.id}" onclick="addUserName(${staff.id},'${staff.name}','${staff.userName}')"><span class="glyphicon glyphicon-edit"></span> &nbsp;修改昵称</button>
 		      	<!-- <button type="button" class="del btn btn-danger" value="${staff.id}"><span class="glyphicon glyphicon-remove"></span> &nbsp;删除</button> -->
 		      </td>
 		    </tr>

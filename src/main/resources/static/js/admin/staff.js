@@ -8,6 +8,12 @@ function addStaff(){
 							'</div>'+
 						'</div>'+
 						'<div class="form-group">'+
+							'<label for="userName" class="col-sm-2 control-label">昵称</label>'+
+							'<div class="col-sm-9">'+
+								'<input type="text" class="form-control" id="userName" name="userName" placeholder="昵称"  autocomplete="off">'+
+							'</div>'+
+						'</div>'+
+						'<div class="form-group">'+
 						    '<label for="sex" class="col-sm-2 control-label">性别</label>'+
 						    '<div class="col-sm-9">'+
 							    '<select class="form-control" name="sex">'+
@@ -70,7 +76,7 @@ function addStaff(){
     var index = layer.open({
         type: 1,
         title: '添加员工',
-        area: ['550px', '550px'],
+        area: ['550px', '570px'],
         shadeClose: true, //点击遮罩关闭
         content:content,
         btn:['确定','取消'],
@@ -169,6 +175,55 @@ function addTime(id,name){
 							layer.msg("操作成功", { time: 500 }, function () {
 			                    window.location.reload(); 
 			                });
+						}
+					}
+				});
+			});
+		},
+		btn2:function(){
+			layer.closeAll(index); //关闭当前窗口
+		}
+	});
+}
+//员工加名改名
+function addUserName(id,name,userName){
+	var content = '<div>\n' +
+	'<form id="addUserNameForm">'+
+	'<input type="hidden" name="id" value="'+id+'">'+
+	'<div class="form-group"  style="margin-top:5%;">'+
+	'<label for="userName" class="col-sm-3 control-label">昵称</label>'+
+	'<div class="col-sm-8">'+
+	'<input type="text" class="form-control"  name="userName" id="userName" value="'+userName+'" placeholder="昵称" autocomplete="off">'+
+	'</div>'+
+	'</div>'+
+	'</form></div>';
+	var index = layer.open({
+		type: 1,
+		title: name,
+		area: ['400px', '180px'],
+		shadeClose: true, //点击遮罩关闭
+		content:content,
+		btn:['确定','取消'],
+		yes:function(){
+			var userName = $("#userName").val();
+			if(userName==null){
+				layer.msg("输入有误，请重试！");
+				return;
+			}
+			layer.confirm('确认修改 '+name+' 的昵称为 '+userName+' 吗？', {icon: 3, title:'提示'}, function(index){
+				$.ajax({
+					type: "POST",
+					data: $('#addUserNameForm').serialize(),
+					url: "/admin/staff/addUserName",
+					dataType: "json",
+					success: function(data) {
+						if(data.code == -1){
+							layer.msg(data.msg);
+						}else if(data.code == 1){
+							layer.closeAll(layer.indexmen);
+							layer.msg("操作成功", { time: 500 }, function () {
+								window.location.reload(); 
+							});
 						}
 					}
 				});

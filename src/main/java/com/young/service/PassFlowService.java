@@ -32,4 +32,6 @@ public interface PassFlowService {
 
 	int birthdayBenefits(Integer id, BigDecimal money);
 
+	int addRecommender(PassengerFlowNote pass);
+
 }

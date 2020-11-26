@@ -58,6 +58,16 @@ public class StaffServiceImpl implements StaffService{
 		return staffMapper.insertSelective(staff);
 	}
 
+	@Override
+	public int addUserName(Staff staff) {
+		return staffMapper.updateByPrimaryKeySelective(staff);
+	}
+
+	@Override
+	public List<Staff> getStaffList() {
+		return staffMapper.selectStaffListNoNull();
+	}
+
 
 	
 }

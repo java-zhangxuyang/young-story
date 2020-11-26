@@ -464,7 +464,7 @@ function addPassFlow(){
 	'</form></div>';
 	var index = layer.open({
 		type: 1,
-		title: name,
+		title: '欢迎光临',
 		area: ['400px', '200px'],
 		shadeClose: true, //点击遮罩关闭
 		content:content,
@@ -500,6 +500,78 @@ function addPassFlow(){
 	});
 }
 	
+//添加推荐人
+function addRecommender(id,number){
+	$.ajax({
+		type: "POST",
+		url: "/admin/staff/getStaffList",
+		data:{type:1},
+		dataType: "json",
+		async: false,
+		success: function(data) {
+			if(data.code == -1){
+				layer.msg(data.msg);
+			}else if(data.code == 1){
+				staffList = data.payload;
+			}
+		}
+	});
+	var staffContent='';
+	if(staffList != null && staffList.length > 0){
+		for (var i=0;i<staffList.length;i++){  
+			staffContent += '<option value="'+staffList[i].userName+'" >'+staffList[i].userName+'</option>';
+		}
+	}
+	var content = '<div>\n' +
+	'<form id="addRecommenderForm">'+
+	'<input type="hidden" name="id" value="'+id+'">'+
+	'<div class="form-group"  style="margin-top:5%;">'+
+	'<label for="back1" class="col-sm-3 control-label">推荐人</label>'+
+	'<div class="col-sm-8">'+
+		'<select class="form-control" name="back1" id="back1">'+
+			staffContent+
+		 '</select>'+
+	'</div>'+
+	'</div>'+
+	'</form></div>';
+	var index = layer.open({
+		type: 1,
+		title: '员工推荐',
+		area: ['400px', '200px'],
+		shadeClose: true, //点击遮罩关闭
+		content:content,
+		btn:['确定','取消'],
+		yes:function(){
+			var back1 = $("#back1").val();
+			if(back1==null){
+				layer.msg("请选择推荐人！");
+				return;
+			}
+			layer.confirm('确认该来客的推荐人为 '+back1+' 吗？', {icon: 3, title:'提示'}, function(index){
+				$.ajax({
+					type: "POST",
+					data: $('#addRecommenderForm').serialize(),
+					url: "/admin/passFlow/addRecommender",
+					dataType: "json",
+					success: function(data) {
+						if(data.code == -1){
+							layer.msg(data.msg);
+						}else if(data.code == 1){
+							layer.closeAll(layer.indexmen);
+							layer.msg("操作成功", { time: 500 }, function () {
+								window.location.reload(); 
+							});
+						}
+					}
+				});
+			});
+		},
+		btn2:function(){
+			layer.closeAll(index); //关闭当前窗口
+		}
+	});
+}
+
 //女仆消费
 function consumption(id,number){
 	var content = '<div>\n' +
