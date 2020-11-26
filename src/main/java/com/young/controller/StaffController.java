@@ -25,7 +25,7 @@ public class StaffController {
 	@Autowired
 	private StaffService staffService;
 	
-	@GetMapping("/")
+	@GetMapping("")
 	public String staff(Integer pageNum, Model model,HttpServletRequest request) {
 		PageInfo<Staff> staffList = staffService.getStaffList(pageNum);
 		model.addAttribute("staffs", staffList);
