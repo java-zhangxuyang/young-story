@@ -11,6 +11,12 @@ $(function(){
     });
 })
 function addVip(){
+	var staffContent='';
+	if(staffList != null && staffList.length > 0){
+		for (var i=0;i<staffList.length;i++){  
+			staffContent += '<option value="'+staffList[i].userName+'" >'+staffList[i].userName+'</option>';
+		}
+	}
 	var content = '<div>\n' +
 					'<form id="addVipForm">'+
 						'<div class="form-group"  style="margin-top:5%;">'+
@@ -41,6 +47,15 @@ function addVip(){
 								'<span class="input-group-addon">'+
 								'<span class="glyphicon glyphicon-calendar"></span></span>'+
 							'</div>'+
+						'</div>'+
+						'<div class="form-group" >'+
+						'<label for="back1" class="col-sm-2 control-label">推荐人</label>'+
+						'<div class="col-sm-9">'+
+							'<select class="form-control" name="back1" id="back1">'+
+								'<option value="" disabled selected hidden></option>'+
+								staffContent+
+							 '</select>'+
+						'</div>'+
 						'</div>'+
 						'<div class="form-group">'+
 						    '<label for="remark" class="col-sm-2 control-label">备注</label>'+
@@ -108,6 +123,12 @@ function vipRecharge(id,name){
 	for(var i=0;i<flushs.length;i++){
 		text += '<option value="'+flushs[i].total+'">'+flushs[i].name+'</option>';
 	}
+	var staffContent='';
+	if(staffList != null && staffList.length > 0){
+		for (var i=0;i<staffList.length;i++){  
+			staffContent += '<option value="'+staffList[i].userName+'" >'+staffList[i].userName+'</option>';
+		}
+	}
 	var content = '<div>\n' +
 	'<form id="vipRechargeForm">'+
 	'<input type="hidden" name="id" value="'+id+'">'+
@@ -118,11 +139,17 @@ function vipRecharge(id,name){
 		    	text+'</select>'+
 	    '</div>'+
 	'</div>'+
+	'<div class="form-group" style="margin-top:10%;">'+
+	'<label for="back1" class="col-sm-3 control-label">推荐人</label>'+
+	'<div class="col-sm-9">'+
+		'<select class="form-control" name="back1" id="back1">'+
+			'<option value="" disabled selected hidden></option>'+staffContent+
+			'</select></div></div>'+
 	'</form></div>';
 	var index = layer.open({
 		type: 1,
 		title: '会员充值',
-		area: ['400px', '180px'],
+		area: ['400px', '200px'],
 		shadeClose: true, //点击遮罩关闭
 		content:content,
 		btn:['确定','取消'],

@@ -73,6 +73,7 @@ public class VipServiceImpl implements VipService{
 		note.setType(Const.VIP_USE_NOTE_TYPE_VIP_RECHARGE);
 		note.setTime(new Date());
 		note.setMoney(vip.getMoney());
+		note.setBack1(vip.getBack1());
 		int i = vipUseNoteMapper.insertSelective(note);
 		if(i > 0) {
 			//会员等级

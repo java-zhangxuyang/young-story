@@ -529,6 +529,7 @@ function addRecommender(id,number){
 	'<label for="back1" class="col-sm-3 control-label">推荐人</label>'+
 	'<div class="col-sm-8">'+
 		'<select class="form-control" name="back1" id="back1">'+
+			'<option value="" disabled selected hidden></option>'+
 			staffContent+
 		 '</select>'+
 	'</div>'+

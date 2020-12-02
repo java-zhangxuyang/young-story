@@ -27,6 +27,8 @@ public class VipController {
 
 	@Autowired
 	private VipService vipService;
+	@Autowired
+	private StaffService staffService;
 	
 	/*
 	 * 会员界面
@@ -36,7 +38,9 @@ public class VipController {
 		PageInfo<Vip> vipList = vipService.getVipList(pageNum,mobile,vipName);
 		model.addAttribute("vips", vipList);
 		List<Flushing> flushList = vipService.getFlushingList();
+		List<Staff> staffList = staffService.getStaffList();
 		model.addAttribute("flushs", JSONArray.toJSON(flushList));
+		model.addAttribute("staffList", JSONArray.toJSON(staffList));
 		model.addAttribute("mobile", mobile);
 		model.addAttribute("vipName", vipName);
 		return "admin_vip";
