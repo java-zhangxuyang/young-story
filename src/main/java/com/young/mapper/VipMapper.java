@@ -5,6 +5,7 @@ import com.young.model.VipExample;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 
 public interface VipMapper {
     long countByExample(VipExample example);
@@ -28,4 +29,7 @@ public interface VipMapper {
     
     @Select("select * from vip where CONCAT(mobile1,mobile2) = #{mobile}")
     Vip selectVipByMobile(String mobile);
+
+    @Update("update vip set back1 = #{newName} where back1 = #{oldName} ")
+	int updateVipRemByBack(String oldName, String newName);
 }

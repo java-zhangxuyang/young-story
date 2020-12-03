@@ -15,6 +15,8 @@ public interface StaffService {
 	int addStaff(Staff staff);
 
 	int addUserName(Staff staff);
+	
+	Staff getStaffByUserName(String userName);
 
 	List<Staff> getStaffList();
 }

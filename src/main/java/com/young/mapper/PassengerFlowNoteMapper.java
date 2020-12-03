@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 
 @Mapper
 public interface PassengerFlowNoteMapper {
@@ -33,4 +34,7 @@ public interface PassengerFlowNoteMapper {
 
     @Select("select * from passenger_flow_note where status = 1 and to_days(to_time) = to_days(now()) ")
 	List<PassengerFlowNote> getPassFlowList();
+    
+    @Update("update passenger_flow_note set back1 = #{newName} where back1 = #{oldName} ")
+    int updateNoteNameByName(String oldName, String newName);
 }

@@ -52,11 +52,16 @@ public class StaffController {
 	@PostMapping("/addUserName")
 	@ResponseBody
 	public Object addUserName(Staff staff) {
-		int i = staffService.addUserName(staff);
-		if(i > 0) {
-			return ResponseBo.ok();
+		Staff sta = staffService.getStaffByUserName(staff.getUserName());
+		if(null != sta) {
+			return ResponseBo.fail("该昵称已存在！");
 		}else {
-			return ResponseBo.fail();
+			int i = staffService.addUserName(staff);
+			if(i > 0) {
+				return ResponseBo.ok();
+			}else {
+				return ResponseBo.fail();
+			}
 		}
 	}
 	

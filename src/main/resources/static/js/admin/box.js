@@ -818,7 +818,7 @@ function checkOut(id,sign){
 	        shadeClose: true, //点击遮罩关闭
 	        content:jzcontent,
 	        maxmin: true,
-	        btn:sign==1?['普通结账','会员结账','抵扣券','生日福利','取消']:[],
+	        btn:sign==1?['普通结账','会员结账','抵扣券','套餐','取消']:[],
 	        success: function (layero, index) { // 弹窗成功
 			},
 			end:function(){
