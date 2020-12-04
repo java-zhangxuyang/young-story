@@ -53,7 +53,7 @@ public class StaffServiceImpl implements StaffService{
 		Staff sta = staffMapper.selectByPrimaryKey(staff.getId());
 		StaffNote note = new StaffNote();
 		note.setStaffId(sta.getId());
-		note.setStaffName(sta.getName());
+		note.setStaffName(sta.getUserName());
 		note.setDuration(staff.getBack1());
 		note.setTime(new Date());
 		staffNoteMapper.insertSelective(note);
