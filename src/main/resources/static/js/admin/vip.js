@@ -11,12 +11,12 @@ $(function(){
     });
 })
 function addVip(){
-	var staffContent='';
+	/*var staffContent='';
 	if(staffList != null && staffList.length > 0){
 		for (var i=0;i<staffList.length;i++){  
 			staffContent += '<option value="'+staffList[i].userName+'" >'+staffList[i].userName+'</option>';
 		}
-	}
+	}*/
 	var content = '<div>\n' +
 					'<form id="addVipForm">'+
 						'<div class="form-group"  style="margin-top:5%;">'+
@@ -48,7 +48,7 @@ function addVip(){
 								'<span class="glyphicon glyphicon-calendar"></span></span>'+
 							'</div>'+
 						'</div>'+
-						'<div class="form-group" >'+
+						/*'<div class="form-group" >'+
 						'<label for="back1" class="col-sm-2 control-label">推荐人</label>'+
 						'<div class="col-sm-9">'+
 							'<select class="form-control" name="back1" id="back1">'+
@@ -56,7 +56,7 @@ function addVip(){
 								staffContent+
 							 '</select>'+
 						'</div>'+
-						'</div>'+
+						'</div>'+*/
 						'<div class="form-group">'+
 						    '<label for="remark" class="col-sm-2 control-label">备注</label>'+
 						    '<div class="col-sm-9">'+

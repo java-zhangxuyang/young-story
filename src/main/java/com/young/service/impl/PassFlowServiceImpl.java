@@ -101,9 +101,9 @@ public class PassFlowServiceImpl implements PassFlowService{
 		if(StringUtil.isNotBlank(mobile)) {
 			Vip vip = vipMapper.selectVipByMobile(mobile);
 			Long money = this.settleAccounts(id, vip,2);
-			if(StringUtil.isNotBlank(vip.getBack1())) {
-				note.setBack1(vip.getBack1());
-			}
+			/*
+			 * if(StringUtil.isNotBlank(vip.getBack1())) { note.setBack1(vip.getBack1()); }
+			 */
 			note.setBack2(money+"");
 			note.setBack3(mobile);
 			VipScoreNote vipScoreNote = new VipScoreNote();
