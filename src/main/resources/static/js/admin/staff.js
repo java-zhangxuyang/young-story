@@ -63,13 +63,14 @@ function addStaff(){
 						    		'<option value="3">全职</option>'+
 						    		'<option value="4">全天兼职</option>'+
 						    		'<option value="5">半天兼职</option>'+
+						    		'<option value="6">假期工</option>'+
 								 '</select>'+
 						    '</div>'+
 					    '</div>'+
 					    '<div class="form-group">'+
-						    '<label for="holidays" class="col-sm-2 control-label">年假天数</label>'+
+						    '<label for="holidays" class="col-sm-2 control-label">月休天数</label>'+
 						    '<div class="col-sm-9">'+
-						    	'<input type="number" class="form-control" id="holidays" name="holidays"  value=1 min=0 placeholder="薪资"  autocomplete="off">'+
+						    	'<input type="number" class="form-control" id="holidays" name="holidays"  value=4 min=0 placeholder="月休天数"  autocomplete="off">'+
 						    '</div>'+
 					    '</div>'+
 				'</form></div>';

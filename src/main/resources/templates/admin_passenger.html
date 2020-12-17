@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<script src="/js/jquery-3.5.1.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="/bootstrap/js/bootstrap.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="/js/layer/layer.js" type="text/javascript" charset="utf-8"></script>
+
+<link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css"/>
+
+<title>Insert title here</title>
+<script type="text/javascript">
+$(function(){
+	$("#sign").change(function(){
+		var sign = $("#sign").val();
+		window.location.href = "/admin/query/passenger?sign="+sign;
+	})
+})
+</script>
+</head>
+<body style="width: 100%;height: 1800px;">
+	<div style="width: 100%;height: 100%;">
+		<div style="width: 100%;height: 3%;"></div>
+		<div class="form-group" style="width: 100%;height: 5%;">
+		    <label for="remind" class="col-sm-1 control-label">选择查询数据区间</label>
+		    <div class="col-sm-2">
+			    <select class="form-control" name="sign" id="sign">
+			    	<option value="" disabled selected hidden></option>
+			    	<option value="0">七天</option>
+		    		<option value="1">本月</option>
+		    		<option value="2">上月</option>
+		    		<option value="3">三个月</option>
+		    		<option value="4">半年</option>
+		    		<option value="5">一年</option>
+				 </select>
+		    </div>
+		    <div class="col-sm-7">
+		    </div>
+	    </div><br>
+		<div>
+			${map.sign}
+		</div>
+	</div>
+</body>
+</html>
