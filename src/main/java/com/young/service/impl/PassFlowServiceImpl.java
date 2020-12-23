@@ -98,7 +98,7 @@ public class PassFlowServiceImpl implements PassFlowService{
 	public Object checkOut(Integer id,String mobile) {
 		String text = "非会员~手工结账成功！";
 		PassengerFlowNote note = passengerFlowNoteMapper.selectByPrimaryKey(id);
-		if(StringUtil.isNotBlank(mobile)) {
+		if(StringUtil.isNotBlank(mobile)) {//会员结账
 			Vip vip = vipMapper.selectVipByMobile(mobile);
 			Long money = this.settleAccounts(id, vip,2);
 			/*
@@ -132,7 +132,7 @@ public class PassFlowServiceImpl implements PassFlowService{
 				}
 				vipMapper.updateByPrimaryKeySelective(vip);
 			}
-		}else {
+		}else {//普通结账
 			Long money = this.settleAccounts(id, null,2);
 			note.setBack2(money+"");
 		}
@@ -174,15 +174,15 @@ public class PassFlowServiceImpl implements PassFlowService{
 			Integer level = vip.getLevel();
 			vipDiscount = new BigDecimal(Const.LEVELDISCOUNT.get("lv"+level));
 		}
-		BigDecimal sumMoney = new BigDecimal(0);
+		Long sumMoney = 0l;
 		if(activityDiscount.compareTo(vipDiscount) == -1) {
-			sumMoney = money.multiply(activityDiscount);
+			sumMoney = money.multiply(activityDiscount).setScale( 0, BigDecimal.ROUND_DOWN ).longValue();
 			if(sign == 2 && activityDiscount.compareTo(new BigDecimal(1)) == -1) {
 				ConsumptionNote notes = new ConsumptionNote();
 				notes.setPassId(id);
 				notes.setType(Const.CON_NOTE_ACT_DISCOUNT_TYPE);
 				notes.setFreeCharge(Const.PUBLIC_NO);
-				notes.setMoney(money.subtract(sumMoney));
+				notes.setMoney(new BigDecimal(0).subtract(money.subtract(new BigDecimal(sumMoney))));
 				notes.setTime(new Date());
 				notes.setRemark("活动折扣："+Const.DISCOUNT.get(activityDiscount.toString())+"折");
 				notes.setBack1(null != vip ? vip.getMobile1()+vip.getMobile2() : null);
@@ -190,20 +190,20 @@ public class PassFlowServiceImpl implements PassFlowService{
 				consumNoteService.consumption(notes);
 			}
 		}else {
-			sumMoney = money.multiply(vipDiscount);
+			sumMoney = money.multiply(vipDiscount).setScale( 0, BigDecimal.ROUND_DOWN ).longValue();
 			if(sign == 2 && vipDiscount.compareTo(new BigDecimal(1)) == -1) {
 				ConsumptionNote notes = new ConsumptionNote();
 				notes.setPassId(id);
 				notes.setType(Const.CON_NOTE_VIP_DISCOUNT_TYPE);
 				notes.setFreeCharge(Const.PUBLIC_NO);
-				notes.setMoney(money.subtract(sumMoney));
+				notes.setMoney(new BigDecimal(0).subtract(money.subtract(new BigDecimal(sumMoney))));
 				notes.setTime(new Date());
-				notes.setRemark("会员折扣："+Const.DISCOUNT.get(activityDiscount.toString())+"折");
+				notes.setRemark("会员折扣："+Const.DISCOUNT.get(vipDiscount.toString())+"折");
 				notes.setBack1(null != vip ? vip.getMobile1()+vip.getMobile2() : null);
 				consumNoteService.consumption(notes);
 			}
 		}
-		return sumMoney.setScale( 0, BigDecimal.ROUND_UP ).longValue();
+		return sumMoney;
 	}
 
 	@Override

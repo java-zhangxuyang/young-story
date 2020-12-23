@@ -84,7 +84,7 @@ public class VipController {
 		if(ob.isSuccess()) {
 			return ResponseBo.ok();
 		}else {
-			return ResponseBo.fail();
+			return ResponseBo.fail(ob.getMsg());
 		}
 	}
 	
