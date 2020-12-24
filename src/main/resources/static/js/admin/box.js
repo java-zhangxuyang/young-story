@@ -853,7 +853,10 @@ function checkOut(id,sign){
 	        					layer.msg(data.msg);
 	        				}else if(data.code == 1){
 	        					layer.closeAll(layer.indexmen);
-	        					layer.confirm(data.payload, {icon: 1, title:'提示',btn:['确定']}, function(index){
+	        					layer.confirm(data.payload, {icon: 1, title:'提示',btn:['确定'],cancel: function(){
+	        						// 右上角关闭事件的逻辑
+	        						window.location.reload(); 
+	        					}}, function(index){
 	        						window.location.reload(); 
 	        					});
 	        				}
@@ -923,7 +926,10 @@ function checkOut(id,sign){
 		    											layer.msg(data.msg);
 		    										}else if(data.code == 1){
 		    											layer.closeAll(layer.indexmen);
-		    											layer.confirm(data.payload, {icon: 1, title:'提示',btn:['确定']}, function(index){
+		    											layer.confirm(data.payload, {icon: 1, title:'提示',btn:['确定'],cancel: function(){
+		    	        	        						// 右上角关闭事件的逻辑
+		    	        	        						window.location.reload(); 
+		    	        	        					}}, function(index){
 		    	        	        						window.location.reload(); 
 		    	        	        					});
 		    										}
@@ -952,7 +958,10 @@ function checkOut(id,sign){
 		    											layer.msg(data.msg);
 		    										}else if(data.code == 1){
 		    											layer.closeAll(layer.indexmen);
-		    											layer.confirm(data.payload, {icon: 1, title:'提示',btn:['确定']}, function(index){
+		    											layer.confirm(data.payload, {icon: 1, title:'提示',btn:['确定'],cancel: function(){
+		    	        	        						// 右上角关闭事件的逻辑
+		    	        	        						window.location.reload(); 
+		    	        	        					}}, function(index){
 		    	        	        						window.location.reload(); 
 		    	        	        					});
 		    										}
