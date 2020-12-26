@@ -37,4 +37,7 @@ public interface PassengerFlowNoteMapper {
     
     @Update("update passenger_flow_note set back1 = #{newName} where back1 = #{oldName} ")
     int updateNoteNameByName(String oldName, String newName);
+    
+    @Select("select pfn.*,d.name as statusName from passenger_flow_note pfn left join dict d on pfn.status = d.no where d.key = 'pass_flow_status' and TO_DAYS( NOW( )) - TO_DAYS( pfn.to_time) = 1 order by status desc,off_time asc,number asc")
+	List<PassengerFlowNote> selectPassFlowYesterday();
 }

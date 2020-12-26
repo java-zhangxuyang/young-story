@@ -60,7 +60,13 @@ public class PassFlowServiceImpl implements PassFlowService{
 	public PageInfo<PassengerFlowNote> selectPassFlowToday(Integer pageNum) {
 		pageNum = PublicUtils.page(pageNum, false);
 		PageHelper.startPage(pageNum, 10);
-		List<PassengerFlowNote> passList = passengerFlowNoteMapper.selectPassFlowToday();
+		List<PassengerFlowNote> passList = new ArrayList<>();
+		JDateTime now = new JDateTime();
+		if(now.getHour() > 6) {
+			passList = passengerFlowNoteMapper.selectPassFlowToday();
+		}else {
+			passList = passengerFlowNoteMapper.selectPassFlowYesterday();
+		}
 		PageInfo<PassengerFlowNote> page = new PageInfo<PassengerFlowNote>(passList);
 		return page;
 	}
