@@ -85,7 +85,7 @@ function addCoupon(){
 			var type = $("#type").val();
 			var money = $("#money").val();
 			var name = $("#name").val();
-			if(type==null || type <= 0 || money==null || money <= 1|| name==null){
+			if(type==null || type <= 0 || money==null || money < 1|| name==null){
 				layer.msg("输入有误，请重试！");
 				return;
 			}
