@@ -28,7 +28,7 @@ public class Staff {
 
     private Integer status;
 
-    private Integer back1;
+    private Double back1;
 
     private String back2;
 
@@ -129,11 +129,11 @@ public class Staff {
         this.status = status;
     }
 
-    public Integer getBack1() {
+    public Double getBack1() {
         return back1;
     }
 
-    public void setBack1(Integer back1) {
+    public void setBack1(Double back1) {
         this.back1 = back1 == 0 ? 0 : back1;
     }
 

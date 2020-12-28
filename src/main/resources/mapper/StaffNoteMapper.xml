@@ -5,7 +5,7 @@
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="staff_id" jdbcType="INTEGER" property="staffId" />
     <result column="staff_name" jdbcType="VARCHAR" property="staffName" />
-    <result column="duration" jdbcType="INTEGER" property="duration" />
+    <result column="duration" jdbcType="DECIMAL" property="duration" />
     <result column="time" jdbcType="TIMESTAMP" property="time" />
     <result column="back1" jdbcType="VARCHAR" property="back1" />
     <result column="back2" jdbcType="VARCHAR" property="back2" />
@@ -72,7 +72,7 @@
       duration, time, back1, 
       back2)
     values (#{id,jdbcType=INTEGER}, #{staffId,jdbcType=INTEGER}, #{staffName,jdbcType=VARCHAR}, 
-      #{duration,jdbcType=INTEGER}, #{time,jdbcType=TIMESTAMP}, #{back1,jdbcType=VARCHAR}, 
+      #{duration,jdbcType=DECIMAL}, #{time,jdbcType=TIMESTAMP}, #{back1,jdbcType=VARCHAR}, 
       #{back2,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.young.model.StaffNote">
@@ -111,7 +111,7 @@
         #{staffName,jdbcType=VARCHAR},
       </if>
       <if test="duration != null">
-        #{duration,jdbcType=INTEGER},
+        #{duration,jdbcType=DECIMAL},
       </if>
       <if test="time != null">
         #{time,jdbcType=TIMESTAMP},
@@ -140,7 +140,7 @@
         staff_name = #{staffName,jdbcType=VARCHAR},
       </if>
       <if test="duration != null">
-        duration = #{duration,jdbcType=INTEGER},
+        duration = #{duration,jdbcType=DECIMAL},
       </if>
       <if test="time != null">
         time = #{time,jdbcType=TIMESTAMP},
@@ -158,7 +158,7 @@
     update staff_note
     set staff_id = #{staffId,jdbcType=INTEGER},
       staff_name = #{staffName,jdbcType=VARCHAR},
-      duration = #{duration,jdbcType=INTEGER},
+      duration = #{duration,jdbcType=DECIMAL},
       time = #{time,jdbcType=TIMESTAMP},
       back1 = #{back1,jdbcType=VARCHAR},
       back2 = #{back2,jdbcType=VARCHAR}

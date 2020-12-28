@@ -9,7 +9,7 @@ public class StaffNote {
 
     private String staffName;
 
-    private Integer duration;
+    private Double duration;
 
     private Date time;
 
@@ -41,11 +41,11 @@ public class StaffNote {
         this.staffName = staffName == null ? null : staffName.trim();
     }
 
-    public Integer getDuration() {
+    public Double getDuration() {
         return duration;
     }
 
-    public void setDuration(Integer duration) {
+    public void setDuration(Double duration) {
         this.duration = duration;
     }
 

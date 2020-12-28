@@ -63,7 +63,7 @@ public class StaffServiceImpl implements StaffService{
 
 	@Override
 	public int addStaff(Staff staff) {
-		staff.setBack1(Const.PUBLIC_NO);
+		staff.setBack1(0d);
 		staff.setStatus(Const.STAFF_ZAI);
 		return staffMapper.insertSelective(staff);
 	}
