@@ -2,6 +2,8 @@ package com.young.mapper;
 
 import com.young.model.Flushing;
 import com.young.model.FlushingExample;
+
+import java.math.BigDecimal;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Select;
@@ -22,5 +24,8 @@ public interface FlushingMapper {
     int updateByPrimaryKeySelective(Flushing record);
 
     int updateByPrimaryKey(Flushing record);
+
+    @Select("select * from flushing where recharge = #{money}")
+	List<Flushing> selectFlushByRecharge(BigDecimal money);
     
 }

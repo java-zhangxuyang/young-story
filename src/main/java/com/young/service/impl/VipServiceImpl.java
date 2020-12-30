@@ -66,21 +66,26 @@ public class VipServiceImpl implements VipService{
 
 	@Override
 	public int vipRecharge(Vip vip) {
-		Vip v = vipMapper.selectByPrimaryKey(vip.getId());
-		VipUseNote note = new VipUseNote();
-		note.setVipId(v.getId());
-		note.setVipName(v.getName());
-		note.setType(Const.VIP_USE_NOTE_TYPE_VIP_RECHARGE);
-		note.setTime(new Date());
-		note.setMoney(vip.getMoney());
-		note.setBack1(vip.getBack1());
-		int i = vipUseNoteMapper.insertSelective(note);
-		if(i > 0) {
-			//会员等级
-			v = this.vipLevelRecharge(vip.getMoney(), v);
-			v.setNowMoney(v.getNowMoney().add(vip.getMoney()));
-			v.setTotalMoney(v.getTotalMoney().add(vip.getMoney()));
-			return vipMapper.updateByPrimaryKeySelective(v);
+		List<Flushing> list = flushingMapper.selectFlushByRecharge(vip.getMoney());
+		if(null != list && list.size() > 0) {
+			Flushing flush = list.get(0);
+			Vip v = vipMapper.selectByPrimaryKey(vip.getId());
+			VipUseNote note = new VipUseNote();
+			note.setVipId(v.getId());
+			note.setVipName(v.getName());
+			note.setType(Const.VIP_USE_NOTE_TYPE_VIP_RECHARGE);
+			note.setTime(new Date());
+			note.setMoney(flush.getRecharge());
+			note.setRemark(flush.getName());
+			note.setBack1(vip.getBack1());
+			int i = vipUseNoteMapper.insertSelective(note);
+			if(i > 0) {
+				//会员等级
+				v = this.vipLevelRecharge(flush.getRecharge(), v);
+				v.setNowMoney(v.getNowMoney().add(flush.getTotal()));
+				v.setTotalMoney(v.getTotalMoney().add(flush.getRecharge()));
+				return vipMapper.updateByPrimaryKeySelective(v);
+			}
 		}
 		return 0;
 	}

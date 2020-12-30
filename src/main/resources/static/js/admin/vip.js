@@ -121,7 +121,7 @@ function addVip(){
 function vipRecharge(id,name){
 	var text = '';
 	for(var i=0;i<flushs.length;i++){
-		text += '<option value="'+flushs[i].total+'">'+flushs[i].name+'</option>';
+		text += '<option value="'+flushs[i].recharge+'">'+flushs[i].name+'</option>';
 	}
 	var staffContent='';
 	if(staffList != null && staffList.length > 0){
