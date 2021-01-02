@@ -247,7 +247,7 @@ public class PassFlowServiceImpl implements PassFlowService{
 			passengerFlowNoteMapper.updateByPrimaryKeySelective(note);
 		}else if(consumptionNote.getType() == Const.CON_NOTE_MAID_TYPE) {
 			consumptionNote.setMoney(new BigDecimal(consumptionNote.getBack3()).multiply(new BigDecimal(consumptionNote.getBack2())).multiply(Const.MAID_FEE));
-			consumptionNote.setRemark("女仆："+Const.MAID_FEE+"元/小时，"+consumptionNote.getBack2()+"位，"+consumptionNote.getBack3()+"小时，共计"+consumptionNote.getMoney().stripTrailingZeros().toPlainString()+"元");
+			consumptionNote.setRemark("女仆："+Const.MAID_FEE+"元/小时，"+consumptionNote.getBack2()+"位，"+consumptionNote.getBack3()+"小时，共计"+consumptionNote.getMoney().stripTrailingZeros().toPlainString()+"元。"+consumptionNote.getRemark());
 		}else{
 			consumptionNote.setRemark((consumptionNote.getRemark()==null?"":consumptionNote.getRemark()+",")+"共计"+consumptionNote.getMoney().stripTrailingZeros().toPlainString()+"元");
 		}

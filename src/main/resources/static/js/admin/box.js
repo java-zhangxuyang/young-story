@@ -118,8 +118,8 @@ function useBoxAction(){
 						    '<label for="remind" class="col-sm-2 control-label">计时方式</label>'+
 						    '<div class="col-sm-9">'+
 							    '<select class="form-control" name="remind">'+
+							    	'<option value="0">正计时</option>'+
 							    	'<option value="1">倒计时</option>'+
-						    		'<option value="0">正计时</option>'+
 								 '</select>'+
 						    '</div>'+
 					    '</div>'+
