@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.github.pagehelper.PageInfo;
 import com.young.model.Staff;
+import com.young.model.StaffNote;
 
 public interface StaffService {
 
@@ -19,4 +20,6 @@ public interface StaffService {
 	Staff getStaffByUserName(String userName);
 
 	List<Staff> getStaffList();
+
+	List<StaffNote> selectStaffNoteById(Integer id);
 }

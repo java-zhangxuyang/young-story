@@ -89,6 +89,10 @@ public class StaffServiceImpl implements StaffService{
 		return staffMapper.getStaffByUserName(userName);
 	}
 
-
+	@Override
+	public List<StaffNote> selectStaffNoteById(Integer id) {
+	  List<StaffNote> list = staffNoteMapper.selectStaffNoteById(id);
+	  return list;
+	}
 	
 }

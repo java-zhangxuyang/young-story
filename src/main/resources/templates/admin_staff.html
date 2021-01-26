@@ -31,6 +31,9 @@
 	text-align: center;
 }
 </style>
+<script type="text/javascript">
+var xflist;
+</script>
 </head>
 <body>
 <h1 style="font-size: 35px;margin-bottom: 20px;text-align:center;">员工管理</h1>
@@ -57,8 +60,8 @@
 	  	<%for(staff in staffs.list){%>
 		    <tr>
 		      <td style="line-height: 35px;">${staffLP.index}</td>
-		      <td style="line-height: 35px;"><!-- <div style="width: 95%;white-space: nowrap;overflow: hidden;text-overflow: ellipsis;"></div> -->${staff.name}</td>
-	      	  <td style="line-height: 35px;">${staff.userName}</td>
+		      <td style="line-height: 35px;">${staff.name}</td>
+	      	  <td style="line-height: 35px;"><a href="javascript:void(0)" onclick="lookMonthNote(${staff.id})" >${staff.userName}</a></td>
 		      <td style="line-height: 35px;">${staff.sex}</td>
 		      <td style="line-height: 35px;">${staff.age}</td>
 		      <td style="line-height: 35px;">${staff.birthday}</td>

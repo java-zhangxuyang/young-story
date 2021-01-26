@@ -126,7 +126,7 @@
 	  		<td colspan = "11"><div class="fenye">
 					<ul class="pagination">
 						<%if(vips.isHasPreviousPage){%>
-						    <li><a href="/admin/vip?pageNum=${vips.prePage}">&laquo;</a></li>
+						    <li><a href="javascript:void(0)" onclick="fenye(${passFlows.prePage})">&laquo;</a></li>
 						<%}%>
 						<%
 						for(var i = 1;i<=vips.pages;i++){%>
@@ -134,10 +134,10 @@
 						    	<%if(i == vips.pageNum){%>
 						    		class="active"
 								<%}%>
-						    ><a href="/admin/vip?pageNum=${i}">${i}</a></li>
+						    ><a href="javascript:void(0)" onclick="fenye(${i})">${i}</a></li>
 						<%}%>
 						<%if(vips.isHasNextPage){%>
-						    <li><a href="/admin/vip?pageNum=${vips.nextPage}">&raquo;</a></li>
+						    <li><a href="javascript:void(0)" onclick="fenye(${passFlows.nextPage})" >&raquo;</a></li>
 						<%}%>
 					</ul>
 				</div></td>

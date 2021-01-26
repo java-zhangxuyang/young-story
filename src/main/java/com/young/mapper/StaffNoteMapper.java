@@ -4,6 +4,8 @@ import com.young.model.StaffNote;
 import com.young.model.StaffNoteExample;
 import java.util.List;
 
+import org.apache.ibatis.annotations.Select;
+
 public interface StaffNoteMapper {
     long countByExample(StaffNoteExample example);
 
@@ -20,4 +22,7 @@ public interface StaffNoteMapper {
     int updateByPrimaryKeySelective(StaffNote record);
 
     int updateByPrimaryKey(StaffNote record);
+
+    @Select("select * from staff_note where staff_id = #{id} and DATE_FORMAT(time, '%Y%m' ) = DATE_FORMAT( CURDATE( ) , '%Y%m' ) order by time ")
+	List<StaffNote> selectStaffNoteById(Integer id);
 }

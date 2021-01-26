@@ -10,6 +10,13 @@ $(function(){
         window.location = '/admin/vip';
     });
 })
+
+function fenye(pageNum){
+  var phone = $('#phone').val();
+     var vipname = $('#vipname').val();
+     window.location = '/admin/vip?mobile='+phone+'&vipName=' +vipname+'&pageNum=' +pageNum;
+}
+
 function addVip(){
 	/*var staffContent='';
 	if(staffList != null && staffList.length > 0){

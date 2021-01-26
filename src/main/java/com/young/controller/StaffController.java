@@ -16,6 +16,7 @@ import com.github.pagehelper.PageInfo;
 import com.young.base.support.ResponseBo;
 import com.young.model.Coupon;
 import com.young.model.Staff;
+import com.young.model.StaffNote;
 import com.young.service.StaffService;
 
 @Controller
@@ -86,6 +87,16 @@ public class StaffController {
 	@ResponseBody
 	public Object getStaffList() {
 		List<Staff> list = staffService.getStaffList();
+		return ResponseBo.ok(list);
+	}
+	
+	/*
+	 * 查询员工列表
+	 */
+	@PostMapping("/selectStaffNoteById")
+	@ResponseBody
+	public Object selectStaffNoteById(Integer id) {
+		List<StaffNote> list = staffService.selectStaffNoteById(id);
 		return ResponseBo.ok(list);
 	}
 }

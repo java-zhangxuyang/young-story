@@ -5,40 +5,176 @@
 <script src="/js/jquery-3.5.1.min.js" type="text/javascript" charset="utf-8"></script>
 <script src="/bootstrap/js/bootstrap.min.js" type="text/javascript" charset="utf-8"></script>
 <script src="/js/layer/layer.js" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript" src="/bootstrap/js/moment-with-locales.js" charset="UTF-8"></script>
+<script type="text/javascript" src="/bootstrap/js/bootstrap-datetimepicker.js" charset="UTF-8"></script>
+<script type="text/javascript" src="/bootstrap/js/bootstrap-datetimepicker.zh-CN.js" charset="UTF-8"></script>
+<script src="/js/admin/box.js" type="text/javascript" charset="utf-8"></script>
 
 <link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css"/>
+<link rel="stylesheet" href="/css/admin/box.css"/>
+<link href="/bootstrap/css/bootstrap-datetimepicker.min.css" rel="stylesheet" media="screen">
 
 <title>Insert title here</title>
+<style type="text/css">
+.form-group{
+	width: 100%;
+	height: 20%;
+	margin-top: 8%;
+}
+.fenye{
+	text-align:center;
+}
+.my-container {
+    margin-left: 30px;
+    margin-bottom: 20px;
+}
+
+.myLabel-content ,.myText-content,.myBtn-content{
+    float: right;
+    display: inline-block;
+    margin-right: 20%;
+}
+.myLabel-content,.myText-content input[type='text'],.myBtn-content .btn {
+    height: 30px;
+    font-size: 12px;
+}
+.myLabel-content {
+    height: 30px;
+    font-size: 20px;
+}
+.myBtn-content .btn {
+    margin-bottom: 10px;
+}
+.table {
+	text-align: center;
+}
+.table > thead > tr > th{
+	width: 10%;
+	text-align: center;
+}
+</style>
 <script type="text/javascript">
 $(function(){
-	$("#sign").change(function(){
-		var sign = $("#sign").val();
-		window.location.href = "/admin/query/passenger?sign="+sign;
-	})
+	$('#search').click(function () {
+        var startTime = $('#startDateTime').val();
+        var endTime = $('#endDateTime').val();
+        window.location = '/admin/query/passenger?startTime='+startTime+'&endTime=' +endTime;
+    });
+    $('#reset').click(function() {
+        $('#startDateTime').val('');
+        $('#endDateTime').val('');
+        window.location = '/admin/query/passenger';
+    });
+	$('#startTime').datetimepicker({
+		format: 'yyyy-mm-dd',
+		weekStart: 1,
+		autoclose: true,
+		startView: 2,
+		initialDate:new Date(),
+		minView: 2,
+	    language:'zh-CN'
+    });
+	$('#endTime').datetimepicker({
+		format: 'yyyy-mm-dd',
+		weekStart: 1,
+		autoclose: true,
+		startView: 2,
+		initialDate:new Date(),
+		minView: 2,
+	    language:'zh-CN'
+    });
 })
+
+function fenye(pageNum){
+	var startTime = $('#startDateTime').val();
+    var endTime = $('#endDateTime').val();
+    window.location = '/admin/query/passenger?startTime='+startTime+'&endTime=' +endTime+'&pageNum=' +pageNum;
+}
 </script>
 </head>
 <body style="width: 100%;height: 1800px;">
-	<div style="width: 100%;height: 100%;">
-		<div style="width: 100%;height: 3%;"></div>
-		<div class="form-group" style="width: 100%;height: 5%;">
-		    <label for="remind" class="col-sm-1 control-label">选择查询数据区间</label>
-		    <div class="col-sm-2">
-			    <select class="form-control" name="sign" id="sign">
-			    	<option value="" disabled selected hidden></option>
-			    	<option value="0">七天</option>
-		    		<option value="1">本月</option>
-		    		<option value="2">上月</option>
-		    		<option value="3">三个月</option>
-		    		<option value="4">半年</option>
-		    		<option value="5">一年</option>
-				 </select>
-		    </div>
-		    <div class="col-sm-7">
-		    </div>
-	    </div><br>
-		<div>
-			${map.sign}
+	<h1 style="font-size: 35px;margin-bottom: 20px;text-align:center;">客流查询</h1>
+	<div id="toolbar" style="margin-bottom: 10px;height: 40px;">
+    <div class="my-container">
+    	<div style="float: left;line-height: 35px;font-size: 18px;">起止日期：</div>
+		<div class="input-group date col-sm-2" id="startTime" style="float: left;">
+			<input  type="text" class="form-control" name="startTime" id="startDateTime" value="${startTime}" placeholder="开始时间" readonly/>
+			<span class="input-group-addon">
+			<span class="glyphicon glyphicon-calendar"></span></span>
+		</div>
+		<div style="float: left;line-height: 35px;font-size: 16px;">&nbsp;&nbsp;至&nbsp;&nbsp;</div>
+		<div class="input-group date col-sm-2" id="endTime" style="float: left;">
+			<input  type="text" class="form-control" name="endTime" id="endDateTime" value="${endTime}" placeholder="结束时间" readonly/>
+			<span class="input-group-addon">
+			<span class="glyphicon glyphicon-calendar"></span></span>
+		</div>
+   	</div>
+    <div class="myBtn-content">
+        <button id="search" type="button" class="btn btn-primary">搜索</button>
+        <button id="reset" type="button" class="btn btn-default">重置</button>
+    </div>
+    </div>
+	<div>
+	<table class="table table-striped"  id="vipTable">
+	   <thead>
+	    <tr>
+	      <th style="width: 15%;">号码牌</th>
+	      <th style="width: 10%;">到场时间</th>
+	      <th style="width: 7%;">人数</th>
+	      <th style="width: 10%;">包厢</th>
+	      <th style="width: 10%;">状态</th>
+	      <th style="width: 10%;">离场时间</th>
+	      <th style="width: 10%;">消费金额</th>
+	      <th style="width: 10%;">推荐人</th>
+	    </tr>
+	  </thead>
+	  <tbody>
+	  	<%for(passFlow in passFlows.list){%>
+		    <tr>
+		      <td >${passFlow.number}</td>
+		      <td >${passFlow.toTime,'YYYY-MM-DD HH:mm'}</td>
+		      <td >${passFlow.people}</td>
+		      <td >${passFlow.useBox==1?'使用':'未使用'}</td>
+		      <td >${passFlow.statusName}</td>
+		      <td >${passFlow.offTime,'HH:mm'}</td>
+		      <td >
+		       <%if(passFlow.back2 != null){%>
+			      	${passFlow.back2}元
+			      <%}%></td>
+		      <td>
+			      <%if(passFlow.back1 != null){%>
+			      	${passFlow.back1}
+			      <%}%>
+		      </td>
+		      <td >
+		      	<button type="button" class="btn btn-primary" value="${passFlow.id}" onclick="checkOut(${passFlow.id},2)"><span class="glyphicon glyphicon-gbp"></span> &nbsp;账单</button>
+		      </td>
+		    </tr>
+		<%}%>
+	  </tbody>
+	  <tfoot>
+	  	<tr>
+	  		<td colspan = "8"><div class="fenye">
+					<ul class="pagination">
+						<%if(passFlows.isHasPreviousPage){%>
+						    <li><a href="javascript:void(0)" onclick="fenye(${passFlows.prePage})">&laquo;</a></li>
+						<%}%>
+						<%
+						for(var i = 1;i<=passFlows.pages;i++){%>
+						    <li 
+						    	<%if(i == passFlows.pageNum){%>
+						    		class="active"
+								<%}%>
+						    ><a href="javascript:void(0)" onclick="fenye(${i})">${i}</a></li>
+						<%}%>
+						<%if(passFlows.isHasNextPage){%>
+						    <li><a href="javascript:void(0)" onclick="fenye(${passFlows.nextPage})" >&raquo;</a></li>
+						<%}%>
+					</ul>
+				</div></td>
+	  	</tr>
+	  </tfoot>
+	</table>
 		</div>
 	</div>
 </body>

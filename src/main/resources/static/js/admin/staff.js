@@ -235,3 +235,70 @@ function addUserName(id,name,userName){
 		}
 	});
 }
+
+function lookMonthNote(id){
+	$.ajax({
+		type: "POST",
+		data: {id:id},
+		url: "/admin/staff/selectStaffNoteById",
+		dataType: "json",
+		async: false,
+		success: function(data) {
+			if(data.code == -1){
+				layer.msg(data.msg);
+			}else if(data.code == 1){
+				xflist = data.payload;
+			}
+		}
+	});
+	var jzcontent = '<table class="table table-striped">'+
+	  '<thead>'+
+	    '<tr>'+
+	      '<th style="width:5%;">序列</th>'+
+	      '<th style="width:10%;">时长</th>'+
+	      '<th style="width:15%;">时间</th>'+
+	    '</tr>'+
+	  '</thead>'+
+	  '<tbody>';
+	if(xflist != null && xflist.length > 0){
+		for (var i=0;i<xflist.length;i++){  
+			jzcontent += '<tr><td>'+(i+1)+'</td>'+
+					'<td>'+xflist[i].duration+' 小时</td>'+
+					'<td>'+new Date(xflist[i].time).Format('yyyy-MM-dd hh:mm')+'</td>'+
+					'</tr>';
+		}
+	}
+	  jzcontent += '</tbody></table>';
+ var indexjiezhang = layer.open({
+        type: 1,
+        title: '接单记录',
+        area: ['800px', '650px'],
+        shadeClose: true, //点击遮罩关闭
+        content:jzcontent,
+        maxmin: true,
+        success: function (layero, index) { // 弹窗成功
+		},
+		end:function(){
+            // 清除session里缓存
+			xflist = "";
+        },
+        yes:function(){
+        	
+        }
+ });
+}
+Date.prototype.Format = function (fmt) { //author: meizz
+    var o = {
+        "M+": this.getMonth() + 1, //月份
+        "d+": this.getDate(), //日
+        "h+": this.getHours(), //小时
+        "m+": this.getMinutes(), //分
+        "s+": this.getSeconds(), //秒
+        "q+": Math.floor((this.getMonth() + 3) / 3), //季度
+        "S": this.getMilliseconds() //毫秒
+    };
+    if (/(y+)/.test(fmt)) fmt = fmt.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
+    for (var k in o)
+    if (new RegExp("(" + k + ")").test(fmt)) fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
+    return fmt;
+}
