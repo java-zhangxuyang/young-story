@@ -678,9 +678,9 @@ function consumption(id,number){
     			}else if($("#boxtype").val() == 2){
     				boxMoney=58;
     			}else if($("#boxtype").val() == 3){
-    				boxMoney=118;
-    			}else if($("#boxtype").val() == 4){
     				boxMoney=108;
+    			}else if($("#boxtype").val() == 4){
+    				boxMoney=118;
     			}
         		var useTime = $("#useTime").val();
         		$("#money").val(boxMoney * useTime);
