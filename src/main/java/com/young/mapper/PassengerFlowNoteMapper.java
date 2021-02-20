@@ -43,6 +43,6 @@ public interface PassengerFlowNoteMapper {
     
     @Select("select pfn.*,d.name as statusName from passenger_flow_note pfn left join dict d on pfn.status = d.no "
     	      + " where d.key = 'pass_flow_status' and date_format(pfn.to_time,'%y%m%d') >= date_format(#{startTime},'%y%m%d') "
-    	      + " and date_format(pfn.to_time,'%y%m%d') <= date_format(#{endTime},'%y%m%d') order by number desc")
+    	      + " and date_format(pfn.to_time,'%y%m%d') <= date_format(#{endTime},'%y%m%d') order by pfn.to_time desc")
     	 List<PassengerFlowNote> passengerQuery(String startTime, String endTime);
 }
