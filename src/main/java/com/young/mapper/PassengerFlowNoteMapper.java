@@ -26,8 +26,16 @@ public interface PassengerFlowNoteMapper {
 
     int updateByPrimaryKey(PassengerFlowNote record);
 
-    @Select("select pfn.*,d.name as statusName from passenger_flow_note pfn left join dict d on pfn.status = d.no where d.key = 'pass_flow_status' and to_days(pfn.to_time) = to_days(now()) order by status desc,off_time asc,number asc")
+    @Select("select pfn.*,d.name as statusName from passenger_flow_note pfn left join dict d on pfn.status = d.no "
+    		+ "where d.key = 'pass_flow_status' and to_days(pfn.to_time) = to_days(now()) "
+    		+ "order by status desc,off_time asc,number asc")
 	List<PassengerFlowNote> selectPassFlowToday();
+    
+    @Select("select pfn.*,d.name as statusName from passenger_flow_note pfn left join dict d on pfn.status = d.no \r\n" + 
+    		"where d.key = 'pass_flow_status' and ((TO_DAYS( NOW( )) - TO_DAYS( pfn.to_time) = 1 and status = 1) or \r\n" + 
+    		"(to_days(pfn.to_time) = to_days(now())))\r\n" + 
+    		"order by status desc,off_time asc,number asc")
+    List<PassengerFlowNote> selectPassFlowTodayOrYesterday();
 
     @Select("select * from passenger_flow_note where number = #{number} and to_days(to_time) = to_days(now()) ")
 	PassengerFlowNote selectTodayByNumber(String number);
