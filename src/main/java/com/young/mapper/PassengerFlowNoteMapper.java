@@ -37,10 +37,10 @@ public interface PassengerFlowNoteMapper {
     		"order by status desc,off_time asc,number asc")
     List<PassengerFlowNote> selectPassFlowTodayOrYesterday();
 
-    @Select("select * from passenger_flow_note where number = #{number} and to_days(to_time) = to_days(now()) ")
+    @Select("select * from passenger_flow_note where number = #{number} and TO_DAYS(NOW( ) ) - TO_DAYS(to_time) <= 1 ")
 	PassengerFlowNote selectTodayByNumber(String number);
 
-    @Select("select * from passenger_flow_note where status = 1 and to_days(to_time) = to_days(now()) ")
+    @Select("select * from passenger_flow_note where status = 1 and TO_DAYS(NOW( ) ) - TO_DAYS(to_time) <= 1 order by status desc,off_time asc,number asc ")
 	List<PassengerFlowNote> getPassFlowList();
     
     @Update("update passenger_flow_note set back1 = #{newName} where back1 = #{oldName} ")
