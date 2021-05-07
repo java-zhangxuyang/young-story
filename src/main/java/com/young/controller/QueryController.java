@@ -16,6 +16,7 @@ import com.young.model.PassengerFlowNote;
 import com.young.service.QueryService;
 
 import jodd.datetime.JDateTime;
+import jodd.util.StringUtil;
 
 @Controller
 @RequestMapping("/admin/query")
@@ -42,8 +43,13 @@ public class QueryController {
 	}
 	
 	@GetMapping("/revenue")
-	public String revenue(Model model,HttpServletRequest request) {
-		
+	public String revenue(Model model,HttpServletRequest request,String date) {
+		if(StringUtil.isBlank(date)){
+			date = new JDateTime().toString("YYYY-MM");
+		}
+		Map<String, Object> dataMap = queryService.getTableData(date);
+		model.addAttribute("dataMap", dataMap);
+		model.addAttribute("date", date);
 		return "admin_revenue";
 	}
 	
