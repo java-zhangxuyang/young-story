@@ -29,8 +29,20 @@ tr {
     width:25%;
     border-top: 1px solid black;
 }
+.pure-table2 td,th {
+    padding: 0;
+    width:20%;
+    border-top: 1px solid black;
+    text-align: center;
+}
  
 .pure-table {
+    border-collapse: collapse;
+    border-spacing: 0;
+    empty-cells: show;
+    border: 1px solid black;
+}
+.pure-table2 {
     border-collapse: collapse;
     border-spacing: 0;
     empty-cells: show;
@@ -52,8 +64,24 @@ tr {
     overflow: visible;
     padding: .5em 1em;
 }
+.pure-table2 td,.pure-table th {
+    border-left: 1px solid black;
+    border-width: 0 0 0 1px;
+    font-size: inherit;
+    margin: 0;
+    overflow: visible;
+    padding: .5em 1em;
+}
  
 .pure-table thead {
+    background-color: #e0e0e0;
+    color: #000;
+    text-align: center;
+    height:10%;
+    font-size:18px;
+    vertical-align: bottom;
+}
+.pure-table2 thead {
     background-color: #e0e0e0;
     color: #000;
     text-align: center;
@@ -70,6 +98,11 @@ tr {
 .pure-table-odd{
     background-color: #f2f2f2;
     text-align: center;
+}
+.pure-table-odd2{
+    background-color: #f2f2f2;
+    text-align: center;
+    width: 20%;
 }
 .pure-table-new{
     text-align: right;
@@ -97,109 +130,111 @@ $(function(){
 })
 </script>
 </head>
-<body style="height:750px;width:1200px;">
-	<div style="height:5%;width:100%;margin-top: 10px;">
-		<div style="text-align:center;height:100%;width:45%;float: left;"><span style="font-weight: 10px;font-size: 28px;">${dataMap.month}月营收额数据展示</span></div>
-		<div style="height:100%;width:45%;margin-left: 10%;float: left;">
-			<div class="input-group date col-sm-2" id="date" style="float: left;margin-left:15%;">
-				<input style="width: 150px;" type="text" class="form-control" name="date" id="dateTime" value="${date}" placeholder="选择时间" readonly/>
-				<span class="input-group-addon">
-				<span class="glyphicon glyphicon-calendar"></span></span>
+<body style="height:750px;width: 90%">
+	<div style="margin-left: 1%;width: 100%;height: 100%;">
+		<div style="height:5%;width:100%;margin-top: 10px;">
+			<div style="text-align:center;height:100%;width:45%;float: left;"><span style="font-weight: 10px;font-size: 28px;">${dataMap.month}月营收额数据展示</span></div>
+			<div style="height:100%;width:45%;margin-left: 10%;float: left;">
+				<div class="input-group date col-sm-2" id="date" style="float: left;margin-left:15%;">
+					<input style="width: 150px;" type="text" class="form-control" name="date" id="dateTime" value="${date}" placeholder="选择时间" readonly/>
+					<span class="input-group-addon">
+					<span class="glyphicon glyphicon-calendar"></span></span>
+				</div>
+				<div class="myBtn-content" style="margin-left: 60%;">
+			        <button id="search" type="button" class="btn btn-primary">查看</button>
+			        <button id="reset" type="button" class="btn btn-default" style="margin-left: 10px;">重置</button>
+			    </div>
 			</div>
-			<div class="myBtn-content" style="margin-left: 60%;">
-		        <button id="search" type="button" class="btn btn-primary">搜索</button>
-		        <button id="reset" type="button" class="btn btn-default">重置</button>
-		    </div>
 		</div>
-	</div>
-	<div style="height:95%;width:100%;">
-		<div style="height:46%;width:100%;margin-top:1%;">
-			<!-- 左上 -->
-			<div style="float:left;height:100%;width:550px;margin-left:2%;border: solid 2px red;">
-				<table class="pure-table">
-					<thead><tr><td colspan="4">数据统计展示</td></tr></thead>
-					<tr>
-						<td class="pure-table-odd" rowspan="2" >营业总额：</td>
-						<td class="pure-table-new" rowspan="2">${dataMap.sumMoney,"##"} 元</td>
-						<td class="pure-table-odd">普通消费：</td>
-						<td class="pure-table-new">${dataMap.ptMoney,"##"} 元</td>
-					</tr>
-					<tr>
-						<td class="pure-table-odd">会员消费：</td>
-						<td class="pure-table-new">${dataMap.vipMoney,"##"} 元</td>
-					</tr>
-					<tr>
-						<td class="pure-table-odd">客流批次：</td>
-						<td class="pure-table-new">${dataMap.batch} 批</td>
-						<td class="pure-table-odd">次均消费：</td>
-						<td class="pure-table-new">${dataMap.avgBatch} 元</td>
-					</tr>
-					<tr>
-						<td class="pure-table-odd">客流人数：</td>
-						<td class="pure-table-new">${dataMap.sumPeople}人</td>
-						<td class="pure-table-odd">人均消费：</td>
-						<td class="pure-table-new">${dataMap.avgMoney} 元</td>
-					</tr>
-					<tr>
-						<td class="pure-table-odd">包厢营收：</td>
-						<td class="pure-table-new">${dataMap.boxMoney,"##"} 元</td>			
-						<td class="pure-table-odd">使用次数：</td>
-						<td class="pure-table-new">${dataMap.boxCount} 次</td>
-					</tr>
-					<tr>
-						<td class="pure-table-odd">助教营收：</td>
-						<td class="pure-table-new">${dataMap.girlMoney,"##"} 元</td>			
-						<td class="pure-table-odd">点单次数：</td>
-						<td class="pure-table-new">${dataMap.girlCount} 次</td>
-					</tr>
-					<tr>
-						<td class="pure-table-odd">充值总金额：</td>
-						<td class="pure-table-new">${dataMap.vipMoney,"##"} 元</td>
-						<td class="pure-table-odd">充值总笔数：</td>
-						<td class="pure-table-new">${dataMap.vipCount} 笔</td>
-					</tr>
-				</table>
-			</div>
-			<!-- 右上 -->
-			<div style="float:right;height:100%;width:580px;margin-left:2%;border: solid 2px red;">
-				<table class="pure-table">
-					<thead>
+		<div style="height:95%;width:100%;">
+			<div style="height:46%;width:100%;margin-top:1%;">
+				<!-- 左上 -->
+				<div style="float:left;height:100%;width:47%;margin-left:2%;">
+					<table class="pure-table">
+						<thead><tr><td colspan="4">数据统计展示</td></tr></thead>
 						<tr>
-							<td colspan="5">会员数据一览</td>
+							<td class="pure-table-odd" rowspan="2" >营业总额：</td>
+							<td class="pure-table-new" rowspan="2">${dataMap.sumMoney,"##"} 元</td>
+							<td class="pure-table-odd">普通消费：</td>
+							<td class="pure-table-new">${dataMap.ptMoney,"##"} 元</td>
 						</tr>
-					</thead>
-					<tbody>
 						<tr>
-							<td>会员等级</td>
-							<td>人数</td>
-							<td>当前额度</td>
-							<td>累计充值</td>
-							<td>累计消费</td>
+							<td class="pure-table-odd">会员消费：</td>
+							<td class="pure-table-new">${dataMap.vipMoney,"##"} 元</td>
 						</tr>
-						<%for(vip in dataMap.vipList){%>
+						<tr>
+							<td class="pure-table-odd">客流批次：</td>
+							<td class="pure-table-new">${dataMap.batch} 批</td>
+							<td class="pure-table-odd">次均消费：</td>
+							<td class="pure-table-new">${dataMap.avgBatch} 元</td>
+						</tr>
+						<tr>
+							<td class="pure-table-odd">客流人数：</td>
+							<td class="pure-table-new">${dataMap.sumPeople}人</td>
+							<td class="pure-table-odd">人均消费：</td>
+							<td class="pure-table-new">${dataMap.avgMoney} 元</td>
+						</tr>
+						<tr>
+							<td class="pure-table-odd">包厢营收：</td>
+							<td class="pure-table-new">${dataMap.boxMoney,"##"} 元</td>			
+							<td class="pure-table-odd">使用次数：</td>
+							<td class="pure-table-new">${dataMap.boxCount} 次</td>
+						</tr>
+						<tr>
+							<td class="pure-table-odd">助教营收：</td>
+							<td class="pure-table-new">${dataMap.girlMoney,"##"} 元</td>			
+							<td class="pure-table-odd">点单次数：</td>
+							<td class="pure-table-new">${dataMap.girlCount} 次</td>
+						</tr>
+						<tr>
+							<td class="pure-table-odd">充值总金额：</td>
+							<td class="pure-table-new">${dataMap.vipMoney,"##"} 元</td>
+							<td class="pure-table-odd">充值总笔数：</td>
+							<td class="pure-table-new">${dataMap.vipCount} 笔</td>
+						</tr>
+					</table>
+				</div>
+				<!-- 右上 -->
+				<div style="float:right;height:100%;width:47%;margin-left:2%;">
+					<table class="pure-table2">
+						<thead>
 							<tr>
-								<td>${vip.name}</td>
-								<td>${vip.count}</td>
-								<td>${vip.now_money}</td>
-								<td>${vip.total_money}</td>
-								<td>${vip.sum_consume}</td>
+								<td colspan="5">会员数据一览</td>
 							</tr>
-						<%}%>
-					</tbody>
-					<tfoot>
-						<tr>
-							<td><span style="font-size: 20px;">共计：</span></td>
-							<td>${dataMap.vipSumMap.count}</td>
-							<td>${dataMap.vipSumMap.now_money}</td>
-							<td>${dataMap.vipSumMap.total_money}</td>
-							<td>${dataMap.vipSumMap.sum_consume}</td>
-						</tr>
-					</tfoot>
-				</table>
+						</thead>
+						<tbody>
+							<tr>
+								<td class="pure-table-odd2">会员等级</td>
+								<td class="pure-table-odd2">人数</td>
+								<td class="pure-table-odd2">当前额度</td>
+								<td class="pure-table-odd2">累计充值</td>
+								<td class="pure-table-odd2">累计消费</td>
+							</tr>
+							<%for(vip in dataMap.vipList){%>
+								<tr>
+									<td>${vip.name}</td>
+									<td>${vip.count} 人</td>
+									<td>${vip.now_money,"##"} 元</td>
+									<td>${vip.total_money,"##"} 元</td>
+									<td>${vip.sum_consume,"##"} 元</td>
+								</tr>
+							<%}%>
+						</tbody>
+						<tfoot>
+							<tr>
+								<td><span style="font-size: 20px;">共计</span></td>
+								<td>${dataMap.vipSumMap.count} 人</td>
+								<td>${dataMap.vipSumMap.now_money,"##"} 元</td>
+								<td>${dataMap.vipSumMap.total_money,"##"} 元</td>
+								<td>${dataMap.vipSumMap.sum_consume,"##"} 元</td>
+							</tr>
+						</tfoot>
+					</table>
+				</div>
 			</div>
+			<!-- 下 -->
+			<div id="container" style="height:46%;width:100%;margin-top:3%;margin-left:1%;border:1px solid black;"></div>
 		</div>
-		<!-- 下 -->
-		<div id="container" style="height:46%;width:100%;margin-top:2%;margin-left:1%;border: solid 2px red;"></div>
 	</div>
 </body>
 <script type="text/javascript">
