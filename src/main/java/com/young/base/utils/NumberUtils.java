@@ -163,9 +163,5 @@ public class NumberUtils {
         return cnchars.toArray(new String[] {});  
     }  
     
-    public static void main(String[] args) {  
-    	NumberUtils temp = new NumberUtils();
-        System.out.println(temp.cvt(12,true));//四十点三
-    } 
      
 }

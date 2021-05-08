@@ -88,6 +88,8 @@ function addStaff(){
 				autoclose: true,
 				startView: 2,
 				initialDate:new Date('1997-01-01'),
+				startDate:new Date('1994-10-01'),
+				endDate:new Date(),
 				minView: 2,
 			    language:'zh-CN'
 		    });
@@ -98,6 +100,7 @@ function addStaff(){
 				startView: 2,
 				minView: 2,
 				startDate:new Date('2020-10-01'),
+				endDate:new Date(),
 			    language:'zh-CN'
 			});
 		},
