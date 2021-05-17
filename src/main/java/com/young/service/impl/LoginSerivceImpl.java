@@ -30,7 +30,7 @@ public class LoginSerivceImpl implements LoginService {
 			return ResponseBo.fail("用户名和密码不能为空");
 		}
 
-		/*
+		/* 123
 		 * Staff staff = staffMapper.getStaffByUserName(userName); if (null == staff) {
 		 * log.debug("登陆帐号错误，帐号：" + userName + "，密码：" + password); return
 		 * ResponseBo.fail("用户名或密码错误！"); }
