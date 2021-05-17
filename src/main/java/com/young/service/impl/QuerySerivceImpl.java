@@ -80,19 +80,19 @@ public class QuerySerivceImpl implements QueryService {
 		NumberUtils numberUtils = new NumberUtils();
 		map.put("month", numberUtils.cvt(jTime.getMonth(),true));
 		map.put("day", day);
-		List<Integer> yye = new ArrayList<Integer>();
+		//List<Integer> yye = new ArrayList<Integer>();
 		List<Integer> people = new ArrayList<Integer>();
 		List<Integer> batch = new ArrayList<Integer>();
 		List<Integer> box = new ArrayList<Integer>();
 		List<Integer> girl = new ArrayList<Integer>();
 		List<Map<String, Object>> data1 = passengerFlowNoteMapper.getChartData(date,day);
 		for (Map<String, Object> mapdata : data1) {
-			Double money =Double.parseDouble(mapdata.get("money").toString());
-			yye.add(money.intValue());
+			//Double money =Double.parseDouble(mapdata.get("money").toString());
+			//yye.add(money.intValue());
 			people.add(Integer.parseInt(mapdata.get("people").toString()));
 			batch.add(Integer.parseInt(mapdata.get("batch").toString()));
 		}
-		map.put("yye", yye);
+		//map.put("yye", yye);
 		map.put("people", people);
 		map.put("batchs", batch);
 		List<Map<String, Object>> boxdata = consumptionNoteMapper.getChartBoxData(date,day);

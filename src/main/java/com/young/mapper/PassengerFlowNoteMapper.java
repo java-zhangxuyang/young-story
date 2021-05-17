@@ -65,7 +65,8 @@ public interface PassengerFlowNoteMapper {
     @Select("select sum(back2) as vipMoney from passenger_flow_note where back3 is not null and date_format(to_time,'%Y-%m') = #{toTime} ")
 	Map<String, Object> getTableDataVip(String toTime);
 
-    @Select("select a.day,IFNULL(b.money,0) as money,IFNULL(b.people,0) as people,IFNULL(b.batch,0) as batch from days a left join(SELECT date_format( to_time,'%d')+0 as times, sum(back2) as money,sum(people) as people,count(0) as batch\r\n" + 
+    //IFNULL(b.money,0) as money,
+    @Select("select a.day,IFNULL(b.people,0) as people,IFNULL(b.batch,0) as batch from days a left join(SELECT date_format( to_time,'%d')+0 as times, sum(back2) as money,sum(people) as people,count(0) as batch\r\n" + 
     		" FROM passenger_flow_note WHERE 1=1 and date_format(to_time,'%Y-%m') = #{toTime} GROUP BY times) b on a.day = b.times WHERE a.day <= #{day}  ORDER BY a.day" )
     List<Map<String, Object>> getChartData(String toTime,Integer day);
 }
