@@ -3,8 +3,6 @@ package com.young.model;
 import java.math.BigDecimal;
 import java.util.Date;
 
-import org.springframework.format.annotation.DateTimeFormat;
-
 public class ConsumptionNote {
     private Integer id;
 

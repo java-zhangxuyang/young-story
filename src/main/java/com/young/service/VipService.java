@@ -6,7 +6,6 @@ import java.util.List;
 import com.github.pagehelper.PageInfo;
 import com.young.base.support.ResponseBo;
 import com.young.model.Flushing;
-import com.young.model.Staff;
 import com.young.model.Vip;
 
 public interface VipService {

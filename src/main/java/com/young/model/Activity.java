@@ -1,9 +1,6 @@
 package com.young.model;
 
-import java.math.BigDecimal;
 import java.util.Date;
-
-import org.springframework.format.annotation.DateTimeFormat;
 
 public class Activity {
     private Integer id;

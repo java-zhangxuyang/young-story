@@ -1,6 +1,5 @@
 package com.young.service.impl;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -11,7 +10,6 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.young.base.utils.NumberUtils;
@@ -21,13 +19,10 @@ import com.young.mapper.PassengerFlowNoteMapper;
 import com.young.mapper.VipMapper;
 import com.young.mapper.VipUseNoteMapper;
 import com.young.model.PassengerFlowNote;
-import com.young.model.Vip;
 import com.young.service.QueryService;
 
 import jodd.datetime.JDateTime;
-import lombok.extern.slf4j.Slf4j;
 
-@Slf4j
 @Service("querySerivceImpl")
 public class QuerySerivceImpl implements QueryService {
 	
@@ -108,7 +103,7 @@ public class QuerySerivceImpl implements QueryService {
 		return map;
 	}
 	
-	public static int getDaysOfMonth(Date date) {
+	public int getDaysOfMonth(Date date) {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);
         return calendar.getActualMaximum(Calendar.DAY_OF_MONTH);

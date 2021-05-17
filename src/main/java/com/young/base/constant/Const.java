@@ -83,7 +83,10 @@ public class Const {
     
     //会员等级对应的折扣
     public static HashMap<String, String > LEVELDISCOUNT = new HashMap<String, String>(){
-		{  
+		
+        private static final long serialVersionUID = 1L;
+
+        {
 	        put("lv1","1");      
 	        put("lv2","0.98");      
 	        put("lv3","0.95");      
@@ -93,7 +96,10 @@ public class Const {
 	}; 
 	//积分升级会员等级对应积分
 	public static HashMap<String, BigDecimal > LEVELUPGRADE = new HashMap<String, BigDecimal>(){
-		{  
+		
+        private static final long serialVersionUID = 1L;
+
+        {
 			put("1-2",new BigDecimal(2000));      
 			put("2-3",new BigDecimal(4000));      
 			put("3-4",new BigDecimal(4000));      
@@ -101,7 +107,10 @@ public class Const {
 	}; 
 	//对应折扣
 	public static HashMap<String, String > DISCOUNT = new HashMap<String, String>(){
-		{  
+		
+        private static final long serialVersionUID = 1L;
+
+        {
 			put("0.99","九九");      
 			put("0.98","九八");      
 			put("0.97","九七");      

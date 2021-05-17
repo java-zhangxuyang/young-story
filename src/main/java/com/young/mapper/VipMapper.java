@@ -25,7 +25,7 @@ public interface VipMapper {
 
     int updateByPrimaryKey(Vip record);
     
-    @Select("select vip.*,dict.name as levelName,concat(vip.mobile1,vip.mobile2) as mobile from vip LEFT JOIN dict on vip.`level` = dict.`no` where dict.`key`='vip_level' ${sql} ORDER BY id")
+    @Select("select vip.*,dict.name as levelName,REPLACE(concat(vip.mobile1,vip.mobile2), SUBSTR(concat(vip.mobile1,vip.mobile2),4,4), '****') as mobile from vip LEFT JOIN dict on vip.`level` = dict.`no` where dict.`key`='vip_level' ${sql} ORDER BY id")
     List<Vip> selectVipList(String sql);
     
     @Select("select * from vip where CONCAT(mobile1,mobile2) = #{mobile}")

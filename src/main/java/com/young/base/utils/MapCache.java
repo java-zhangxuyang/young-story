@@ -3,7 +3,6 @@ package com.young.base.utils;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-import javax.servlet.http.HttpServletRequest;
 
 /**
  * map缓存实现
@@ -43,6 +42,7 @@ public class MapCache {
      * @param <T>
      * @return
      */
+    @SuppressWarnings("unchecked")
     public <T> T get(String key) {
         CacheObject cacheObject = cachePool.get(key);
         if (null != cacheObject) {

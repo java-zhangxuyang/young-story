@@ -15,18 +15,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.github.pagehelper.PageInfo;
-import com.jacob.activeX.ActiveXComponent;
-import com.jacob.com.Dispatch;
-import com.jacob.com.Variant;
 import com.young.base.constant.Const;
 import com.young.base.support.ResponseBo;
 import com.young.model.Box;
 import com.young.model.BoxNote;
 import com.young.model.BoxSubscribeNote;
 import com.young.model.PassengerFlowNote;
-import com.young.model.Staff;
 import com.young.service.BoxService;
-import com.young.service.DictService;
 import com.young.service.PassFlowService;
 
 import jodd.datetime.JDateTime;
@@ -104,41 +99,41 @@ public class BoxController {
 	/*
 	 * 文字转语音并朗读
 	 */
-	@GetMapping("/boxRemind")
-	public void boxRemind(String text) {
-		 // ？？ 这个Sapi.SpVoice是需要安装什么东西吗，感觉平白无故就来了
-	    ActiveXComponent sap = new ActiveXComponent("Sapi.SpVoice");
-	    // Dispatch是做什么的？
-	    Dispatch sapo = sap.getObject();
-	    try {
+	// @GetMapping("/boxRemind")
+	// public void boxRemind(String text) {
+	// 	 // ？？ 这个Sapi.SpVoice是需要安装什么东西吗，感觉平白无故就来了
+	//     ActiveXComponent sap = new ActiveXComponent("Sapi.SpVoice");
+	//     // Dispatch是做什么的？
+	//     Dispatch sapo = sap.getObject();
+	//     try {
 
-	        // 音量 0-100
-	        sap.setProperty("Volume", new Variant(100));
-	        // 语音朗读速度 -10 到 +10
-	        sap.setProperty("Rate", new Variant(-2));
+	//         // 音量 0-100
+	//         sap.setProperty("Volume", new Variant(100));
+	//         // 语音朗读速度 -10 到 +10
+	//         sap.setProperty("Rate", new Variant(-2));
 
-	        Variant defalutVoice = sap.getProperty("Voice");
+	//         Variant defalutVoice = sap.getProperty("Voice");
 
-	        Dispatch dispdefaultVoice = defalutVoice.toDispatch();
-	        Variant allVoices = Dispatch.call(sapo, "GetVoices");
-	        Dispatch dispVoices = allVoices.toDispatch();
-	        Dispatch.put(sapo, "Volume", new Variant(100));
+	//         Dispatch dispdefaultVoice = defalutVoice.toDispatch();
+	//         Variant allVoices = Dispatch.call(sapo, "GetVoices");
+	//         Dispatch dispVoices = allVoices.toDispatch();
+	//         Dispatch.put(sapo, "Volume", new Variant(100));
 
-	        Dispatch setvoice = Dispatch.call(dispVoices, "Item", new Variant(1)).toDispatch();
-	        ActiveXComponent voiceActivex = new ActiveXComponent(dispdefaultVoice);
-	        ActiveXComponent setvoiceActivex = new ActiveXComponent(setvoice);
+	//         Dispatch setvoice = Dispatch.call(dispVoices, "Item", new Variant(1)).toDispatch();
+	//         ActiveXComponent voiceActivex = new ActiveXComponent(dispdefaultVoice);
+	//         ActiveXComponent setvoiceActivex = new ActiveXComponent(setvoice);
 
-	        Variant item = Dispatch.call(setvoiceActivex, "GetDescription");
-	        // 执行朗读
-	        Dispatch.call(sapo, "Speak", new Variant(text));
+	//         Variant item = Dispatch.call(setvoiceActivex, "GetDescription");
+	//         // 执行朗读
+	//         Dispatch.call(sapo, "Speak", new Variant(text));
 
-	    } catch (Exception e) {
-	        e.printStackTrace();
-	    } finally {
-	        sapo.safeRelease();
-	        sap.safeRelease();
-	    }
-	}
+	//     } catch (Exception e) {
+	//         e.printStackTrace();
+	//     } finally {
+	//         sapo.safeRelease();
+	//         sap.safeRelease();
+	//     }
+	// }
 	
 	//包厢使用
 	@ResponseBody

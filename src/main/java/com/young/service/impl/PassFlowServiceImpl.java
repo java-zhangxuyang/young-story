@@ -1,8 +1,6 @@
 package com.young.service.impl;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -34,9 +32,7 @@ import com.young.service.PassFlowService;
 
 import jodd.datetime.JDateTime;
 import jodd.util.StringUtil;
-import lombok.extern.slf4j.Slf4j;
 
-@Slf4j
 @Service("passFlowServiceImpl")
 @Transactional
 public class PassFlowServiceImpl implements PassFlowService{

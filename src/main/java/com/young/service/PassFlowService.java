@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Map;
 
 import com.github.pagehelper.PageInfo;
-import com.young.model.Box;
 import com.young.model.ConsumptionNote;
 import com.young.model.PassengerFlowNote;
 import com.young.model.Vip;

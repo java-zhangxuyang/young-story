@@ -4,7 +4,6 @@ import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
-import org.apache.logging.log4j.util.StringBuilders;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,9 +23,7 @@ import com.young.model.VipUseNote;
 import com.young.service.VipService;
 
 import jodd.util.StringUtil;
-import lombok.extern.slf4j.Slf4j;
 
-@Slf4j
 @Service("vipServiceImpl")
 @Transactional
 public class VipServiceImpl implements VipService{

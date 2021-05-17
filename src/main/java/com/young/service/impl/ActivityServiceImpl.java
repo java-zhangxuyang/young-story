@@ -12,18 +12,11 @@ import com.github.pagehelper.PageInfo;
 import com.young.base.constant.Const;
 import com.young.base.utils.PublicUtils;
 import com.young.mapper.ActivityMapper;
-import com.young.mapper.BoxSubscribeNoteMapper;
 import com.young.model.Activity;
 import com.young.model.ActivityExample;
-import com.young.model.ActivityExample.Criteria;
-import com.young.model.BoxSubscribeNote;
 import com.young.service.ActivityService;
-import com.young.service.SubscribeService;
-
 import jodd.datetime.JDateTime;
-import lombok.extern.slf4j.Slf4j;
 
-@Slf4j
 @Service("activityServiceImpl")
 @Transactional
 public class ActivityServiceImpl implements ActivityService{

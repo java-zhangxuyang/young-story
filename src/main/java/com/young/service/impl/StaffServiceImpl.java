@@ -17,14 +17,11 @@ import com.young.mapper.StaffNoteMapper;
 import com.young.mapper.VipMapper;
 import com.young.mapper.VipUseNoteMapper;
 import com.young.model.Staff;
-import com.young.model.StaffExample;
 import com.young.model.StaffNote;
 import com.young.service.StaffService;
 
 import jodd.util.StringUtil;
-import lombok.extern.slf4j.Slf4j;
 
-@Slf4j
 @Service("staffServiceImpl")
 @Transactional
 public class StaffServiceImpl implements StaffService{

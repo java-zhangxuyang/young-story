@@ -1,15 +1,10 @@
 package com.young.service.impl;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.util.DigestUtils;
 
 import com.young.base.constant.Const;
 import com.young.base.support.ResponseBo;
-import com.young.mapper.StaffMapper;
 import com.young.model.Staff;
 import com.young.service.LoginService;
 
@@ -19,9 +14,6 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Service("loginSerivceImpl")
 public class LoginSerivceImpl implements LoginService {
-
-	@Autowired
-	private StaffMapper staffMapper;
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Override

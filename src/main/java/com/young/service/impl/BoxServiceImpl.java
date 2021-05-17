@@ -27,9 +27,7 @@ import com.young.service.BoxService;
 import com.young.service.ConsumNoteService;
 
 import jodd.datetime.JDateTime;
-import lombok.extern.slf4j.Slf4j;
 
-@Slf4j
 @Service("boxServiceImpl")
 @Transactional
 public class BoxServiceImpl implements BoxService{

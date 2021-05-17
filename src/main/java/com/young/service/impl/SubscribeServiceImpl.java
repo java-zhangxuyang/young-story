@@ -17,9 +17,6 @@ import com.young.model.Box;
 import com.young.model.BoxSubscribeNote;
 import com.young.service.SubscribeService;
 
-import lombok.extern.slf4j.Slf4j;
-
-@Slf4j
 @Service("subscribeServiceImpl")
 @Transactional
 public class SubscribeServiceImpl implements SubscribeService{

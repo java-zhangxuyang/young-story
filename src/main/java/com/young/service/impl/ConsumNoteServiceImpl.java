@@ -6,21 +6,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.young.mapper.BoxMapper;
 import com.young.mapper.ConsumptionNoteMapper;
-import com.young.mapper.DictMapper;
-import com.young.model.Box;
-import com.young.model.BoxExample;
 import com.young.model.ConsumptionNote;
-import com.young.model.ConsumptionNoteExample;
-import com.young.model.Dict;
-import com.young.service.BoxService;
 import com.young.service.ConsumNoteService;
-import com.young.service.DictService;
 
-import lombok.extern.slf4j.Slf4j;
-
-@Slf4j
 @Service("consumNoteServiceImpl")
 @Transactional
 public class ConsumNoteServiceImpl implements ConsumNoteService{

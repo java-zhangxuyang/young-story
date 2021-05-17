@@ -13,13 +13,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.github.pagehelper.PageInfo;
 import com.young.base.support.ResponseBo;
 import com.young.model.Activity;
-import com.young.model.BoxSubscribeNote;
-import com.young.model.Staff;
-import com.young.model.Vip;
 import com.young.service.ActivityService;
-import com.young.service.StaffService;
-import com.young.service.SubscribeService;
-import com.young.service.VipService;
 
 @Controller
 @RequestMapping("/admin/activity")

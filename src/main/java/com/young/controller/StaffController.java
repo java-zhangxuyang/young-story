@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.github.pagehelper.PageInfo;
 import com.young.base.support.ResponseBo;
-import com.young.model.Coupon;
 import com.young.model.Staff;
 import com.young.model.StaffNote;
 import com.young.service.StaffService;
