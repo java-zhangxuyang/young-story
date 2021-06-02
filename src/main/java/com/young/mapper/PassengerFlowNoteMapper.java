@@ -55,14 +55,14 @@ public interface PassengerFlowNoteMapper {
     	      + " and date_format(pfn.to_time,'%y%m%d') <= date_format(#{endTime},'%y%m%d') order by pfn.to_time desc")
     	 List<PassengerFlowNote> passengerQuery(String startTime, String endTime);
 
-    @Select("select sum(back2) as sumMoney,sum(people) as sumPeople,round(sum(back2)/sum(people),2) as avgMoney,count(0) as batch,round(sum(back2)/count(0),2) as avgBatch\r\n" + 
+    @Select("select IFNULL(sum(back2),0) as sumMoney,sum(people) as sumPeople,round(sum(back2)/sum(people),2) as avgMoney,count(0) as batch,round(sum(back2)/count(0),2) as avgBatch\r\n" + 
     		"from passenger_flow_note where 1 = 1 and date_format(to_time,'%Y-%m') = #{toTime}")
 	Map<String, Object> getTableData1(String toTime);
 
-    @Select("select sum(back2) as ptMoney from passenger_flow_note where back3 is null and date_format(to_time,'%Y-%m') = #{toTime} ")
+    @Select("select IFNULL(sum(back2),0) as ptMoney from passenger_flow_note where back3 is null and date_format(to_time,'%Y-%m') = #{toTime} ")
     Map<String, Object> getTableDataPt(String toTime);
     
-    @Select("select sum(back2) as vipMoney from passenger_flow_note where back3 is not null and date_format(to_time,'%Y-%m') = #{toTime} ")
+    @Select("select IFNULL(sum(back2),0) as vipMoney from passenger_flow_note where back3 is not null and date_format(to_time,'%Y-%m') = #{toTime} ")
 	Map<String, Object> getTableDataVip(String toTime);
 
     //IFNULL(b.money,0) as money,
