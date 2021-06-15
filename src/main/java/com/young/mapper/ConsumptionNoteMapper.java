@@ -37,14 +37,14 @@ public interface ConsumptionNoteMapper {
     @Select("select sum(cn.money) from consumption_note cn  where cn.pass_id = #{id} and cn.type = #{type} ")
     BigDecimal selectRuchangMoneyByPassIdAndType(Integer id, Integer type);
 
-    @Select("select count(0) as boxCount, sum(money) as boxMoney from consumption_note where type = 4 and date_format(time,'%Y-%m') = #{time} ")
+    @Select("select count(0) as boxCount, sum(money) as boxMoney from consumption_note where type = 2 and date_format(time,'%Y-%m') = #{time} ")
     Map<String, Object> getBoxData(String time);
     
     @Select("select count(0) as girlCount, sum(money) as girlMoney from consumption_note where type = 3 and date_format(time,'%Y-%m') = #{time} ")
 	Map<String, Object> getgirlData(String time);
 
     @Select("select a.day,IFNULL(b.box,0) as box from days a left join( SELECT date_format( time,'%d')+0 as times, count(0) as box\r\n" + 
-    		" FROM consumption_note where type = 4  and date_format(time,'%Y-%m') = #{time} GROUP BY times) b on a.day = b.times WHERE a.day <= #{day}  ORDER BY a.day")
+    		" FROM consumption_note where type = 2  and date_format(time,'%Y-%m') = #{time} GROUP BY times) b on a.day = b.times WHERE a.day <= #{day}  ORDER BY a.day")
 	List<Map<String, Object>> getChartBoxData(String time, Integer day);
 
     @Select("select a.day,IFNULL(b.girl,0) as girl from days a left join( SELECT date_format( time,'%d')+0 as times, count(0) as girl\r\n" + 
