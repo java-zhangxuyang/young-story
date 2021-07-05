@@ -28,6 +28,6 @@ public interface VipUseNoteMapper {
     @Update("update vip_use_note set back1 = #{newName} where back1 = #{oldName} ")
 	int updateVipNoteNameByName(String oldName, String newName);
 
-    @Select("select count(0) as vipCount, sum(money) as vipCzMoney from vip_use_note where 1=1 and date_format(time,'%Y-%m') = #{time} ")
+    @Select("select count(0) as vipCount, IFNULL(sum(money),0) as vipCzMoney from vip_use_note where 1=1 and date_format(time,'%Y-%m') = #{time} ")
 	Map<String, Object> getvipTableSumData(String time);
 }
