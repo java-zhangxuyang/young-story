@@ -101,8 +101,8 @@ public class Const {
 
         {
 			put("1-2",new BigDecimal(2000));      
-			put("2-3",new BigDecimal(4000));      
-			put("3-4",new BigDecimal(4000));      
+			put("2-3",new BigDecimal(6000));      
+			put("3-4",new BigDecimal(10000));      
 		}
 	}; 
 	//对应折扣
