@@ -25,7 +25,7 @@ public interface PassFlowService {
 	
 	PassengerFlowNote selectPassengerFlowNoteById(Integer id);
 
-	int addConsumption(ConsumptionNote consumptionNote, Integer people, Integer boxtype);
+	int addConsumption(ConsumptionNote consumptionNote, Integer people, Integer boxtype, Integer drinknum,String drinkstype);
 
 	List<PassengerFlowNote> getPassFlowList();
 

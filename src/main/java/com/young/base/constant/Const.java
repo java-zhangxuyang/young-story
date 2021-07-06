@@ -63,6 +63,7 @@ public class Const {
     public static Integer CON_NOTE_BOX_TYPE = 2;//包厢
     public static Integer CON_NOTE_MAID_TYPE = 3;//女仆
     public static Integer CON_NOTE_OTHER_TYPE = 4;//其他
+    public static Integer CON_NOTE_DRINK_TYPE = 5;//饮料
     public static Integer CON_NOTE_BIRTHDAY_BUY_TYPE = 102;//生日福利购买
     public static Integer CON_NOTE_BIRTHDAY_TYPE = 101;//使用生日福利
     public static Integer CON_NOTE_SUBTRACT_TYPE = 100;//使用抵扣券
@@ -133,5 +134,30 @@ public class Const {
 			put("0.8","八");      
 		}
 	}; 
+	public static HashMap<String, Integer> DRINK = new HashMap<String, Integer>(){
+		
+        private static final long serialVersionUID = 1L;
+
+        {
+			put("米酒",35);      
+			put("恋爱苏打",12);      
+			put("分手快乐水",12);      
+			put("运汽",12);      
+			put("橘子香橙果酱苏打",12);      
+			put("茶π",6);      
+			put("颜值100%",12);      
+			put("青金桔",8);      
+			put("水溶100C",6);      
+			put("脉动",5);      
+			put("海之言",5);      
+			put("东鹏特饮",6);      
+			put("绿茶",3);      
+			put("冰红茶",3);      
+			put("苏打水",3);      
+			put("芒顿",2);      
+			put("农夫山泉",2);      
+		}
+	}; 
+
     
 }

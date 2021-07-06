@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.young.base.constant.Const;
 import com.young.base.support.ResponseBo;
 import com.young.model.ConsumptionNote;
 import com.young.model.PassengerFlowNote;
@@ -49,11 +50,11 @@ public class PassFlowController {
 	//添加消费
 	@ResponseBody
 	@PostMapping("/addConsumption")
-	private Object addConsumption(ConsumptionNote consumptionNote,Integer people,Integer boxtype) {
+	private Object addConsumption(ConsumptionNote consumptionNote,Integer people,Integer boxtype,Integer drinknum,String drinkstype) {
 		if(consumptionNote.getMoney() == null || consumptionNote.getType() == null) {
 			return ResponseBo.fail("填写有误，请检查后重试！");
 		}
-		passFlowService.addConsumption(consumptionNote,people,boxtype);
+		passFlowService.addConsumption(consumptionNote,people,boxtype,drinknum,drinkstype);
 		return ResponseBo.ok();
 	}
 	
@@ -66,6 +67,16 @@ public class PassFlowController {
 		}
 		List<ConsumptionNote> list = consumNoteService.selectConsumptionNoteByPassId(id);
 		return ResponseBo.ok(list);
+	}
+	
+	//根据ID查询消费清单
+	@ResponseBody
+	@PostMapping("/getDrinkMoney")
+	private Object getDrinkMoney(String name) {
+		if(name == null) {
+			return ResponseBo.fail("请检查后重试！");
+		}
+		return ResponseBo.ok(Const.DRINK.get(name));
 	}
 	
 	//计算消费

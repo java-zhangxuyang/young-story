@@ -572,7 +572,7 @@ function addRecommender(id,number){
 		}
 	});
 }
-
+var drinkmoney = 35;
 //女仆消费
 function consumption(id,number){
 	var content = '<div>\n' +
@@ -591,6 +591,7 @@ function consumption(id,number){
 						'<option value="1">入场</option>'+
 						'<option value="2">包厢</option>'+
 						'<option value="3" selected>女仆</option>'+
+						'<option value="5">饮料</option>'+
 						'<option value="4">其他</option>'+
 						'</select>'+
 						'</div>'+
@@ -603,6 +604,30 @@ function consumption(id,number){
 							'<option value="2">大包</option>'+
 							'<option value="3">狼人杀</option>'+
 							'<option value="4">剧本杀</option>'+
+						'</select>'+
+						'</div>'+
+						'</div>'+
+						'<div class="form-group hidediv hidedivDrinkstype" style="display:none;">'+
+						'<label for="type" class="col-sm-2 control-label">类型</label>'+
+						'<div class="col-sm-9">'+
+						'<select class="form-control" name="drinkstype" id="drinkstype">'+
+							'<option value="米酒">米酒</option>'+
+							'<option value="恋爱苏打">恋爱苏打</option>'+
+							'<option value="分手快乐水">分手快乐水</option>'+
+							'<option value="运汽">运汽</option>'+
+							'<option value="橘子香橙果酱苏打">橘子香橙果酱苏打</option>'+
+							'<option value="茶π">茶π</option>'+
+							'<option value="颜值100%">颜值100%</option>'+
+							'<option value="青金桔">青金桔</option>'+
+							'<option value="水溶100C">水溶100C</option>'+
+							'<option value="脉动">脉动</option>'+
+							'<option value="海之言">海之言</option>'+
+							'<option value="东鹏特饮">东鹏特饮</option>'+
+							'<option value="绿茶">绿茶</option>'+
+							'<option value="冰红茶">冰红茶</option>'+
+							'<option value="苏打水">苏打水</option>'+
+							'<option value="芒顿">芒顿</option>'+
+							'<option value="农夫山泉">农夫山泉</option>'+
 						'</select>'+
 						'</div>'+
 						'</div>'+
@@ -622,6 +647,12 @@ function consumption(id,number){
 					'<label for="number" class="col-sm-2 control-label">女仆数量</label>'+
 					'<div class="col-sm-9">'+
 						'<input type="number" class="form-control" id="num" name="back2" min=1 value=1 placeholder="女仆数量" autocomplete="off">'+
+					'</div>'+
+					'</div>'+
+					'<div class="form-group hidediv hidedivdrinknum"  style="display:none;">'+
+					'<label for="number" class="col-sm-2 control-label">数量</label>'+
+					'<div class="col-sm-9">'+
+					'<input type="number" class="form-control" id="drinknum" name="drinknum" min=1 value=1 placeholder="数量" autocomplete="off">'+
 					'</div>'+
 					'</div>'+
 					    '<div class="form-group">'+
@@ -689,8 +720,37 @@ function consumption(id,number){
         		var people = $("#people").val();
         		$("#money").val(28 * people);
         	});
+        	$(document).on('change', '#drinkstype', function() {
+        		$.ajax({
+        			type: "POST",
+        			data: {name:$("#drinkstype").val()},
+        			url: "/admin/passFlow/getDrinkMoney",
+        			dataType: "json",
+        			async: false,
+        			success: function(data) {
+        				if(data.code == -1){
+        					layer.msg(data.msg);
+        				}else if(data.code == 1){
+        					drinkmoney = data.payload;
+        				}
+        			}
+        		});
+        		var drinknum = $("#drinknum").val();
+        		$("#money").val(drinkmoney * drinknum);
+        	});
+        	$(document).on('change', '#drinknum', function() { 
+        		var drinknum = $("#drinknum").val();
+        		var drinkstype = $("#drinkstype").val();
+        		$("#money").val(drinkmoney * drinknum);
+        	});
         	$(document).on('change', '#type', function() { 
-        		if($("#type").val()==4){
+        		if($("#type").val()==5){
+        			$("#money").attr("readonly","readonly");
+        			$(".hidediv").hide();
+        			$(".hidedivDrinkstype").show();
+        			$(".hidedivdrinknum").show();
+        			$("#money").val(35);
+        		}else if($("#type").val()==4){
         			$(".hidediv").hide();
         			$("#money").removeAttr("readonly");
         			$("#money").val("");
