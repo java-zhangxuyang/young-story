@@ -628,6 +628,7 @@ function consumption(id,number){
 							'<option value="苏打水">苏打水</option>'+
 							'<option value="芒顿">芒顿</option>'+
 							'<option value="农夫山泉">农夫山泉</option>'+
+							'<option value="自制饮品">自制饮品</option>'+
 						'</select>'+
 						'</div>'+
 						'</div>'+
@@ -721,27 +722,36 @@ function consumption(id,number){
         		$("#money").val(28 * people);
         	});
         	$(document).on('change', '#drinkstype', function() {
-        		$.ajax({
-        			type: "POST",
-        			data: {name:$("#drinkstype").val()},
-        			url: "/admin/passFlow/getDrinkMoney",
-        			dataType: "json",
-        			async: false,
-        			success: function(data) {
-        				if(data.code == -1){
-        					layer.msg(data.msg);
-        				}else if(data.code == 1){
-        					drinkmoney = data.payload;
+        		if("自制饮品" === $("#drinkstype").val()){
+        			$("#money").removeAttr("readonly");
+        			$("#money").val("");
+        		}else{
+        			$.ajax({
+        				type: "POST",
+        				data: {name:$("#drinkstype").val()},
+        				url: "/admin/passFlow/getDrinkMoney",
+        				dataType: "json",
+        				async: false,
+        				success: function(data) {
+        					if(data.code == -1){
+        						layer.msg(data.msg);
+        					}else if(data.code == 1){
+        						drinkmoney = data.payload;
+        					}
         				}
-        			}
-        		});
-        		var drinknum = $("#drinknum").val();
-        		$("#money").val(drinkmoney * drinknum);
+        			});
+        			var drinknum = $("#drinknum").val();
+        			$("#money").val(drinkmoney * drinknum);
+        		}
         	});
         	$(document).on('change', '#drinknum', function() { 
-        		var drinknum = $("#drinknum").val();
-        		var drinkstype = $("#drinkstype").val();
-        		$("#money").val(drinkmoney * drinknum);
+        		if("自制饮品" === $("#drinkstype").val()){
+        			$("#money").val("");
+        		}else{
+        			var drinknum = $("#drinknum").val();
+        			var drinkstype = $("#drinkstype").val();
+        			$("#money").val(drinkmoney * drinknum);
+        		}
         	});
         	$(document).on('change', '#type', function() { 
         		if($("#type").val()==5){
