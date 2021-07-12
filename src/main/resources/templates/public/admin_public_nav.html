@@ -1,3 +1,48 @@
+     <script>
+     	function vipPassCheck(){
+     		var content = '<div>\n' +
+     		'<form id="vipRechargeForm">'+
+     		'<div class="form-group" style="margin-top:5%;">'+
+     		    '<div class="col-sm-12">'+
+     		   '<input type="password" class="form-control" id="pass" name="pass" placeholder="请输入密码"  autocomplete="off">'+
+     		    '</div>'+
+     		'</div>'+
+     		'</form></div>';
+     		var index = layer.open({
+     			type: 1,
+     			title: '密码验证',
+     			area: ['400px', '200px'],
+     			shadeClose: true, //点击遮罩关闭
+     			content:content,
+     			btn:['确定','取消'],
+     			yes:function(){
+     				var pass = $("#pass").val();
+     				if(pass==null){
+     					layer.msg("密码输入有误，请重试！");
+     					return;
+     				}
+   					$.ajax({
+   						type: "POST",
+   						data: {password:$("#pass").val()},
+   						url: "/admin/vip/checkVipPass",
+   						dataType: "json",
+   						success: function(data) {
+   							if(data.success == false){
+   								layer.msg(data.msg);
+   							}else if(data.success == true){
+   								layer.closeAll(layer.indexmen);
+   								window.open("/admin/vip");
+   								//window.location.href="/admin/vip"; 
+   							}
+   						}
+   					});
+     			},
+     			btn2:function(){
+     				layer.closeAll(index); //关闭当前窗口
+     			}
+     		});
+     	}
+     </script>
      <!-- 左侧导航栏 -->
      <div class="pageSidebar">
         <ul class="nav nav-stacked nav-pills">
@@ -5,7 +50,7 @@
                  <a href="/admin/box/boxIndex" target="mainFrame">主页</a>
              </li>
              <li role="presentation">
-                 <a href="/admin/vip" target="mainFrame">会员管理</a>
+                 <a href="javascript:void(0);" onclick="vipPassCheck()" target="mainFrame">会员管理</a> <!-- href="/admin/vip" -->
              </li>
              <li role="presentation">
                  <a href="/admin/activity" target="mainFrame">活动管理</a>

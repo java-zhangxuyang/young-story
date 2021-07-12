@@ -12,6 +12,9 @@ public class Const {
 	//session 存放员工实体
     public static String LOGIN_SESSION_STAFF = "staff";
     
+    //会员管理页面密码
+    public static String VIP_PASSWORD = "c2021";
+    
     //字典表KEY
     /*----------start--------------*/
     

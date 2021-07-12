@@ -63,23 +63,23 @@
 	 <caption><a class="btn btn-info" onclick="addVip()" style="float: right; margin-right: 100px;">
           <span class="glyphicon glyphicon-plus"></span> 添加新会员
         </a></caption>
-	<div id="toolbar">
-    <div class="my-container">
-        <label class="myLabel-content">手机号：</label>
-        <div class="myText-content">
-            <input id="phone" name="phone" value="${mobile}" type="text" class="form-control" placeholder="手机号后四位">
-        </div>
-        <label class="myLabel-content">姓名：</label>
-        <div class="myText-content">
-            <input id="vipname" name="vipname" value="${vipName}" type="text" class="form-control" placeholder="姓名">
-        </div>
-    </div>
-    <div class="myBtn-content">
-        <button id="search" type="button" class="btn btn-primary">搜索</button>
-        <button id="reset" type="button" class="btn btn-default">重置</button>
-    </div>
-</div>
-	<table class="table table-striped"  id="vipTable">
+	<div id="toolbar" style="height: 50px;">
+	    <div class="my-container">
+	        <label class="myLabel-content">手机号：</label>
+	        <div class="myText-content">
+	            <input id="phone" name="phone" value="${mobile}" type="text" class="form-control" placeholder="手机号后四位">
+	        </div>
+	        <label class="myLabel-content">姓名：</label>
+	        <div class="myText-content">
+	            <input id="vipname" name="vipname" value="${vipName}" type="text" class="form-control" placeholder="姓名">
+	        </div>
+	    </div>
+	    <div class="myBtn-content">
+	        <button id="search" type="button" class="btn btn-primary">搜索</button>
+	        <button id="reset" type="button" class="btn btn-default">重置</button>
+	    </div>
+	</div>
+	<table class="table table-striped"  id="vipTable" style="margin-top: 60px;">
 	  <thead>
 	    <tr>
 	      <th style="width: 5%;">序号</th>

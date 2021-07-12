@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSONArray;
 import com.github.pagehelper.PageInfo;
+import com.young.base.constant.Const;
 import com.young.base.support.ResponseBo;
 import com.young.model.Flushing;
 import com.young.model.Staff;
@@ -21,6 +22,9 @@ import com.young.model.Vip;
 import com.young.service.StaffService;
 import com.young.service.VipService;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @Controller
 @RequestMapping("/admin/vip")
 public class VipController {
@@ -85,6 +89,20 @@ public class VipController {
 			return ResponseBo.ok();
 		}else {
 			return ResponseBo.fail(ob.getMsg());
+		}
+	}
+	
+	/*
+	 * 会员管理页面密码验证
+	 */
+	@PostMapping("/checkVipPass")
+	@ResponseBody
+	public Object checkVipPass(String password) {
+		log.info("尝试进入会员充值页面，密码输入：" + password);
+		if(Const.VIP_PASSWORD.equalsIgnoreCase(password)) {
+			return ResponseBo.ok();
+		}else {
+			return ResponseBo.fail("密码错误，请重试！");
 		}
 	}
 	
