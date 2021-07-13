@@ -1106,7 +1106,7 @@ function checkOut(id,sign){
 		    	'<input type="text" class="form-control"  name="money" id="money" value="'+yhxlist[0].money+'" placeholder="抵扣金额" autocomplete="off" readonly="readonly">'+
 		    	'</div>'+
 		    	'</div>'+
-		    	'<div class="form-group" style="display:none;" id="beizhu">'+
+		    	'<div class="form-group" style="margin-top:13%;" id="beizhu">'+
 				    '<label for="remark" class="col-sm-3 control-label">备注</label>'+
 				    '<div class="col-sm-8">'+
 				    	'<textarea class="form-control" rows="3" name="remark" id="remark"></textarea>'+
@@ -1128,11 +1128,11 @@ function checkOut(id,sign){
 		            	});
 		            	$(document).on('change', '#type', function() { 
 		            		var type = $("#type").val();
-		            		if(1 == type){
+		            		/*if(1 == type){
 		            			$("#beizhu").show();
 		            		}else{
 		            			$("#beizhu").hide();
-		            		}
+		            		}*/
 		            		var number = $("#number").val();
 		            		$("#money").val(type * number);
 		            	});
