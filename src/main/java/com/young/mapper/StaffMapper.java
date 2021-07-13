@@ -33,7 +33,7 @@ public interface StaffMapper {
     @Select("SELECT staff.*,dict.name as levelName,dic.name as statusName FROM staff " + 
     		"LEFT JOIN dict ON staff.`level` = dict.`no` and dict.`key` = 'staff_level' " + 
     		"LEFT JOIN (SELECT * FROM dict WHERE dict.`key` = 'staff_status') dic ON staff.`status` = dic.`no`" + 
-    		"order by staff.back1 desc, staff.status asc,staff.`level` asc")
+    		" where staff.status = 1 order by staff.back1 desc, staff.status asc,staff.`level` asc")
 	List<Staff> selectStaffList();
 
     //获取员工列表关联字典表
