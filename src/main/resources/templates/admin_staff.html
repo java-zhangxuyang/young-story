@@ -43,28 +43,28 @@ var xflist;
         </a></caption>
 	  <thead>
 	    <tr>
-	      <th style="width: 5%;">序列号</th>
-	      <th style="width: 9%;">姓名</th>
-	      <th style="width: 9%;">昵称</th>
-	      <th style="width: 5%;">性别</th>
-	      <th style="width: 5%;">年龄</th>
-	      <th style="width: 9%;">生日</th>
-	      <th style="width: 9%;">入职时间</th>
-	      <th style="width: 9%;">级别</th>
+	      <th style="width: 8%;">序列号</th>
+	      <!-- <th style="width: 9%;">姓名</th> -->
+	      <th style="width: 12%;">昵称</th>
+	      <th style="width: 12%;">性别</th>
+	     <!--  <th style="width: 5%;">年龄</th>
+	      <th style="width: 9%;">生日</th> -->
+	      <th style="width: 12%;">入职时间</th>
+	      <th style="width: 12%;">级别</th>
 	      <!-- <th style="width: 9%;">年假（天）</th> -->
-	      <th style="width: 9%;">状态</th>
-	      <th style="width: 9%;">当月接单</th>
+	      <th style="width: 12%;">状态</th>
+	      <th style="width: 12%;">当月接单</th>
 	    </tr>
 	  </thead>
 	  <tbody>
 	  	<%for(staff in staffs.list){%>
 		    <tr>
 		      <td style="line-height: 35px;">${staffLP.index}</td>
-		      <td style="line-height: 35px;">${staff.name}</td>
+		     <!--  <td style="line-height: 35px;">${staff.name}</td> -->
 	      	  <td style="line-height: 35px;"><a href="javascript:void(0)" onclick="lookMonthNote(${staff.id})" >${staff.userName}</a></td>
 		      <td style="line-height: 35px;">${staff.sex}</td>
-		      <td style="line-height: 35px;">${staff.age}</td>
-		      <td style="line-height: 35px;">${staff.birthday}</td>
+		      <!-- <td style="line-height: 35px;">${staff.age}</td>
+		      <td style="line-height: 35px;">${staff.birthday}</td> -->
 		      <td style="line-height: 35px;">${staff.entryTime}</td>
 		      <td style="line-height: 35px;">${staff.levelName}</td>
 		      <!-- <td style="line-height: 35px;">${staff.holidays}</td> -->
