@@ -144,14 +144,14 @@ public class PassFlowServiceImpl implements PassFlowService{
 	}
 
 	@Override
-	public int deductionVoucher(Integer id, BigDecimal money) {
+	public int deductionVoucher(Integer id, BigDecimal money,String remark) {
 		ConsumptionNote notes = new ConsumptionNote();
 		notes.setPassId(id);
 		notes.setType(Const.CON_NOTE_SUBTRACT_TYPE);
 		notes.setFreeCharge(Const.PUBLIC_NO);
 		notes.setMoney(new BigDecimal(0).subtract(money));
 		notes.setTime(new Date());
-		notes.setRemark("使用抵扣券，抵扣："+money.stripTrailingZeros().toPlainString()+"元");
+		notes.setRemark(remark==null?"":(remark+",")+"抵扣券："+money.stripTrailingZeros().toPlainString()+"元");
 		return consumNoteService.consumption(notes);
 	}
 

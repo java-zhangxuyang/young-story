@@ -17,7 +17,7 @@ public interface PassFlowService {
 
 	Object checkOut(Integer id,String mobile);
 
-	int deductionVoucher(Integer id, BigDecimal money);
+	int deductionVoucher(Integer id, BigDecimal money,String remark);
 
 	Long settleAccounts(Integer id, Vip vip, Integer sign);
 

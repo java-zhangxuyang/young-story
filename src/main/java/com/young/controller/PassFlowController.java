@@ -120,11 +120,11 @@ public class PassFlowController {
 	//抵扣券
 	@ResponseBody
 	@PostMapping("/deductionVoucher")
-	private Object deductionVoucher(Integer id,BigDecimal money) {
+	private Object deductionVoucher(Integer id,BigDecimal money,String remark) {
 		if(id == null) {
 			return ResponseBo.fail("填写有误，请检查后重试！");
 		}
-		int i = passFlowService.deductionVoucher(id,money);
+		int i = passFlowService.deductionVoucher(id,money,remark);
 		if(i > 0 ) {
 			return ResponseBo.ok();
 		}

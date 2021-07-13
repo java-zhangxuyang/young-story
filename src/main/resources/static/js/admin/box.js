@@ -1106,11 +1106,17 @@ function checkOut(id,sign){
 		    	'<input type="text" class="form-control"  name="money" id="money" value="'+yhxlist[0].money+'" placeholder="抵扣金额" autocomplete="off" readonly="readonly">'+
 		    	'</div>'+
 		    	'</div>'+
+		    	'<div class="form-group" style="display:none;" id="beizhu">'+
+				    '<label for="remark" class="col-sm-3 control-label">备注</label>'+
+				    '<div class="col-sm-8">'+
+				    	'<textarea class="form-control" rows="3" name="remark" id="remark"></textarea>'+
+				    '</div>'+
+			    '</div>'+
 		    	'</form></div>';
 		    	var indexmen = layer.open({
 		    		type: 1,
 		    		title: '使用抵扣券',
-		    		area: ['400px', '300px'],
+		    		area: ['400px', '360px'],
 		    		shadeClose: true, //点击遮罩关闭
 		    		content:content,
 		    		btn:['确定','取消'],
@@ -1121,8 +1127,13 @@ function checkOut(id,sign){
 		            		$("#money").val(type * number);
 		            	});
 		            	$(document).on('change', '#type', function() { 
-		            		var number = $("#number").val();
 		            		var type = $("#type").val();
+		            		if(1 == type){
+		            			$("#beizhu").show();
+		            		}else{
+		            			$("#beizhu").hide();
+		            		}
+		            		var number = $("#number").val();
 		            		$("#money").val(type * number);
 		            	});
 		    		},
@@ -1135,7 +1146,7 @@ function checkOut(id,sign){
 	    				layer.confirm('请确认抵扣金额 '+money+'元 无误？', {icon: 3, title:'提示'}, function(index){
 		    				$.ajax({
 		    					type: "POST",
-		    					data: {id:id,money:money},
+		    					data: {id:id,money:money,remark:$("#remark").val()},
 		    					url: "/admin/passFlow/deductionVoucher",
 		    					dataType: "json",
 		    					success: function(data) {
