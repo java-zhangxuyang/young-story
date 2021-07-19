@@ -2,6 +2,7 @@ package com.young.mapper;
 
 import com.young.model.ConsumptionNote;
 import com.young.model.ConsumptionNoteExample;
+import com.young.model.PassengerFlowNote;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -50,4 +51,10 @@ public interface ConsumptionNoteMapper {
     @Select("select a.day,IFNULL(b.girl,0) as girl from days a left join( SELECT date_format( time,'%d')+0 as times, count(0) as girl\r\n" + 
     		" FROM consumption_note where type = 3  and date_format(time,'%Y-%m') = #{time} GROUP BY times) b on a.day = b.times WHERE a.day <= #{day}  ORDER BY a.day")
 	List<Map<String, Object>> getChartGirlData(String time, Integer day);
+
+    @Select("select IFNULL(ft.number,'') as number,d.`name` as typeName,cn.time,cn.money,cn.remark from consumption_note cn LEFT JOIN dict d on cn.type = d.no \r\n" + 
+    		"left JOIN passenger_flow_note ft on cn.pass_id = ft.id where d.key = 'con_note_type' \r\n" + 
+    		"and date_format(cn.time,'%y%m%d') >= date_format(#{startTime},'%y%m%d') \r\n" + 
+    		"and date_format(cn.time,'%y%m%d') <= date_format(#{endTime},'%y%m%d') ${type} order by cn.time desc ")
+	List<ConsumptionNote> consumptionQuery(String startTime, String endTime, String type);
 }

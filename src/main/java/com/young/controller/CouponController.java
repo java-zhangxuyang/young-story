@@ -14,8 +14,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.github.pagehelper.PageInfo;
 import com.young.base.support.ResponseBo;
+import com.young.model.ConsumptionNote;
 import com.young.model.Coupon;
+import com.young.model.PassengerFlowNote;
 import com.young.service.CouponService;
+
+import jodd.datetime.JDateTime;
 
 @Controller
 @RequestMapping("/admin/coupon")
@@ -72,5 +76,23 @@ public class CouponController {
 		}
 	}
 	
-	
+	/*
+	 * 去查看消费管理
+	 */
+	@GetMapping("/consumptionQuery")
+	public String consumptionQuery(Integer pageNum, String startTime, String endTime, String type, Model model,HttpServletRequest request) {
+		String now = new JDateTime().toString("YYYY-MM-DD");
+		String day7 = new JDateTime().subDay(7).toString("YYYY-MM-DD");
+		if(null == startTime) {
+			startTime = day7;
+		}
+		if(null == endTime) {
+			endTime = now;
+		}
+		PageInfo<ConsumptionNote> conList = couponService.consumptionQuery(pageNum, startTime, endTime, type);
+		model.addAttribute("conLists", conList);
+		model.addAttribute("startTime", startTime);
+		model.addAttribute("endTime", endTime);
+		return "admin_conList";
+	}
 }

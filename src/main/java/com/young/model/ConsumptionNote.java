@@ -25,6 +25,8 @@ public class ConsumptionNote {
     private String back3;
     
     private String typeName;
+    
+    private String number;
 
     public String getTypeName() {
 		return typeName;
@@ -113,4 +115,13 @@ public class ConsumptionNote {
     public void setBack3(String back3) {
         this.back3 = back3 == null ? null : back3.trim();
     }
+
+	public String getNumber() {
+		return number;
+	}
+
+	public void setNumber(String number) {
+		this.number = number;
+	}
+    
 }

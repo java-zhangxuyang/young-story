@@ -311,10 +311,14 @@ var MouseEvent = function(e){
 		<div class="title">
 			<h4 style="margin-left: 10px;">客流管理</h4>
 		</div>
+		<div class="button" style="margin-bottom: 20px;">
+	        <button type="button" class="btn btn-primary boxbutton" onclick="addPassFlow()"><span class="glyphicon glyphicon-plus"></span> 新来客</button>
+			<button type="button" class="btn btn-primary boxbutton" onclick="addConsumption()"><span class="glyphicon glyphicon-plus"></span> 消费</button>
+        </div>
 		<table class="table table-striped">
-		<caption style="padding-top:0px;"><a onclick="addPassFlow()" class="btn btn-info" style="float: right; margin-right: 100px;">
+		<!-- <caption style="padding-top:0px;"><a onclick="addPassFlow()" class="btn btn-info" style="float: right; margin-right: 100px;">
           <span class="glyphicon glyphicon-plus"></span> 新来客
-        </a></caption>
+        </a></caption> -->
 	  <thead>
 	    <tr>
 	      <th style="width: 15%;">号码牌</th>

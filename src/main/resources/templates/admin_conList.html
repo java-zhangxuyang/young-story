@@ -58,12 +58,14 @@ $(function(){
 	$('#search').click(function () {
         var startTime = $('#startDateTime').val();
         var endTime = $('#endDateTime').val();
-        window.location = '/admin/query/passenger?startTime='+startTime+'&endTime=' +endTime;
+        var type = $('#type').val();
+        window.location = '/admin/coupon/consumptionQuery?startTime='+startTime+'&endTime=' +endTime +'&type=' +type;
     });
     $('#reset').click(function() {
         $('#startDateTime').val('');
         $('#endDateTime').val('');
-        window.location = '/admin/query/passenger';
+        $('#type').val('');
+        window.location = '/admin/coupon/consumptionQuery';
     });
 	$('#startTime').datetimepicker({
 		format: 'yyyy-mm-dd',
@@ -92,12 +94,13 @@ $(function(){
 function fenye(pageNum){
 	var startTime = $('#startDateTime').val();
     var endTime = $('#endDateTime').val();
-    window.location = '/admin/query/passenger?startTime='+startTime+'&endTime=' +endTime+'&pageNum=' +pageNum;
+    var type = $('#type').val();
+    window.location = '/admin/coupon/consumptionQuery?startTime='+startTime+'&endTime=' +endTime+'&pageNum=' +pageNum +'&type=' +type;
 }
 </script>
 </head>
 <body style="width: 100%;height: 1800px;">
-	<h1 style="font-size: 35px;margin-bottom: 20px;text-align:center;">客流查询</h1>
+	<h1 style="font-size: 35px;margin-bottom: 20px;text-align:center;">消费项查询</h1>
 	<div id="toolbar" style="margin-bottom: 10px;height: 40px;">
     <div class="my-container">
     	<div style="float: left;line-height: 35px;font-size: 18px;">起止日期：</div>
@@ -112,6 +115,19 @@ function fenye(pageNum){
 			<span class="input-group-addon">
 			<span class="glyphicon glyphicon-calendar"></span></span>
 		</div>
+		<div style="float: left;width: 300px;margin-left: 40px;">
+			<div style="float: left;line-height: 35px;font-size: 18px;">消费类型：</div>
+			<div style="float: left;line-height: 35px;font-size: 18px;width: 150px;">
+				<select class="form-control" name="type" id="type">
+					<option value="">请选择</option>
+					<option value="1">入场</option>
+					<option value="2">包厢</option>
+					<option value="3">女仆</option>
+					<option value="5">饮料</option>
+					<option value="4">其他</option>
+				</select>
+			</div>
+		</div>
    	</div>
     <div class="myBtn-content">
         <button id="search" type="button" class="btn btn-primary">搜索</button>
@@ -123,36 +139,20 @@ function fenye(pageNum){
 	   <thead>
 	    <tr>
 	      <th style="width: 15%;">号码牌</th>
-	      <th style="width: 10%;">到场时间</th>
-	      <th style="width: 7%;">人数</th>
-	      <th style="width: 10%;">包厢</th>
-	      <th style="width: 10%;">状态</th>
-	      <th style="width: 10%;">离场时间</th>
-	      <th style="width: 10%;">消费金额</th>
-	      <th style="width: 10%;">推荐人</th>
+	      <th style="width: 10%;">类型</th>
+	      <th style="width: 10%;">金额</th>
+	      <th style="width: 10%;">时间</th>
+	      <th style="width: 40%;">备注</th>
 	    </tr>
 	  </thead>
 	  <tbody>
-	  	<%for(passFlow in passFlows.list){%>
+	  	<%for(con in conLists.list){%>
 		    <tr>
-		      <td >${passFlow.number}</td>
-		      <td >${passFlow.toTime,'YYYY-MM-dd HH:mm'}</td>
-		      <td >${passFlow.people}</td>
-		      <td >${passFlow.useBox==1?'使用':'未使用'}</td>
-		      <td >${passFlow.statusName}</td>
-		      <td >${passFlow.offTime,'HH:mm'}</td>
-		      <td >
-		       <%if(passFlow.back2 != null){%>
-			      	${passFlow.back2}元
-			      <%}%></td>
-		      <td>
-			      <%if(passFlow.back1 != null){%>
-			      	${passFlow.back1}
-			      <%}%>
-		      </td>
-		      <td >
-		      	<button type="button" class="btn btn-primary" value="${passFlow.id}" onclick="checkOut(${passFlow.id},2)"><span class="glyphicon glyphicon-gbp"></span> &nbsp;账单</button>
-		      </td>
+		      <td >${con.number}</td>
+		      <td >${con.typeName}</td>
+		      <td >${con.money}</td>
+		      <td >${con.time,'YYYY-MM-dd HH:mm:ss'}</td>
+		      <td >${con.remark}</td>
 		    </tr>
 		<%}%>
 	  </tbody>
@@ -160,19 +160,19 @@ function fenye(pageNum){
 	  	<tr>
 	  		<td colspan = "8"><div class="fenye">
 					<ul class="pagination">
-						<%if(passFlows.isHasPreviousPage){%>
-						    <li><a href="javascript:void(0)" onclick="fenye(${passFlows.prePage})">&laquo;</a></li>
+						<%if(conLists.isHasPreviousPage){%>
+						    <li><a href="javascript:void(0)" onclick="fenye(${conLists.prePage})">&laquo;</a></li>
 						<%}%>
 						<%
-						for(var i = 1;i<=passFlows.pages;i++){%>
+						for(var i = 1;i<=conLists.pages;i++){%>
 						    <li 
-						    	<%if(i == passFlows.pageNum){%>
+						    	<%if(i == conLists.pageNum){%>
 						    		class="active"
 								<%}%>
 						    ><a href="javascript:void(0)" onclick="fenye(${i})">${i}</a></li>
 						<%}%>
-						<%if(passFlows.isHasNextPage){%>
-						    <li><a href="javascript:void(0)" onclick="fenye(${passFlows.nextPage})" >&raquo;</a></li>
+						<%if(conLists.isHasNextPage){%>
+						    <li><a href="javascript:void(0)" onclick="fenye(${conLists.nextPage})" >&raquo;</a></li>
 						<%}%>
 					</ul>
 				</div></td>

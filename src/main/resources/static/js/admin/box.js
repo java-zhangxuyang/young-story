@@ -850,6 +850,186 @@ function consumption(id,number){
         			});
         			var drinknum = $("#drinknum").val();
         			$("#money").val(drinkmoney * drinknum);
+        			$("#money").attr("readOnly",true);
+        		}
+        	});
+        	$(document).on('change', '#drinknum', function() { 
+        		if("自制饮品" === $("#drinkstype").val()){
+        			$("#money").val("");
+        		}else{
+        			var drinknum = $("#drinknum").val();
+        			var drinkstype = $("#drinkstype").val();
+        			$("#money").val(drinkmoney * drinknum);
+        		}
+        	});
+        	$(document).on('change', '#type', function() { 
+        		$("#num").val(1);
+        		$("#people").val(1);
+        		$("#boxtype").val(1);
+        		$("#useTime").val(1);
+        		$("#drinknum").val(1);
+        		$("#drinkstype").val("米酒");
+        		if($("#type").val()==5){
+        			$("#money").attr("readonly","readonly");
+        			$(".hidediv").hide();
+        			$(".hidedivDrinkstype").show();
+        			$(".hidedivdrinknum").show();
+        			$("#money").val(35);
+        		}else if($("#type").val()==4){
+        			$(".hidediv").hide();
+        			$("#money").removeAttr("readonly");
+        			$("#money").val("");
+        		}else if($("#type").val()==3){
+        			$(".hidediv").hide();
+        			$(".hidedivuseTime").show();
+        			$(".hidedivback2").show();
+        			$("#money").attr("readonly","readonly");
+        			$("#money").val(58);
+        		}else if($("#type").val()==1){
+        			$(".hidediv").hide();
+        			$(".hidedivpeople").show();
+        			$("#money").attr("readonly","readonly");
+        			$("#money").val(28);
+        		}else if($("#type").val()==2){
+        			$(".hidediv").hide();
+        			$(".hidedivboxtype").show();
+        			$(".hidedivuseTime").show();
+        			$("#money").attr("readonly","readonly");
+        			$("#money").val(38);
+        		}
+        	});
+			
+		},
+        yes:function(){
+        	var money = $("#money").val();
+        	if(money==null || money<=0){
+        		layer.msg("输入有误，请重试！");
+        		return;
+        	}
+        	layer.confirm('请确认输入信息无误！', {icon: 3, title:'提示'}, function(index){
+        		$.ajax({
+        			type: "POST",
+        			data: $('#consumptionForm').serialize(),
+        			url: "/admin/passFlow/addConsumption",
+        			dataType: "json",
+        			success: function(data) {
+        				if(data.code == -1){
+        					layer.msg(data.msg);
+        				}else if(data.code == 1){
+        					layer.closeAll(layer.indexmen);
+        					layer.msg("操作成功", { time: 500 }, function () {
+			                    window.location.reload(); 
+			                });
+        				}
+        			}
+        		});
+        	});
+        },
+	    btn2:function(){
+	        layer.closeAll(index); //关闭当前窗口
+	    }
+    });
+}
+
+//无客流消费
+function addConsumption(){
+	var content = '<div>\n' +
+					'<form id="consumptionForm">'+
+						/*'<input type="hidden" name="passId" value="'+id+'">'+
+						'<div class="form-group"  style="margin-top:5%;">'+
+							'<label for="number" class="col-sm-2 control-label">号码牌</label>'+
+							'<div class="col-sm-9">'+
+								'<input type="text" class="form-control" id="passId" name="passId" value="'+number+'" placeholder="号码牌"  autocomplete="off" readonly="readonly">'+
+							'</div>'+
+						'</div>'+*/
+						'<div class="form-group" style="margin-top:5%;">'+
+						'<label for="type" class="col-sm-2 control-label">消费类型</label>'+
+						'<div class="col-sm-9">'+
+						'<select class="form-control" name="type" id="type">'+
+						'<option value="5" selected>饮料</option>'+
+						'<option value="4">其他</option>'+
+						'</select>'+
+						'</div>'+
+						'</div>'+
+						'<div class="form-group hidediv hidedivDrinkstype">'+
+						'<label for="type" class="col-sm-2 control-label">类型</label>'+
+						'<div class="col-sm-9">'+
+						'<select class="form-control" name="drinkstype" id="drinkstype">'+
+							'<option value="米酒" selected>米酒</option>'+
+							'<option value="恋爱苏打">恋爱苏打</option>'+
+							'<option value="分手快乐水">分手快乐水</option>'+
+							'<option value="运汽">运汽</option>'+
+							'<option value="橘子香橙果酱苏打">橘子香橙果酱苏打</option>'+
+							'<option value="茶π">茶π</option>'+
+							'<option value="颜值100%">颜值100%</option>'+
+							'<option value="青金桔">青金桔</option>'+
+							'<option value="水溶100C">水溶100C</option>'+
+							'<option value="脉动">脉动</option>'+
+							'<option value="海之言">海之言</option>'+
+							'<option value="东鹏特饮">东鹏特饮</option>'+
+							'<option value="绿茶">绿茶</option>'+
+							'<option value="冰红茶">冰红茶</option>'+
+							'<option value="苏打水">苏打水</option>'+
+							'<option value="芒顿">芒顿</option>'+
+							'<option value="农夫山泉">农夫山泉</option>'+
+							'<option value="自制饮品">自制饮品</option>'+
+						'</select>'+
+						'</div>'+
+						'</div>'+
+					'<div class="form-group hidediv hidedivdrinknum">'+
+					'<label for="number" class="col-sm-2 control-label">数量</label>'+
+					'<div class="col-sm-9">'+
+					'<input type="number" class="form-control" id="drinknum" name="drinknum" min=1 value=1 placeholder="数量" autocomplete="off">'+
+					'</div>'+
+					'</div>'+
+					    '<div class="form-group">'+
+					    	'<label for="money" class="col-sm-2 control-label">金额</label>'+
+					    	'<div class="col-sm-9">'+
+					    		'<input type="money" class="form-control" id="money" name="money" min=1 value="58" placeholder="消费金额"  autocomplete="off"  readonly="readonly">'+
+					    	'</div>'+
+					    '</div>'+
+					    '<div class="form-group">'+
+						    '<label for="remark" class="col-sm-2 control-label">备注</label>'+
+						    '<div class="col-sm-9">'+
+						    	'<textarea class="form-control" rows="3" name="remark"></textarea>'+
+						    '</div>'+
+					    '</div>'+
+				'</form></div>';
+    var index = layer.open({
+        type: 1,
+        title: '消费',
+        area: ['550px', '450px'],
+        shadeClose: true, //点击遮罩关闭
+        content:content,
+        btn:['确定','取消'],
+        success: function (layero, index) { // 弹窗成功
+        	$(document).on('change', '#num', function() { 
+        		var num = $("#num").val();
+        		var useTime = $("#useTime").val();
+        		$("#money").val(58 * num * useTime);
+        	});
+        	$(document).on('change', '#drinkstype', function() {
+        		if("自制饮品" === $("#drinkstype").val()){
+        			$("#money").removeAttr("readonly");
+        			$("#money").val("");
+        		}else{
+        			$.ajax({
+        				type: "POST",
+        				data: {name:$("#drinkstype").val()},
+        				url: "/admin/passFlow/getDrinkMoney",
+        				dataType: "json",
+        				async: false,
+        				success: function(data) {
+        					if(data.code == -1){
+        						layer.msg(data.msg);
+        					}else if(data.code == 1){
+        						drinkmoney = data.payload;
+        					}
+        				}
+        			});
+        			$("#money").attr("readOnly",true);
+        			var drinknum = $("#drinknum").val();
+        			$("#money").val(drinkmoney * drinknum);
         		}
         	});
         	$(document).on('change', '#drinknum', function() { 
@@ -872,25 +1052,7 @@ function consumption(id,number){
         			$(".hidediv").hide();
         			$("#money").removeAttr("readonly");
         			$("#money").val("");
-        		}else if($("#type").val()==3){
-        			$(".hidediv").hide();
-        			$("#useTime").val(1);
-        			$(".hidedivuseTime").show();
-        			$(".hidedivback2").show();
-        			$("#money").attr("readonly","readonly");
-        			$("#money").val(58);
-        		}else if($("#type").val()==1){
-        			$(".hidediv").hide();
-        			$(".hidedivpeople").show();
-        			$("#money").attr("readonly","readonly");
-        			$("#money").val(28);
-        		}else if($("#type").val()==2){
-        			$(".hidediv").hide();
-        			$("#useTime").val(1);
-        			$(".hidedivboxtype").show();
-        			$(".hidedivuseTime").show();
-        			$("#money").attr("readonly","readonly");
-        			$("#money").val(38);
+        			$("#drinkstype").val("米酒");
         		}
         	});
 			
