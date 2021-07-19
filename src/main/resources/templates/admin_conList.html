@@ -97,6 +97,9 @@ function fenye(pageNum){
     var type = $('#type').val();
     window.location = '/admin/coupon/consumptionQuery?startTime='+startTime+'&endTime=' +endTime+'&pageNum=' +pageNum +'&type=' +type;
 }
+$(function(){
+	$("#type").find("option[value='${type}']").attr("selected",'selected');
+})
 </script>
 </head>
 <body style="width: 100%;height: 1800px;">

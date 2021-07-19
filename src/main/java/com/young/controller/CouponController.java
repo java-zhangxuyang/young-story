@@ -93,6 +93,7 @@ public class CouponController {
 		model.addAttribute("conLists", conList);
 		model.addAttribute("startTime", startTime);
 		model.addAttribute("endTime", endTime);
+		model.addAttribute("type", type);
 		return "admin_conList";
 	}
 }
