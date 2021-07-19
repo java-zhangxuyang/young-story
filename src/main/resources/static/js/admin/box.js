@@ -985,7 +985,7 @@ function addConsumption(){
 					    '<div class="form-group">'+
 					    	'<label for="money" class="col-sm-2 control-label">金额</label>'+
 					    	'<div class="col-sm-9">'+
-					    		'<input type="money" class="form-control" id="money" name="money" min=1 value="58" placeholder="消费金额"  autocomplete="off"  readonly="readonly">'+
+					    		'<input type="money" class="form-control" id="money" name="money" min=1 value="35" placeholder="消费金额"  autocomplete="off"  readonly="readonly">'+
 					    	'</div>'+
 					    '</div>'+
 					    '<div class="form-group">'+
@@ -1003,11 +1003,6 @@ function addConsumption(){
         content:content,
         btn:['确定','取消'],
         success: function (layero, index) { // 弹窗成功
-        	$(document).on('change', '#num', function() { 
-        		var num = $("#num").val();
-        		var useTime = $("#useTime").val();
-        		$("#money").val(58 * num * useTime);
-        	});
         	$(document).on('change', '#drinkstype', function() {
         		if("自制饮品" === $("#drinkstype").val()){
         			$("#money").removeAttr("readonly");
