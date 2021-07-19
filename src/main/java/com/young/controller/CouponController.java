@@ -82,7 +82,7 @@ public class CouponController {
 	@GetMapping("/consumptionQuery")
 	public String consumptionQuery(Integer pageNum, String startTime, String endTime, String type, Model model,HttpServletRequest request) {
 		String now = new JDateTime().toString("YYYY-MM-DD");
-		String day7 = new JDateTime().subDay(7).toString("YYYY-MM-DD");
+		String day7 = new JDateTime().subDay(3).toString("YYYY-MM-DD");
 		if(null == startTime) {
 			startTime = day7;
 		}
